@@ -1,3 +1,5 @@
+/* css/pages/tour-detail.css */
+
 .tour-hero-section {
     position: relative;
     padding: 6rem 0;
@@ -107,8 +109,6 @@ details[open] > summary::after { transform: rotate(180deg); }
 .review-rating .fa-star { color: #ffc107; }
 .review-rating .fa-star.empty { color: #e0e0e0; }
 .review-comment { margin: 0.8rem 0; line-height: 1.7; }
-.review-image { max-width: 100%; width: 250px; border-radius: 8px; margin-top: 1rem; cursor: pointer; transition: transform 0.3s ease; }
-.review-image:hover { transform: scale(1.05); }
 
 /* Review Form */
 .form-group { margin-bottom: 1.5rem; }
@@ -122,56 +122,15 @@ details[open] > summary::after { transform: rotate(180deg); }
 .star-input i:hover { transform: scale(1.2); }
 .star-input i.selected { color: #ffc107; }
 
-.file-input-wrapper { display: flex; align-items: center; gap: 1rem; }
-input[type="file"] { display: none; }
-.file-input-label {
-    background-color: var(--light-color);
-    color: var(--dark-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 10px 15px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-.file-input-label:hover {
-    background-color: #e9ecef;
-    border-color: #adb5bd;
-}
-#file-name-display {
-    color: var(--secondary-color);
-    font-size: 0.9rem;
-    font-style: italic;
-}
-#image-preview { margin-top: 1rem; display: none; }
-#image-preview img { max-width: 150px; max-height: 150px; border-radius: 8px; border: 1px solid var(--border-color); }
-
+/* --- RESPONSIVE FOR TOUR DETAIL PAGE --- */
 @media (max-width: 992px) {
     .tour-main-info { flex-direction: column; align-items: stretch; gap: 1rem; }
     .tour-header h1 { font-size: 3rem; }
     .tour-content-body { grid-template-columns: 1fr; }
     .tour-sidebar { position: static; top: auto; }
 }
-/* --- RESPONSIVE FOR TOUR DETAIL PAGE --- */
-
-@media (max-width: 992px) {
-    /* Chuyển layout chính thành 1 cột */
-    .tour-content-body {
-        grid-template-columns: 1fr;
-    }
-
-    /* Bỏ sticky cho sidebar trên mobile */
-    .tour-sidebar {
-        position: static;
-        top: auto;
-        margin-top: 2rem;
-    }
-}
 
 @media (max-width: 768px) {
-    /* Chồng các thông tin trên hero section lên nhau */
     .tour-main-info {
         flex-direction: column;
         align-items: flex-start;
@@ -179,7 +138,7 @@ input[type="file"] { display: none; }
     }
     
     .tour-booking-box {
-        width: 100%; /* Cho hộp booking chiếm toàn bộ chiều rộng */
+        width: 100%; 
     }
 
     .tour-header h1 {
