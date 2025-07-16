@@ -353,3 +353,116 @@ header.scrolled .btn-auth:hover {
         padding-top: 0;
     }
 }
+/* === NÂNG CẤP RESPONSIVE TOÀN DIỆN === */
+
+/* --- Menu Mobile --- */
+.mobile-nav-toggle {
+    display: none; /* Mặc định ẩn trên desktop */
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--dark-color);
+    cursor: pointer;
+    z-index: 1002;
+    margin-left: auto; /* Đẩy về cuối */
+}
+
+body.home-page header:not(.scrolled) .mobile-nav-toggle {
+    color: var(--white-color);
+}
+
+.mobile-nav, .mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.mobile-nav-overlay {
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1003;
+}
+
+.mobile-nav {
+    right: 0;
+    width: 300px;
+    max-width: 80%;
+    background-color: var(--white-color);
+    z-index: 1004;
+    transform: translateX(100%);
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+    height: 70px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+.mobile-nav-header .mobile-nav-toggle {
+    display: block;
+    margin-left: 0;
+}
+
+.mobile-nav-links {
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+.mobile-nav-links a {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--dark-color);
+    text-decoration: none;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--light-color);
+}
+
+/* Khi menu mobile mở */
+body.mobile-nav-open .mobile-nav {
+    transform: translateX(0);
+}
+body.mobile-nav-open .mobile-nav-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* --- Cải tiến chung cho Tablet & Mobile --- */
+@media (max-width: 992px) {
+    /* Ẩn nav chính, hiện nút hamburger */
+    .main-nav, .search-bar { display: none; }
+    .mobile-nav-toggle { display: block; }
+    .header-right-group { margin-left: 0; }
+}
+
+@media (max-width: 768px) {
+    /* Tăng font chữ cơ bản để dễ đọc hơn */
+    html {
+        font-size: 15px; /* Mặc định là 16px */
+    }
+
+    /* Giảm padding để tận dụng không gian */
+    main section, .tour-list, .cart-page, .discover-page, .transport-content-area {
+        padding: 3rem 1.25rem !important;
+    }
+
+    /* Tiêu đề gọn gàng hơn */
+    h1, .section-header h2, .hero-title {
+        font-size: 2.2rem !important;
+    }
+
+    /* Nút bấm lớn hơn, dễ nhấn hơn */
+    .btn {
+        padding: 15px 30px;
+        font-size: 1rem;
+    }
+}

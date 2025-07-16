@@ -88,3 +88,10 @@ body.home-page header:not(.scrolled) .search-bar {
 .search-results-page { padding-top: 50px; }
 .search-results-page .section-header { margin-bottom: 40px; }
 #search-query-display strong { color: var(--primary-color); }
+/* --- RESPONSIVE COMPONENTS --- */
+@media (max-width: 480px) {
+    /* Cho các thẻ tour chiếm toàn bộ chiều rộng trên đt rất nhỏ */
+    .tour-grid {
+        grid-template-columns: 1fr;
+    }
+}

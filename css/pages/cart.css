@@ -97,3 +97,26 @@
         margin-top: 1rem;
     }
 }
+/* --- RESPONSIVE FOR CART PAGE --- */
+@media (max-width: 992px) {
+    .cart-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .cart-summary-box { position: static; }
+}
+@media (max-width: 768px) {
+    .cart-item-card {
+        flex-direction: column;
+        align-items: stretch; /* Cho các item giãn ra */
+        text-align: left;
+    }
+    .cart-item-card img, .cart-item-icon-wrapper { height: 160px; }
+    .cart-item-right-section {
+        flex-direction: row; /* Sắp xếp lại thành hàng ngang */
+        justify-content: space-between; /* Đẩy các phần tử ra 2 bên */
+        align-items: center;
+        margin-top: 1rem;
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    .item-subtotal { font-size: 1.1rem; }
+}

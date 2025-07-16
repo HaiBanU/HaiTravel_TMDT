@@ -259,3 +259,12 @@ body.home-page header:not(.scrolled) .welcome-message strong {
 .user-dropdown button i {
     color: var(--secondary-color);
 }
+@media (max-width: 480px) {
+    .auth-modal-box {
+        max-width: 95vw;
+        margin: 1rem;
+    }
+    .auth-form-container {
+        padding: 30px 20px;
+    }
+}

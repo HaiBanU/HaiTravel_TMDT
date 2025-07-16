@@ -175,3 +175,16 @@
         display: none;
     }
 }
+/* --- RESPONSIVE FOR HOME PAGE --- */
+@media (max-width: 768px) {
+    .banner-slider { height: 60vh; /* Dùng vh để tương thích nhiều chiều cao màn hình */ }
+    .banner-content h1 { font-size: 2.5rem !important; }
+    .values-grid { grid-template-columns: 1fr; }
+    .story-container { grid-template-columns: 1fr; gap: 2rem; }
+    .tour-scroll-container .scroll-btn { display: none; }
+    /* Làm cho thẻ tour trong thanh cuộn nhỏ lại */
+    .tour-grid-scrollable {
+        grid-auto-columns: 80vw; /* Thẻ chiếm 80% chiều rộng màn hình */
+        gap: 1rem;
+    }
+}
