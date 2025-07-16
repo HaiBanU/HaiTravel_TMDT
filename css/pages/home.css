@@ -73,12 +73,6 @@
 .value-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--dark-color); }
 .value-card p { font-size: 1rem; line-height: 1.6; margin: 0; color: var(--secondary-color); }
 
-@media (max-width: 992px) {
-    .banner-content h1 { font-size: 3.5rem; }
-    .story-container { grid-template-columns: 1fr; }
-}
-
-
 /* --- CSS CHO DANH SÁCH TOUR CUỘN NGANG --- */
 .tour-scroll-container {
     position: relative;
@@ -102,13 +96,10 @@
 .tour-grid-scrollable::-webkit-scrollbar {
     display: none;
 }
-
 .tour-grid-scrollable .tour-card:hover {
     transform: translateY(-12px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.1);
 }
-
-
 .scroll-btn {
     position: absolute;
     top: 50%;
@@ -128,63 +119,39 @@
     justify-content: center;
     transition: all 0.3s ease;
 }
-
 .scroll-btn:hover {
     background-color: var(--primary-color);
     color: var(--white-color);
     transform: translateY(-50%) scale(1.1);
 }
-
 .scroll-btn.prev {
     left: -25px;
 }
-
 .scroll-btn.next {
     right: -25px;
 }
 
+/* --- RESPONSIVE FOR HOME PAGE --- */
 @media (max-width: 1200px) {
     .scroll-btn {
         display: none;
     }
 }
-/* --- RESPONSIVE FOR HOME PAGE --- */
-
-@media (max-width: 768px) {
-    /* Thu nhỏ banner */
-    .banner-slider {
-        height: 500px;
-    }
-    
-    /* Thu nhỏ chữ trên banner */
-    .banner-content h1 {
-        font-size: 2.8rem;
-    }
-    .banner-content p {
-        font-size: 1rem;
-    }
-
-    /* Chuyển các layout 2 cột thành 1 cột */
-    .story-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    /* Ẩn nút cuộn tour trên mobile, người dùng sẽ vuốt bằng tay */
-    .tour-scroll-container .scroll-btn {
-        display: none;
+@media (max-width: 992px) {
+    .banner-content h1 { font-size: 3.5rem; }
+    .story-container { grid-template-columns: 1fr; }
+    /* [THÊM MỚI] Giấu hoàn toàn thanh tìm kiếm trên tablet và mobile */
+    .home-search-bar {
+        display: none !important;
     }
 }
-/* --- RESPONSIVE FOR HOME PAGE --- */
 @media (max-width: 768px) {
-    .banner-slider { height: 60vh; /* Dùng vh để tương thích nhiều chiều cao màn hình */ }
+    .banner-slider { height: 60vh; }
     .banner-content h1 { font-size: 2.5rem !important; }
     .values-grid { grid-template-columns: 1fr; }
     .story-container { grid-template-columns: 1fr; gap: 2rem; }
-    .tour-scroll-container .scroll-btn { display: none; }
-    /* Làm cho thẻ tour trong thanh cuộn nhỏ lại */
     .tour-grid-scrollable {
-        grid-auto-columns: 80vw; /* Thẻ chiếm 80% chiều rộng màn hình */
+        grid-auto-columns: 80vw;
         gap: 1rem;
     }
 }

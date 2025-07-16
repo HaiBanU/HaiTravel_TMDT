@@ -30,12 +30,18 @@
     max-width: 420px;
     position: relative;
     overflow: hidden;
-    transform: scale(0.9) translateY(20px);
+
+    /* [CẬP NHẬT] Kỹ thuật căn giữa hoàn hảo */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .auth-modal-overlay.show .auth-modal-box {
-    transform: scale(1) translateY(0);
+    /* [CẬP NHẬT] Hiệu ứng xuất hiện */
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .auth-modal-box .close-btn {
@@ -154,7 +160,7 @@
     display: none;
 }
 
-#auth-error-message {
+.auth-error-message {
     color: #dc3545;
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
@@ -165,7 +171,6 @@
     text-align: center;
     display: none;
 }
-
 
 /* User Welcome & Dropdown */
 .user-menu-wrapper {
@@ -203,7 +208,6 @@
     transform: rotate(180deg);
 }
 
-/* Lời chào trên header trang chủ */
 body.home-page header:not(.scrolled) .welcome-message {
     color: var(--white-color);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
@@ -259,6 +263,8 @@ body.home-page header:not(.scrolled) .welcome-message strong {
 .user-dropdown button i {
     color: var(--secondary-color);
 }
+
+/* --- RESPONSIVE FOR AUTH MODAL --- */
 @media (max-width: 480px) {
     .auth-modal-box {
         max-width: 95vw;
