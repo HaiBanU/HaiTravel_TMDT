@@ -17,8 +17,8 @@
         <div class="header-container">
             <a href="index.html" class="logo">Hai Travel</a>
             <button class="mobile-nav-toggle" aria-label="Mở menu">
-    <i class="fa-solid fa-bars"></i>
-</button>
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <form action="search-results.html" method="GET" class="search-bar">
                 <input type="text" placeholder="Tìm kiếm tour..." name="dest">
                 <input type="date" name="date">
@@ -34,7 +34,7 @@
             <div class="header-right-group">
                 <div id="auth-display-container" class="auth-display"></div>
                 <div class="header-icons">
-                    <a href="cart.html" id="cart-link" class="cart-icon" aria-label="Giỏ hàng"><i class="fa-solid fa-cart-shopping"></i><span id="cart-count"></span></a>
+                    <a href="cart.html" id="cart-link" class="cart-icon" aria-label="Giỏ hàng"><i class="fa-solid fa-cart-shopping"></i><span id="cart-count" class="cart-count"></span></a>
                     <a href="https://www.tiktok.com/@hai_travel_web" target="_blank" aria-label="Trang TikTok của chúng tôi"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
@@ -107,92 +107,89 @@
     </div>
 
     <a href="#" class="back-to-top no-transition"><i class="fa-solid fa-arrow-up"></i></a>
-<!-- Cấu trúc Chatbot đã sửa lỗi icon và vị trí -->
-<!-- Cấu trúc Chatbot đã được thiết kế lại -->
- <!-- ĐẶT Ở CUỐI FILE, ngay trước thẻ <div id="ai-chat-widget"> -->
-<div id="search-modal" class="search-modal-overlay">
-    <div class="search-modal-box">
-        <button class="close-btn">×</button>
-        <h2>Tìm kiếm Tour</h2>
-        <p>Tìm hành trình mơ ước của bạn.</p>
-        <form action="search-results.html" method="GET" class="modal-search-form">
-            <div class="form-group">
-                <input type="text" name="dest" required placeholder=" " id="modal-search-dest">
-                <label for="modal-search-dest">Bạn muốn đi đâu?</label>
-                <i class="fa-solid fa-location-dot"></i>
-            </div>
-            <div class="form-group">
-                <input type="date" name="date" id="modal-search-date">
-                <label for="modal-search-date" class="date-label">Chọn ngày khởi hành (tùy chọn)</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Tìm kiếm ngay</button>
-        </form>
-    </div>
-</div>
-<div id="ai-chat-widget">
-    <button class="chat-bubble-trigger" id="chat-bubble-trigger" aria-label="Mở Trợ lý AI">
-        <i class="fa-solid fa-headset"></i>
-    </button>
-    <div class="ai-chat-window" id="ai-chat-window">
-        <div class="chat-header">
-            <div class="agent-info">
-                <div class="agent-avatar">
-                    <i class="fa-solid fa-robot"></i>
+
+    <div id="search-modal" class="search-modal-overlay">
+        <div class="search-modal-box">
+            <button class="close-btn">×</button>
+            <h2>Tìm kiếm Tour</h2>
+            <p>Tìm hành trình mơ ước của bạn.</p>
+            <form action="search-results.html" method="GET" class="modal-search-form">
+                <div class="form-group">
+                    <input type="text" name="dest" required placeholder=" " id="modal-search-dest">
+                    <label for="modal-search-dest">Bạn muốn đi đâu?</label>
+                    <i class="fa-solid fa-location-dot"></i>
                 </div>
-                <div>
-                    <h3>Jack 97</h3>
-                    <div class="agent-status">
-                        <div class="status-dot"></div>
-                        <span>Đang hoạt động</span>
+                <div class="form-group">
+                    <input type="date" name="date" id="modal-search-date">
+                    <label for="modal-search-date" class="date-label">Chọn ngày khởi hành (tùy chọn)</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Tìm kiếm ngay</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="ai-chat-widget">
+        <button class="chat-bubble-trigger" id="chat-bubble-trigger" aria-label="Mở Trợ lý AI">
+            <i class="fa-solid fa-headset"></i>
+        </button>
+        <div class="ai-chat-window" id="ai-chat-window">
+            <div class="chat-header">
+                <div class="agent-info">
+                    <div class="agent-avatar">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h3>Jack 97</h3>
+                        <div class="agent-status">
+                            <div class="status-dot"></div>
+                            <span>Đang hoạt động</span>
+                        </div>
                     </div>
                 </div>
+                <button class="close-chat-btn" id="close-chat-btn" aria-label="Đóng cửa sổ chat">×</button>
             </div>
-            <button class="close-chat-btn" id="close-chat-btn" aria-label="Đóng cửa sổ chat">×</button>
+            <div class="chat-messages" id="chat-messages">
+            </div>
+            <form class="chat-input-form" id="chat-input-form">
+                <input type="text" id="chat-input" placeholder="Nhập câu hỏi của bạn..." autocomplete="off">
+                <button type="submit" aria-label="Gửi tin nhắn"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
         </div>
-        <div class="chat-messages" id="chat-messages">
-            <!-- Tin nhắn sẽ được chèn vào đây bởi JS -->
-        </div>
-        <form class="chat-input-form" id="chat-input-form">
-            <input type="text" id="chat-input" placeholder="Nhập câu hỏi của bạn..." autocomplete="off">
-            <button type="submit" aria-label="Gửi tin nhắn"><i class="fa-solid fa-paper-plane"></i></button>
-        </form>
     </div>
-<!-- Cập nhật lại toàn bộ khối mobile-nav -->
-<div class="mobile-nav-overlay"></div>
-<nav class="mobile-nav">
-    <a href="#" id="search-link-mobile">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span>Tìm kiếm</span>
-</a>
-    <div class="mobile-nav-header">
-        <a href="index.html" class="logo">Hai Travel</a>
-        <button class="mobile-nav-toggle close" aria-label="Đóng menu">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-    <div class="mobile-nav-links">
-        <a href="index.html">Trang Chủ</a>
-        <a href="/#tour-list-section">Du Lịch</a>
-        <a href="discover.html">Gợi Ý Tour</a>
-        <a href="transport.html">Đặt Vé</a>
-        <a href="#" id="contact-link-mobile">Liên Hệ</a>
-    </div>
-    <!-- [THÊM MỚI] Khu vực cho các icon và chức năng phụ -->
-    <div class="mobile-nav-secondary">
-        <a href="cart.html" class="mobile-nav-icon-link">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span>Giỏ hàng</span>
-            <span id="mobile-cart-count" class="cart-count"></span>
+    
+    <div class="mobile-nav-overlay"></div>
+    <nav class="mobile-nav">
+        <a href="#" id="search-link-mobile">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Tìm kiếm</span>
         </a>
-        <a href="https://www.tiktok.com/@hai_travel_web" target="_blank" class="mobile-nav-icon-link">
-            <i class="fab fa-tiktok"></i>
-            <span>Kênh TikTok</span>
-        </a>
-        <div id="mobile-auth-display" class="mobile-auth-display">
-            <!-- Nút đăng nhập/đăng xuất sẽ được JS chèn vào đây -->
+        <div class="mobile-nav-header">
+            <a href="index.html" class="logo">Hai Travel</a>
+            <button class="mobile-nav-toggle close" aria-label="Đóng menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
-    </div>
-</nav>
+        <div class="mobile-nav-links">
+            <a href="index.html">Trang Chủ</a>
+            <a href="/#tour-list-section">Du Lịch</a>
+            <a href="discover.html">Gợi Ý Tour</a>
+            <a href="transport.html">Đặt Vé</a>
+            <a href="#" id="contact-link-mobile">Liên Hệ</a>
+        </div>
+        <div class="mobile-nav-secondary">
+            <a href="cart.html" class="mobile-nav-icon-link">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Giỏ hàng</span>
+                <span id="mobile-cart-count" class="cart-count"></span>
+            </a>
+            <a href="https://www.tiktok.com/@hai_travel_web" target="_blank" class="mobile-nav-icon-link">
+                <i class="fab fa-tiktok"></i>
+                <span>Kênh TikTok</span>
+            </a>
+            <div id="mobile-auth-display" class="mobile-auth-display">
+            </div>
+        </div>
+    </nav>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/ai-chat.js"></script>

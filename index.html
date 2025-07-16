@@ -149,9 +149,9 @@
     <div class="mobile-nav-overlay"></div>
     <nav class="mobile-nav">
         <a href="#" id="search-link-mobile">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span>Tìm kiếm</span>
-</a>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Tìm kiếm</span>
+        </a>
         <div class="mobile-nav-header">
             <a href="index.html" class="logo">Hai Travel</a>
             <button class="mobile-nav-toggle close" aria-label="Đóng menu">
@@ -179,26 +179,27 @@
             </div>
         </div>
     </nav>
-    <!-- ĐẶT Ở CUỐI FILE, ngay trước thẻ <div id="ai-chat-widget"> -->
-<div id="search-modal" class="search-modal-overlay">
-    <div class="search-modal-box">
-        <button class="close-btn">×</button>
-        <h2>Tìm kiếm Tour</h2>
-        <p>Tìm hành trình mơ ước của bạn.</p>
-        <form action="search-results.html" method="GET" class="modal-search-form">
-            <div class="form-group">
-                <input type="text" name="dest" required placeholder=" " id="modal-search-dest">
-                <label for="modal-search-dest">Bạn muốn đi đâu?</label>
-                <i class="fa-solid fa-location-dot"></i>
-            </div>
-            <div class="form-group">
-                <input type="date" name="date" id="modal-search-date">
-                <label for="modal-search-date" class="date-label">Chọn ngày khởi hành (tùy chọn)</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Tìm kiếm ngay</button>
-        </form>
+    
+    <div id="search-modal" class="search-modal-overlay">
+        <div class="search-modal-box">
+            <button class="close-btn">×</button>
+            <h2>Tìm kiếm Tour</h2>
+            <p>Tìm hành trình mơ ước của bạn.</p>
+            <form action="search-results.html" method="GET" class="modal-search-form">
+                <div class="form-group">
+                    <input type="text" name="dest" required placeholder=" " id="modal-search-dest">
+                    <label for="modal-search-dest">Bạn muốn đi đâu?</label>
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="form-group">
+                    <input type="date" name="date" id="modal-search-date">
+                    <label for="modal-search-date" class="date-label">Chọn ngày khởi hành (tùy chọn)</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Tìm kiếm ngay</button>
+            </form>
+        </div>
     </div>
-</div>
+
     <div id="ai-chat-widget">
         <button class="chat-bubble-trigger" id="chat-bubble-trigger" aria-label="Mở Trợ lý AI">
             <i class="fa-solid fa-headset"></i>
