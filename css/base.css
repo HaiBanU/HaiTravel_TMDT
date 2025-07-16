@@ -234,7 +234,7 @@ footer {
     background: white; padding: 30px; border-radius: 16px; 
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); width: 100%; 
 }
-.custom-alert-box, .search-modal-box { text-align: center; max-width: 500px; }
+.custom-alert-box { text-align: center; max-width: 500px; }
 .contact-modal-box { max-width: 600px; text-align: left; position: relative; }
 
 .custom-alert-box .icon { font-size: 3rem; color: #28a745; margin-bottom: 15px; }
@@ -242,9 +242,8 @@ footer {
 .custom-alert-box h3 { margin-top: 0; margin-bottom: 10px; font-size: 1.8rem; }
 .custom-alert-box p { margin-bottom: 25px; color: var(--secondary-color); font-family: var(--body-font); }
 
-.contact-modal-box h2, .search-modal-box h2 { text-align: center; margin-top: 0; margin-bottom: 10px; font-size: 1.8rem; }
-.search-modal-box p { color: var(--secondary-color); margin-bottom: 2rem; }
-.contact-modal-box .close-btn, .search-modal-box .close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 2rem; color: #aaa; cursor: pointer; }
+.contact-modal-box h2 { text-align: center; margin-top: 0; margin-bottom: 10px; font-size: 1.8rem; }
+.contact-modal-box .close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 2rem; color: #aaa; cursor: pointer; }
 .contact-modal-box ul { list-style: none; padding: 0; margin-top: 2rem; }
 .contact-modal-box li { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 1.2rem; font-size: 1rem; }
 .contact-modal-box li i { color: var(--primary-color); width: 20px; text-align: center; margin-top: 4px; }
@@ -259,7 +258,6 @@ body.home-page header:not(.scrolled) .btn-auth:hover { background-color: var(--w
 header.scrolled .btn-auth { border-color: var(--accent-color); color: var(--accent-color); }
 header.scrolled .btn-auth:hover { background-color: var(--accent-color); color: var(--white-color); }
 
-/* [THÊM MỚI] Class để xử lý khi modal mở */
 body.modal-open {
     overflow: hidden;
     padding-right: var(--scrollbar-width, 0px); 
@@ -272,19 +270,29 @@ body.modal-open {
 body.home-page header:not(.scrolled) .mobile-nav-toggle { color: var(--white-color); }
 .mobile-nav, .mobile-nav-overlay { position: fixed; top: 0; bottom: 0; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
 .mobile-nav-overlay { left: 0; right: 0; background-color: rgba(0,0,0,0.5); opacity: 0; visibility: hidden; z-index: 1003; }
-.mobile-nav { right: 0; width: 300px; max-width: 80%; background-color: var(--white-color); z-index: 1004; transform: translateX(100%); display: flex; flex-direction: column; justify-content: space-between; padding-bottom: 2rem; }
+.mobile-nav { right: 0; width: 300px; max-width: 80%; background-color: var(--white-color); z-index: 1004; transform: translateX(100%); display: flex; flex-direction: column; } /* [SỬA] Bỏ justify-content và padding-bottom */
 .mobile-nav-header { display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; height: 70px; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
 .mobile-nav-header .mobile-nav-toggle { display: block; }
-.mobile-nav-links { padding: 1rem 1.5rem; display: flex; flex-direction: column; }
+
+/* [CẢI TIẾN] Thanh tìm kiếm trong menu */
+.mobile-nav-search { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); }
+.mobile-nav-search .search-bar { display: flex; } /* Hiển thị lại search-bar bên trong menu */
+.mobile-nav-search .search-bar input { font-size: 0.9rem; padding: 8px 10px; }
+.mobile-nav-search .search-bar input[type="text"] { width: 100%; flex-grow: 1; }
+.mobile-nav-search .search-bar input[type="date"] { display: none; } /* Ẩn ô ngày cho gọn */
+
+.mobile-nav-links { padding: 1rem 1.5rem; display: flex; flex-direction: column; flex-grow: 1; overflow-y: auto; } /* [THÊM] flex-grow và overflow */
 .mobile-nav-links a { font-size: 1.2rem; font-weight: 500; color: var(--dark-color); text-decoration: none; padding: 1rem 0; border-bottom: 1px solid var(--light-color); display: flex; align-items: center; gap: 1rem; }
 .mobile-nav-links a:last-child { border-bottom: none; }
 .mobile-nav-links a i { color: var(--primary-color); width: 25px; text-align: center; }
-.mobile-nav-secondary { padding: 1rem 1.5rem 0; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 1rem; }
+
+.mobile-nav-secondary { padding: 1rem 1.5rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 1rem; flex-shrink: 0; } /* [THÊM] flex-shrink */
 .mobile-nav-icon-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; font-size: 1.1rem; color: var(--secondary-color); padding: 0.75rem; border-radius: 8px; transition: background-color 0.2s; position: relative; }
 .mobile-nav-icon-link:hover { background-color: var(--light-color); }
 .mobile-nav-icon-link i { font-size: 1.3rem; width: 25px; text-align: center; color: var(--primary-color); }
 .mobile-nav-icon-link .cart-count { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background-color: #dc3545; color: var(--white-color); font-size: 0.7rem; font-weight: bold; border-radius: 50%; min-width: 18px; height: 18px; padding: 0 5px; display: none; justify-content: center; align-items: center; }
 .mobile-auth-display .btn { width: 100%; text-align: center; justify-content: center; display: flex; gap: 0.5rem; }
+
 body.mobile-nav-open .mobile-nav { transform: translateX(0); }
 body.mobile-nav-open .mobile-nav-overlay { opacity: 1; visibility: visible; }
 
@@ -292,7 +300,7 @@ body.mobile-nav-open .mobile-nav-overlay { opacity: 1; visibility: visible; }
 @media (max-width: 992px) {
     .header-container { justify-content: space-between; }
     .header-container .logo { font-size: 1.6rem; }
-    .main-nav, .search-bar, .header-right-group { display: none; }
+    .main-nav, .search-bar, .header-right-group { display: none !important; } /* [SỬA] Thêm !important để đảm bảo ẩn */
     .mobile-nav-toggle { display: block; margin-left: 1rem; }
 }
 @media (max-width: 768px) {
@@ -309,67 +317,4 @@ body.mobile-nav-open .mobile-nav-overlay { opacity: 1; visibility: visible; }
     body.home-page main { padding-top: 0; }
 }
 
-/* [THÊM MỚI] CSS cho Modal tìm kiếm */
-.search-modal-box {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-.search-modal-overlay.show .search-modal-box {
-    transform: translate(-50%, -50%) scale(1);
-}
-.modal-search-form .form-group {
-    position: relative;
-    margin-bottom: 1.5rem;
-    text-align: left; /* Căn lề trái cho form items */
-}
-.modal-search-form .form-group input {
-    width: 100%;
-    padding: 12px 15px 12px 38px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: var(--body-font);
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-}
-.modal-search-form .form-group label {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: var(--secondary-color);
-    position: absolute;
-    top: 14px;
-    left: 40px;
-    transition: all 0.2s ease-out;
-    pointer-events: none;
-    background-color: var(--white-color);
-    padding: 0 5px;
-}
-.modal-search-form .form-group input:focus {
-    border-color: var(--primary-color);
-    outline: none;
-}
-.modal-search-form .form-group input:focus + label,
-.modal-search-form .form-group input:not(:placeholder-shown) + label {
-    top: -8px;
-    font-size: 0.8rem;
-    color: var(--primary-color);
-}
-.modal-search-form .form-group i {
-    position: absolute;
-    left: 15px;
-    top: 15px;
-    color: #ccc;
-    transition: color 0.3s;
-}
-.modal-search-form .form-group input:focus ~ i {
-    color: var(--primary-color);
-}
-.modal-search-form .form-group label.date-label {
-    top: -8px;
-    font-size: 0.8rem;
-    color: var(--secondary-color);
-}
-.modal-search-form .btn {
-    width: 100%;
-}
+/* [XÓA] Toàn bộ CSS cho modal tìm kiếm đã bị xóa khỏi đây */
