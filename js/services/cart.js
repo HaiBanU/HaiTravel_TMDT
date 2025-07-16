@@ -13,7 +13,7 @@ const fetchWithAuth = async (url, options = {}) => {
         headers['Authorization'] = `Bearer ${user.token}`;
     }
     // Giả định backend của bạn chạy ở port 5000
-    return fetch(`http://localhost:5000/api/cart${url}`, { ...options, headers });
+    return fetch(`https://haitravel-backend.onrender.com/api/cart${url}`, { ...options, headers });
 };
 
 // Cập nhật state giỏ hàng cục bộ và icon

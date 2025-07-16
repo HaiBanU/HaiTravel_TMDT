@@ -10,7 +10,7 @@ async function renderReviews(tourId) {
     if (!reviewListContainer) return;
 
     try {
-        const response = await fetch(`http://localhost:5000/api/tours/${tourId}/reviews`);
+        const response = await fetch(`https://haitravel-backend.onrender.com/api/tours/${tourId}/reviews`);
         const reviews = await response.json();
 
         if (!reviews || reviews.length === 0) {
@@ -85,7 +85,7 @@ function initReviewForm(tourId) {
 
         try {
             const reviewPayload = { name, rating, comment }; // Không còn trường image
-            const reviewRes = await fetch(`http://localhost:5000/api/tours/${tourId}/reviews`, {
+            const reviewRes = await fetch(`https://haitravel-backend.onrender.com/api/tours/${tourId}/reviews`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(reviewPayload),

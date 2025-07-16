@@ -6,7 +6,7 @@ import { syncCartOnLogin, clearLocalCart } from './cart.js';
 // Đăng ký người dùng mới bằng cách gọi API backend
 export async function registerUser(name, email, password) {
     try {
-        const response = await fetch('http://localhost:5000/api/users/register', {
+        const response = await fetch('https://haitravel-backend.onrender.com/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, password }),
@@ -29,7 +29,7 @@ export async function registerUser(name, email, password) {
 // Đăng nhập người dùng bằng cách gọi API backend
 export async function loginUser(email, password) {
     try {
-        const response = await fetch('http://localhost:5000/api/users/login', {
+        const response = await fetch('https://haitravel-backend.onrender.com/api/users/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
