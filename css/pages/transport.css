@@ -211,3 +211,23 @@
         align-items: stretch;
     }
 }
+/* --- RESPONSIVE FOR TRANSPORT PAGE --- */
+
+@media (max-width: 992px) {
+    /* Chuyển layout kết quả tìm kiếm thành 1 cột */
+    .route-info-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Chuyển form tìm kiếm thành dạng cột */
+    .transport-booking-form {
+        flex-direction: column;
+        align-items: stretch; /* Cho các input chiếm hết chiều rộng */
+    }
+
+    .transport-booking-form .btn {
+        width: 100%;
+    }
+}

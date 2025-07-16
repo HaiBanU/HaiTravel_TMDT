@@ -154,3 +154,35 @@ input[type="file"] { display: none; }
     .tour-content-body { grid-template-columns: 1fr; }
     .tour-sidebar { position: static; top: auto; }
 }
+/* --- RESPONSIVE FOR TOUR DETAIL PAGE --- */
+
+@media (max-width: 992px) {
+    /* Chuyển layout chính thành 1 cột */
+    .tour-content-body {
+        grid-template-columns: 1fr;
+    }
+
+    /* Bỏ sticky cho sidebar trên mobile */
+    .tour-sidebar {
+        position: static;
+        top: auto;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Chồng các thông tin trên hero section lên nhau */
+    .tour-main-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .tour-booking-box {
+        width: 100%; /* Cho hộp booking chiếm toàn bộ chiều rộng */
+    }
+
+    .tour-header h1 {
+        font-size: 2.2rem !important;
+    }
+}

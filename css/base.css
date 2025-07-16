@@ -290,3 +290,66 @@ header.scrolled .btn-auth:hover {
         margin-left: auto;
     }
 }
+/* --- RESPONSIVE STYLES --- */
+
+/* Tablet & Mobile Lớn (<= 992px) */
+@media (max-width: 992px) {
+    /* Ẩn thanh điều hướng chính và thanh tìm kiếm */
+    .main-nav,
+    .search-bar {
+        display: none;
+    }
+
+    /* Đảm bảo logo và các icon bên phải không bị dính sát lề */
+    .header-container {
+        padding: 0 1.5rem;
+    }
+
+    /* Đẩy nhóm icon sang hẳn bên phải khi nav bị ẩn */
+    .header-right-group {
+        margin-left: auto;
+    }
+}
+
+/* Mobile Nhỏ (<= 768px) */
+@media (max-width: 768px) {
+    /* Thu nhỏ chữ tiêu đề chính để không chiếm quá nhiều diện tích */
+    h1, .section-header h2 {
+        font-size: 2.5rem !important; /* Dùng !important để ghi đè các style cụ thể hơn */
+        line-height: 1.2;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+
+    /* Giảm padding của các section để tiết kiệm không gian */
+    main section, .tour-list, .cart-page, .discover-page {
+        padding: 3rem 1rem !important;
+    }
+
+    /* Cho các cột footer xếp chồng lên nhau và căn giữa */
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-col.footer-about .logo {
+        display: inline-block; /* Để logo căn giữa */
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    /* Thu nhỏ header một chút */
+    header {
+        height: 70px;
+    }
+    main {
+        padding-top: 70px;
+    }
+    body.home-page main {
+        padding-top: 0;
+    }
+}

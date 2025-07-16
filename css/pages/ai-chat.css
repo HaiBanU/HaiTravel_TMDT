@@ -187,3 +187,18 @@
     cursor: not-allowed;
     transform: scale(1);
 }
+/* --- RESPONSIVE FOR AI CHAT --- */
+@media (max-width: 480px) {
+    .ai-chat-window {
+        width: calc(100vw - 30px); /* Gần full màn hình nhưng có khoảng hở */
+        left: 15px;
+        bottom: 80px;
+        height: 70vh;
+        max-height: 500px;
+    }
+
+    #ai-chat-widget {
+        bottom: 15px;
+        left: 15px;
+    }
+}
