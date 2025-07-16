@@ -5,25 +5,22 @@ import { getCurrentUser } from './auth.js';
 
 let localCartState = {};
 
-// Hàm tiện ích để gọi API có xác thực
 const fetchWithAuth = async (url, options = {}) => {
     const user = getCurrentUser();
     const headers = { 'Content-Type': 'application/json', ...options.headers };
     if (user?.token) {
         headers['Authorization'] = `Bearer ${user.token}`;
     }
-    // Giả định backend của bạn chạy ở port 5000
     return fetch(`https://haitravel-backend.onrender.com/api/cart${url}`, { ...options, headers });
 };
 
-// Cập nhật state giỏ hàng cục bộ và icon
 const setCartState = (cartData) => {
-    if (Array.isArray(cartData)) { // Dữ liệu từ server là một mảng
+    if (Array.isArray(cartData)) {
         localCartState = cartData.reduce((acc, item) => {
             acc[item.itemId] = item;
             return acc;
         }, {});
-    } else { // Dữ liệu từ localStorage là một object
+    } else {
         localCartState = cartData || {};
     }
     updateCartIcon();
@@ -35,33 +32,44 @@ export const clearLocalCart = () => {
     setCartState({});
 };
 
+// [CẬP NHẬT HOÀN CHỈNH] Cập nhật icon giỏ hàng ở cả hai nơi
 export function updateCartIcon() {
     const totalItems = Object.values(localCartState).reduce((sum, item) => sum + (item.quantity || 0), 0);
+    
+    // Icon trên header desktop
     const cartCountElement = document.getElementById('cart-count');
-    if (cartCountElement) {
-        if (totalItems > 0) {
-            cartCountElement.textContent = totalItems;
-            cartCountElement.style.display = 'flex';
-        } else {
-            cartCountElement.style.display = 'none';
+    // Icon trong menu mobile
+    const mobileCartCountElement = document.getElementById('mobile-cart-count');
+
+    const updateElement = (element) => {
+        if (element) {
+            if (totalItems > 0) {
+                element.textContent = totalItems;
+                element.style.display = 'flex';
+            } else {
+                element.style.display = 'none';
+            }
         }
-    }
+    };
+    
+    updateElement(cartCountElement);
+    updateElement(mobileCartCountElement); // Cập nhật cả cho mobile
 }
 
-// [SỬA LỖI] Hàm này sẽ là nguồn dữ liệu chính khi tải trang
+
 export async function fetchAndSetCart() {
     const user = getCurrentUser();
-    if (user) { // Nếu đã đăng nhập, luôn lấy giỏ hàng từ server
+    if (user) {
         try {
-            const response = await fetchWithAuth(''); // GET /api/cart
+            const response = await fetchWithAuth('');
             if (!response.ok) throw new Error('Không thể tải giỏ hàng.');
             const cartData = await response.json();
             setCartState(cartData);
         } catch (error) {
             console.error("Lỗi khi tải giỏ hàng từ server:", error);
-            setCartState([]); // Đặt lại thành giỏ hàng rỗng nếu có lỗi
+            setCartState([]);
         }
-    } else { // Nếu là khách, lấy từ localStorage
+    } else {
         const guestCart = JSON.parse(localStorage.getItem('haiTravelGuestCart') || '{}');
         setCartState(guestCart);
     }
@@ -69,12 +77,10 @@ export async function fetchAndSetCart() {
 
 export async function addItemToCart(itemData) {
     const user = getCurrentUser();
-    // Luôn bắt đầu với số lượng là 1
     const itemPayload = { ...itemData, quantity: 1 }; 
 
-    if (user) { // Gửi yêu cầu lên server cho người dùng đã đăng nhập
+    if (user) {
         try {
-            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa để gọi API POST hoặc PUT
             const response = await fetchWithAuth('', {
                 method: 'POST',
                 body: JSON.stringify(itemPayload),
@@ -88,10 +94,9 @@ export async function addItemToCart(itemData) {
             showCustomAlert('Lỗi', error.message, 'fa-solid fa-circle-xmark');
             return;
         }
-    } else { // Cập nhật localStorage cho khách
+    } else {
         const guestCart = getCart();
         if (guestCart[itemData.itemId]) {
-            // Nếu đã tồn tại thì báo lỗi vì logic thêm luôn là thêm mới
              showCustomAlert('Thông báo', `Sản phẩm "${itemData.name}" đã có trong giỏ hàng.`, 'fa-solid fa-circle-info');
             return;
         } else {
@@ -103,25 +108,21 @@ export async function addItemToCart(itemData) {
     showCustomAlert('Thành công!', `Đã thêm "${itemData.name}" vào giỏ hàng.`);
 }
 
-
 export async function syncCartOnLogin() {
     const guestCart = JSON.parse(localStorage.getItem('haiTravelGuestCart') || '{}');
     const items = Object.values(guestCart);
     if (items.length > 0) {
         try {
-            // Gửi toàn bộ giỏ hàng của khách lên server để đồng bộ
             const response = await fetchWithAuth('/sync', {
                 method: 'POST',
                 body: JSON.stringify({ items }),
             });
              if (!response.ok) throw new Error('Đồng bộ giỏ hàng thất bại.');
-            // Sau khi đồng bộ, xóa giỏ hàng của khách
             localStorage.removeItem('haiTravelGuestCart');
         } catch(error) {
              console.error(error.message);
         }
     }
-    // Tải lại giỏ hàng từ server sau khi đồng bộ
     await fetchAndSetCart();
 }
 

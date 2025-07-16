@@ -137,7 +137,7 @@
             <button type="submit" aria-label="Gửi tin nhắn"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
     </div>
-</div>
+<!-- Cập nhật lại toàn bộ khối mobile-nav -->
 <div class="mobile-nav-overlay"></div>
 <nav class="mobile-nav">
     <div class="mobile-nav-header">
@@ -152,6 +152,21 @@
         <a href="discover.html">Gợi Ý Tour</a>
         <a href="transport.html">Đặt Vé</a>
         <a href="#" id="contact-link-mobile">Liên Hệ</a>
+    </div>
+    <!-- [THÊM MỚI] Khu vực cho các icon và chức năng phụ -->
+    <div class="mobile-nav-secondary">
+        <a href="cart.html" class="mobile-nav-icon-link">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Giỏ hàng</span>
+            <span id="mobile-cart-count" class="cart-count"></span>
+        </a>
+        <a href="https://www.tiktok.com/@hai_travel_web" target="_blank" class="mobile-nav-icon-link">
+            <i class="fab fa-tiktok"></i>
+            <span>Kênh TikTok</span>
+        </a>
+        <div id="mobile-auth-display" class="mobile-auth-display">
+            <!-- Nút đăng nhập/đăng xuất sẽ được JS chèn vào đây -->
+        </div>
     </div>
 </nav>
     <script type="module" src="js/main.js"></script>

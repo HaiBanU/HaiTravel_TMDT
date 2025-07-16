@@ -1,3 +1,5 @@
+/* css/base.css */
+
 /* --- BIẾN VÀ THIẾT LẬP CHUNG --- */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Be+Vietnam+Pro:wght@300;400;500;700&display=swap');
 
@@ -98,7 +100,7 @@ body.home-page header.scrolled .header-icons a {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 1500px; /* [SỬA LỖI] Tăng chiều rộng tối đa */
+    max-width: 1500px;
     margin: 0 auto;
     padding: 0 2rem;
     gap: 20px;
@@ -126,7 +128,7 @@ body.home-page header.scrolled .header-icons a {
     position: relative;
     padding-bottom: 5px;
     transition: color 0.3s ease;
-    white-space: nowrap; /* [SỬA LỖI] Không cho phép xuống dòng */
+    white-space: nowrap;
 }
 .main-nav a::after {
     content: '';
@@ -143,7 +145,7 @@ body.home-page header.scrolled .header-icons a {
 .header-right-group {
     display: flex;
     align-items: center;
-    gap: 25px; /* Tăng khoảng cách một chút */
+    gap: 25px;
 }
 
 .header-icons { display: flex; align-items: center; gap: 25px; }
@@ -164,8 +166,9 @@ body.home-page header.scrolled .header-icons a {
     font-size: 0.7rem;
     font-weight: bold;
     border-radius: 50%;
-    width: 18px;
+    min-width: 18px;
     height: 18px;
+    padding: 0 5px;
     display: none;
     justify-content: center;
     align-items: center;
@@ -185,7 +188,8 @@ footer {
 .footer-col li { margin-bottom: 0.8rem; }
 .footer-col a { text-decoration: none; color: #adb5bd; transition: color 0.3s ease; }
 .footer-col a:hover { color: var(--accent-color); }
-.social-icons a { display: inline-block; color: var(--white-color); background-color: #495057; width: 40px; height: 40px; line-height: 40px; text-align: center; border-radius: 50%; margin-right: 10px; transition: background-color 0.3s ease, transform 0.3s ease; }
+.social-icons { display: flex; gap: 10px; }
+.social-icons a { display: inline-block; color: var(--white-color); background-color: #495057; width: 40px; height: 40px; line-height: 40px; text-align: center; border-radius: 50%; transition: background-color 0.3s ease, transform 0.3s ease; }
 .social-icons a:hover { background-color: var(--primary-color); transform: translateY(-3px); }
 .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.9rem; }
 
@@ -234,9 +238,8 @@ footer {
 /* --- AUTH BUTTON & WELCOME MESSAGE IN HEADER --- */
 .auth-display {
     margin-left: 0;
-    white-space: nowrap; /* [SỬA LỖI] Không cho phép xuống dòng */
+    white-space: nowrap;
 }
-
 .btn-auth {
     padding: 8px 20px;
     background-color: transparent;
@@ -250,14 +253,11 @@ footer {
     transition: all 0.3s ease;
     font-family: var(--body-font);
 }
-
 .btn-auth:hover {
     background-color: var(--accent-color);
     color: var(--white-color);
     transform: translateY(-2px);
 }
-
-/* Trang chủ khi chưa cuộn */
 body.home-page header:not(.scrolled) .btn-auth {
     border-color: var(--white-color);
     color: var(--white-color);
@@ -267,8 +267,6 @@ body.home-page header:not(.scrolled) .btn-auth:hover {
     background-color: var(--white-color);
     color: var(--primary-color);
 }
-
-/* Khi header đã cuộn */
 header.scrolled .btn-auth {
     border-color: var(--accent-color);
     color: var(--accent-color);
@@ -278,93 +276,17 @@ header.scrolled .btn-auth:hover {
     color: var(--white-color);
 }
 
-
-/* --- RESPONSIVE --- */
-@media (max-width: 1200px) {
-    .search-bar { display: none; }
-}
-@media (max-width: 992px) {
-    .header-container { padding: 0 1rem; }
-    .main-nav { display: none; }
-    .header-right-group {
-        margin-left: auto;
-    }
-}
-/* --- RESPONSIVE STYLES --- */
-
-/* Tablet & Mobile Lớn (<= 992px) */
-@media (max-width: 992px) {
-    /* Ẩn thanh điều hướng chính và thanh tìm kiếm */
-    .main-nav,
-    .search-bar {
-        display: none;
-    }
-
-    /* Đảm bảo logo và các icon bên phải không bị dính sát lề */
-    .header-container {
-        padding: 0 1.5rem;
-    }
-
-    /* Đẩy nhóm icon sang hẳn bên phải khi nav bị ẩn */
-    .header-right-group {
-        margin-left: auto;
-    }
-}
-
-/* Mobile Nhỏ (<= 768px) */
-@media (max-width: 768px) {
-    /* Thu nhỏ chữ tiêu đề chính để không chiếm quá nhiều diện tích */
-    h1, .section-header h2 {
-        font-size: 2.5rem !important; /* Dùng !important để ghi đè các style cụ thể hơn */
-        line-height: 1.2;
-    }
-    
-    h2 {
-        font-size: 2rem;
-    }
-
-    /* Giảm padding của các section để tiết kiệm không gian */
-    main section, .tour-list, .cart-page, .discover-page {
-        padding: 3rem 1rem !important;
-    }
-
-    /* Cho các cột footer xếp chồng lên nhau và căn giữa */
-    .footer-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .footer-col.footer-about .logo {
-        display: inline-block; /* Để logo căn giữa */
-    }
-
-    .social-icons {
-        justify-content: center;
-    }
-
-    /* Thu nhỏ header một chút */
-    header {
-        height: 70px;
-    }
-    main {
-        padding-top: 70px;
-    }
-    body.home-page main {
-        padding-top: 0;
-    }
-}
 /* === NÂNG CẤP RESPONSIVE TOÀN DIỆN === */
 
-/* --- Menu Mobile --- */
+/* --- Cấu trúc cơ bản cho Menu Mobile (ẩn trên desktop) --- */
 .mobile-nav-toggle {
-    display: none; /* Mặc định ẩn trên desktop */
+    display: none; 
     background: none;
     border: none;
     font-size: 1.8rem;
     color: var(--dark-color);
     cursor: pointer;
     z-index: 1002;
-    margin-left: auto; /* Đẩy về cuối */
 }
 
 body.home-page header:not(.scrolled) .mobile-nav-toggle {
@@ -396,6 +318,8 @@ body.home-page header:not(.scrolled) .mobile-nav-toggle {
     transform: translateX(100%);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 2rem;
 }
 
 .mobile-nav-header {
@@ -409,11 +333,10 @@ body.home-page header:not(.scrolled) .mobile-nav-toggle {
 }
 .mobile-nav-header .mobile-nav-toggle {
     display: block;
-    margin-left: 0;
 }
 
 .mobile-nav-links {
-    padding: 2rem 1.5rem;
+    padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
 }
@@ -425,6 +348,62 @@ body.home-page header:not(.scrolled) .mobile-nav-toggle {
     padding: 1rem 0;
     border-bottom: 1px solid var(--light-color);
 }
+.mobile-nav-links a:last-child {
+    border-bottom: none;
+}
+
+.mobile-nav-secondary {
+    padding: 1rem 1.5rem 0;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.mobile-nav-icon-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    position: relative;
+}
+.mobile-nav-icon-link:hover {
+    background-color: var(--light-color);
+}
+.mobile-nav-icon-link i {
+    font-size: 1.3rem;
+    width: 25px;
+    text-align: center;
+    color: var(--primary-color);
+}
+.mobile-nav-icon-link .cart-count {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #dc3545;
+    color: var(--white-color);
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.mobile-auth-display .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    gap: 0.5rem;
+}
 
 /* Khi menu mobile mở */
 body.mobile-nav-open .mobile-nav {
@@ -435,34 +414,55 @@ body.mobile-nav-open .mobile-nav-overlay {
     visibility: visible;
 }
 
+/* --- Media Queries --- */
 
-/* --- Cải tiến chung cho Tablet & Mobile --- */
+/* Tablet & Mobile Lớn (<= 992px) */
 @media (max-width: 992px) {
-    /* Ẩn nav chính, hiện nút hamburger */
-    .main-nav, .search-bar { display: none; }
-    .mobile-nav-toggle { display: block; }
-    .header-right-group { margin-left: 0; }
+    .header-container {
+        justify-content: space-between;
+    }
+    .header-container .logo {
+        font-size: 1.6rem;
+    }
+    .main-nav, .search-bar, .header-right-group { 
+        display: none; 
+    }
+    .mobile-nav-toggle { 
+        display: block; 
+        margin-left: 1rem; /* Tạo khoảng cách với logo */
+    }
 }
 
+/* Mobile Nhỏ (<= 768px) */
 @media (max-width: 768px) {
-    /* Tăng font chữ cơ bản để dễ đọc hơn */
     html {
-        font-size: 15px; /* Mặc định là 16px */
+        font-size: 15px;
     }
-
-    /* Giảm padding để tận dụng không gian */
     main section, .tour-list, .cart-page, .discover-page, .transport-content-area {
         padding: 3rem 1.25rem !important;
     }
-
-    /* Tiêu đề gọn gàng hơn */
     h1, .section-header h2, .hero-title {
         font-size: 2.2rem !important;
+        line-height: 1.3;
     }
-
-    /* Nút bấm lớn hơn, dễ nhấn hơn */
+    h2 {
+        font-size: 2rem;
+    }
     .btn {
-        padding: 15px 30px;
+        padding: 15px 25px;
         font-size: 1rem;
     }
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .footer-col.footer-about .logo {
+        display: inline-block;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+    header { height: 70px; }
+    main { padding-top: 70px; }
+    body.home-page main { padding-top: 0; }
 }
