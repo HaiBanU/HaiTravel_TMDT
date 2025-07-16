@@ -16,6 +16,9 @@
     <header>
         <div class="header-container">
             <a href="index.html" class="logo">Hai Travel</a>
+            <button class="mobile-nav-toggle" aria-label="Mở menu">
+    <i class="fa-solid fa-bars"></i>
+</button>
             <form action="search-results.html" method="GET" class="search-bar">
                 <input type="text" placeholder="Tìm kiếm tour..." name="dest">
                 <input type="date" name="date">
@@ -154,6 +157,22 @@
         </form>
     </div>
 </div>
+<div class="mobile-nav-overlay"></div>
+<nav class="mobile-nav">
+    <div class="mobile-nav-header">
+        <a href="index.html" class="logo">Hai Travel</a>
+        <button class="mobile-nav-toggle close" aria-label="Đóng menu">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="mobile-nav-links">
+        <a href="index.html">Trang Chủ</a>
+        <a href="index.html#tour-list-section">Du Lịch</a>
+        <a href="discover.html">Gợi Ý Tour</a>
+        <a href="transport.html">Đặt Vé</a>
+        <a href="#" id="contact-link-mobile">Liên Hệ</a>
+    </div>
+</nav>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/ai-chat.js"></script>
