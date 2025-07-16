@@ -1,0 +1,261 @@
+/* css/pages/auth.css */
+
+.auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 1rem;
+}
+
+.auth-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.auth-modal-box {
+    background: var(--white-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    overflow: hidden;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.auth-modal-overlay.show .auth-modal-box {
+    transform: scale(1) translateY(0);
+}
+
+.auth-modal-box .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2.2rem;
+    color: #aaa;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.auth-modal-box .close-btn:hover {
+    color: var(--dark-color);
+    transform: rotate(90deg);
+}
+
+.auth-form-container {
+    padding: 40px 35px;
+}
+
+.auth-form-container h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.auth-form-container .form-subtitle {
+    text-align: center;
+    color: var(--secondary-color);
+    margin-bottom: 30px;
+}
+
+.auth-form .form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.auth-form .form-group label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    position: absolute;
+    top: 14px;
+    left: 40px;
+    transition: all 0.2s ease-out;
+    pointer-events: none;
+    background-color: var(--white-color);
+    padding: 0 5px;
+}
+
+.auth-form .form-group input {
+    width: 100%;
+    padding: 12px 15px 12px 38px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--body-font);
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.auth-form .form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.auth-form .form-group input:focus + label,
+.auth-form .form-group input:not(:placeholder-shown) + label {
+    top: -8px;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+}
+
+.auth-form .form-group i {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    color: #ccc;
+    transition: color 0.3s;
+}
+
+.auth-form .form-group input:focus ~ i {
+    color: var(--primary-color);
+}
+
+.auth-form .btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 15px;
+}
+
+.auth-switch-text {
+    text-align: center;
+    margin-top: 25px;
+    font-family: var(--body-font);
+}
+
+.auth-switch-text a {
+    color: var(--primary-color);
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.auth-switch-text a:hover {
+    text-decoration: underline;
+}
+
+#register-form {
+    display: none;
+}
+
+#auth-error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+    display: none;
+}
+
+
+/* User Welcome & Dropdown */
+.user-menu-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.welcome-message {
+    color: var(--dark-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.welcome-message:hover {
+    color: var(--primary-color);
+}
+
+.welcome-message strong {
+    color: var(--primary-color);
+}
+
+.welcome-message i {
+    font-size: 0.8em;
+    transition: transform 0.3s ease;
+}
+
+.user-menu-wrapper.open .welcome-message i {
+    transform: rotate(180deg);
+}
+
+/* Lời chào trên header trang chủ */
+body.home-page header:not(.scrolled) .welcome-message {
+    color: var(--white-color);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+body.home-page header:not(.scrolled) .welcome-message strong {
+     color: var(--white-color);
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 130%; 
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    z-index: 1001;
+    width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.user-menu-wrapper.open .user-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.user-dropdown button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    color: var(--dark-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-family: var(--body-font);
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.2s;
+    border-radius: 6px;
+}
+
+.user-dropdown button:hover {
+    background-color: var(--light-color);
+}
+.user-dropdown button i {
+    color: var(--secondary-color);
+}

@@ -1,0 +1,90 @@
+/* css/components.css */
+
+/* --- NÚT BẤM CHUNG --- */
+.btn {
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    text-align: center;
+    cursor: pointer;
+}
+.btn:active { transform: scale(0.95); }
+.btn-primary { background-color: var(--primary-color); color: var(--white-color); }
+.btn-primary:hover {
+    background-color: #084c59;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(13, 94, 110, 0.4);
+}
+
+/* --- THANH TÌM KIẾM --- */
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    padding: 5px;
+    background-color: var(--white-color);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+body.home-page header:not(.scrolled) .search-bar {
+    opacity: 0;
+    visibility: hidden;
+}
+.search-bar input { border: none; outline: none; padding: 8px 15px; background: transparent; }
+.search-bar input[type="text"] { width: 250px; }
+.search-bar input[type="date"] { width: 140px; border-left: 1px solid var(--border-color); }
+.search-bar button { background-color: var(--primary-color); color: var(--white-color); border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.3s; }
+.search-bar button:hover { background-color: #084c59; }
+
+/* --- TIÊU ĐỀ SECTION --- */
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-header h2 { font-size: 3.5rem; margin-bottom: 10px; }
+.section-header p { font-size: 1.2rem; color: var(--secondary-color); font-family: var(--body-font); }
+
+/* --- THẺ TOUR --- */
+.tour-list { padding: 100px 5%; background-color: var(--light-color); }
+.tour-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+.tour-card { background-color: var(--white-color); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; transition: transform 0.4s ease, box-shadow 0.4s ease; display: flex; flex-direction: column; }
+.tour-card:hover { transform: translateY(-12px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
+.tour-card-image { height: 220px; overflow: hidden; }
+.tour-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.tour-card:hover .tour-card-image img { transform: scale(1.1); }
+.tour-card-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+
+/* [CẢI TIẾN] CSS cho tên tour và sao */
+.tour-card-content h3 {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 5px; /* Giảm margin bottom */
+    line-height: 1.3;
+    /* Không cần flex-grow nữa */
+}
+.star-rating {
+    margin-bottom: 15px; /* Tạo khoảng cách dưới sao */
+    color: var(--accent-color);
+    font-size: 0.9rem;
+}
+.tour-dates { font-size: 0.9rem; color: var(--secondary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+
+/* [CẢI TIẾN] Đẩy giá và nút xuống cuối thẻ */
+.tour-price-wrapper {
+    margin-top: auto; /* Quan trọng: Đẩy khối này xuống dưới */
+    padding-top: 15px; /* Tạo khoảng cách với phần trên */
+    margin-bottom: 20px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.tour-original-price { font-size: 1rem; color: var(--secondary-color); text-decoration: line-through; }
+.tour-current-price { font-size: 1.6rem; font-weight: 700; color: var(--primary-color); font-family: var(--body-font); }
+.tour-card .btn { width: 100%; box-sizing: border-box; }
+
+/* --- KẾT QUẢ TÌM KIẾM --- */
+.search-results-page { padding-top: 50px; }
+.search-results-page .section-header { margin-bottom: 40px; }
+#search-query-display strong { color: var(--primary-color); }

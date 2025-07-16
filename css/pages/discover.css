@@ -1,0 +1,106 @@
+.discover-page {
+    background-color: var(--light-color);
+    padding: 4rem 2rem;
+}
+.discover-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.discover-container .section-header {
+    margin-bottom: 2.5rem;
+}
+.interest-tags-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+/* Trạng thái ban đầu: NỀN TỐI (Màu xanh chủ đạo) */
+.interest-tag-card {
+    background: linear-gradient(135deg, var(--primary-color), #148a9e);
+    color: var(--white-color);
+    border: 1px solid transparent;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+.tag-icon-wrapper {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+.tag-icon-wrapper i {
+    font-size: 1.8rem;
+    color: var(--white-color);
+    transition: all 0.3s ease;
+}
+.interest-tag-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(13, 94, 110, 0.3);
+}
+
+/* [SỬA LỖI] Trạng thái KHI ĐƯỢC CHỌN, sử dụng class .is-selected */
+.interest-tag-card.is-selected {
+    background: var(--white-color);
+    color: var(--dark-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 25px rgba(13, 94, 110, 0.2);
+}
+.interest-tag-card.is-selected .tag-icon-wrapper {
+    background-color: var(--light-color);
+}
+.interest-tag-card.is-selected .tag-icon-wrapper i {
+    color: var(--primary-color);
+}
+.interest-tag-card span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    font-family: var(--body-font);
+}
+.checkmark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    opacity: 0;
+    transform: scale(0.5) rotate(-45deg);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+/* [SỬA LỖI] Hiển thị dấu tick khi có class .is-selected */
+.interest-tag-card.is-selected .checkmark {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+}
+#discover-results-section {
+    padding: 3rem 0;
+    background-color: transparent;
+    margin: 0;
+    border-radius: 0;
+}
+#discover-results-section .section-header {
+    margin-bottom: 2rem;
+}
+#discover-results-title {
+    font-size: 2.5rem;
+}

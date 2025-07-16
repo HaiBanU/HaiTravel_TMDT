@@ -1,0 +1,213 @@
+/* Phần Hero với hình nền */
+.transport-hero-section {
+    padding: 4rem 2rem 5rem;
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('../../images/banner-transport.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Tiêu đề trong Hero */
+.transport-hero-section .section-header {
+    margin-bottom: 2rem;
+}
+.transport-hero-section .section-header .hero-title,
+.transport-hero-section .section-header p {
+    color: var(--white-color);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Form tìm kiếm như một tấm thẻ nổi */
+.transport-booking-form {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.transport-booking-form .form-group {
+    flex: 1;
+    min-width: 200px;
+    margin: 0;
+}
+
+.transport-booking-form label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    color: var(--dark-color);
+}
+
+.transport-booking-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--body-font);
+    box-sizing: border-box;
+    background-color: var(--white-color);
+}
+
+.transport-booking-form .btn {
+    height: 50px;
+    flex-basis: 150px;
+    flex-grow: 0;
+}
+
+/* Phần nội dung bên dưới Hero */
+.transport-content-area {
+    padding: 4rem 2rem;
+    background-color: var(--light-color);
+}
+
+/* CSS cho ô tìm kiếm có danh sách gợi ý */
+.searchable-dropdown-wrapper {
+    position: relative;
+}
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 10;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    display: none;
+}
+.dropdown-list div { padding: 12px 15px; cursor: pointer; font-family: var(--body-font); }
+.dropdown-list div:hover { background-color: #e9ecef; }
+
+/* [THIẾT KẾ LẠI] Toàn bộ khu vực thông tin tuyến đường */
+.route-info-wrapper {
+    display: grid;
+    grid-template-columns: 4fr 5fr; /* Bản đồ chiếm 4 phần, nội dung 5 phần */
+    gap: 2.5rem; /* Tăng khoảng cách */
+    align-items: center;
+    background-color: var(--white-color);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    
+    /* [SỬA LỖI] Giới hạn chiều rộng và căn giữa */
+    max-width: 1100px;
+    margin: 0 auto 3rem auto; /* Căn giữa và tạo khoảng cách với phần dưới */
+}
+.map-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.map-container img { width: 100%; display: block; aspect-ratio: 4 / 3; object-fit: cover; } /* Tỉ lệ ảnh hợp lý hơn */
+
+/* [THIẾT KẾ LẠI] Nội dung chi tiết tuyến đường */
+.route-details h3 {
+    font-size: 2.2rem; /* Giảm kích thước cho cân đối */
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    line-height: 1.2;
+}
+.route-description {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    line-height: 1.7; /* Tăng khoảng cách dòng cho dễ đọc */
+    margin-bottom: 1.5rem;
+}
+.route-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    font-family: var(--body-font);
+    font-weight: 500;
+}
+.stat-item i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+.transport-results h4 { 
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding-top: 2rem;
+}
+.vehicle-options-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+    gap: 1.5rem;
+    max-width: 900px; /* Giới hạn chiều rộng lưới phương tiện */
+    margin: 0 auto;
+}
+.vehicle-option-card { border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; background-color: var(--white-color); }
+.vehicle-option-card:hover { transform: translateY(-8px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+.vehicle-option-card .icon { font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem; }
+.vehicle-option-card h5 { font-size: 1.3rem; margin: 0 0 0.5rem 0; }
+.vehicle-option-card .time-estimate { font-size: 0.9rem; color: var(--secondary-color); margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.vehicle-price-wrapper { margin-bottom: 1.5rem; height: 48px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.vehicle-original-price { font-size: 1rem; color: var(--secondary-color); text-decoration: line-through; }
+.vehicle-current-price { font-size: 1.4rem; font-weight: 700; font-family: var(--body-font); color: var(--accent-color); }
+.vehicle-option-card .btn { width: 100%; }
+.no-route-message { background: var(--white-color); border-radius: 16px; padding: 3rem; text-align: center; border: 2px dashed var(--border-color); }
+.no-route-message h3 { color: #dc3545; }
+
+/* Phần Đối tác */
+.partners-section {
+    padding-top: 5rem;
+    text-align: center;
+}
+.partners-section h3 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+.partners-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+.partner-logo img {
+    height: 45px;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+.partner-logo img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+@media (max-width: 992px) {
+    .route-info-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .transport-booking-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Tìm Kiếm - HaiTravel</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/pages/auth.css">
+    <link rel="stylesheet" href="css/pages/ai-chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" href="images/logo-haitravel.jpg" type="image/jpeg">
+</head>
+<body class="is-loading">
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">Hai Travel</a>
+            <form action="search-results.html" method="GET" class="search-bar">
+                <input type="text" name="dest" placeholder="Tìm kiếm điểm đến...">
+                <input type="date" name="date">
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+            <nav class="main-nav">
+                <a href="index.html">Trang Chủ</a>
+                <a href="index.html#tour-list-section">Du Lịch</a>
+                <a href="discover.html">Gợi Ý Tour</a>
+                <a href="transport.html">Đặt Vé </a>
+                <a href="#" id="contact-link">Liên Hệ</a>
+            </nav>
+            <div class="header-right-group">
+                <div id="auth-display-container" class="auth-display"></div>
+                <div class="header-icons">
+                    <a href="cart.html" id="cart-link" class="cart-icon" aria-label="Giỏ hàng"><i class="fa-solid fa-cart-shopping"></i><span id="cart-count"></span></a>
+                    <a href="https://www.tiktok.com/@hai_travel_web" target="_blank" aria-label="Trang TikTok của chúng tôi"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="tour-list-section" class="tour-list search-results-page">
+            <div class="section-header">
+                <h2 id="search-results-title">Kết quả tìm kiếm</h2>
+                <p id="search-query-display"></p>
+            </div>
+            <div class="tour-grid"></div>
+            <div id="no-results-message" style="display: none; text-align: center; padding: 40px;">
+                <h3>Rất tiếc, chưa có tour nào phù hợp với yêu cầu của bạn!</h3>
+                <p>Vui lòng thử lại với một từ khóa hoặc ngày khác.</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col footer-about"><a href="index.html" class="logo">Hai Travel</a><p>Chuyên cung cấp các tour du lịch chất lượng cao, mang đến những trải nghiệm độc đáo và khó quên tại Việt Nam.</p></div>
+            <div class="footer-col"><h3>Về HaiTravel</h3><ul><li><a href="#">Về chúng tôi</a></li><li><a href="#">Blog du lịch</a></li></ul></div>
+            <div class="footer-col"><h3>Hỗ Trợ</h3><ul><li><a href="#">Trung tâm trợ giúp</a></li><li><a href="#">Liên hệ</a></li></ul></div>
+            <div class="footer-col"><h3>Kết nối với chúng tôi</h3><div class="social-icons"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div>
+        </div>
+        <div class="footer-bottom"><p>© 2025 HaiTravel. Mọi quyền được bảo lưu.</p></div>
+    </footer>
+
+    <div id="contact-modal" class="contact-modal-overlay">
+        <div class="contact-modal-box"><button class="close-btn">×</button><h2>Thông Tin Liên Hệ</h2><p>Chúng tôi luôn sẵn lòng lắng nghe và hỗ trợ bạn. Vui lòng liên hệ với HaiTravel qua các kênh dưới đây:</p><ul><li><i class="fa-solid fa-map-marker-alt"></i> <strong>Địa chỉ:</strong> Tòa nhà Google, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA</li><li><i class="fa-solid fa-phone"></i> <strong>Hotline:</strong> 1900 8888 (Nhánh số 1)</li><li><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@haitravel.com</li><li><i class="fa-solid fa-clock"></i> <strong>Giờ làm việc:</strong> 08:00 - 21:00, Thứ Hai - Chủ Nhật</li></ul><p>Cảm ơn bạn đã tin tưởng và lựa chọn HaiTravel!</p></div>
+    </div>
+    
+    <div id="auth-modal" class="auth-modal-overlay">
+        <div class="auth-modal-box">
+            <button class="close-btn">×</button>
+            <div class="auth-form-container">
+                <form id="login-form" class="auth-form">
+                    <h2>Đăng Nhập</h2><p class="form-subtitle">Chào mừng bạn trở lại!</p>
+                    <div id="login-error-message" class="auth-error-message"></div>
+                    <div class="form-group"><input type="email" id="login-email" name="email" required placeholder=" "><label for="login-email">Email</label><i class="fa-solid fa-envelope"></i></div>
+                    <div class="form-group"><input type="password" id="login-password" name="password" required placeholder=" "><label for="login-password">Mật khẩu</label><i class="fa-solid fa-lock"></i></div>
+                    <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+                </form>
+                <form id="register-form" class="auth-form" style="display: none;">
+                    <h2>Tạo Tài Khoản</h2><p class="form-subtitle">Tham gia và khám phá cùng HaiTravel</p>
+                    <div id="register-error-message" class="auth-error-message"></div>
+                    <div class="form-group"><input type="text" id="register-name" name="name" required placeholder=" "><label for="register-name">Họ và tên</label><i class="fa-solid fa-user"></i></div>
+                    <div class="form-group"><input type="email" id="register-email" name="email" required placeholder=" "><label for="register-email">Email</label><i class="fa-solid fa-envelope"></i></div>
+                    <div class="form-group"><input type="password" id="register-password" name="password" required placeholder=" "><label for="register-password">Mật khẩu</label><i class="fa-solid fa-lock"></i></div>
+                    <div class="form-group"><input type="password" id="confirm-password" name="confirm-password" required placeholder=" "><label for="confirm-password">Xác nhận mật khẩu</label><i class="fa-solid fa-check-double"></i></div>
+                    <button type="submit" class="btn btn-primary">Đăng Ký</button>
+                </form>
+                <p id="auth-switch-text" class="auth-switch-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top no-transition"><i class="fa-solid fa-arrow-up"></i></a>
+
+   <!-- Cấu trúc Chatbot đã sửa lỗi icon và vị trí -->
+<!-- Cấu trúc Chatbot đã được thiết kế lại -->
+<div id="ai-chat-widget">
+    <button class="chat-bubble-trigger" id="chat-bubble-trigger" aria-label="Mở Trợ lý AI">
+        <i class="fa-solid fa-headset"></i>
+    </button>
+    <div class="ai-chat-window" id="ai-chat-window">
+        <div class="chat-header">
+            <div class="agent-info">
+                <div class="agent-avatar">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h3>Jack 97</h3>
+                    <div class="agent-status">
+                        <div class="status-dot"></div>
+                        <span>Đang hoạt động</span>
+                    </div>
+                </div>
+            </div>
+            <button class="close-chat-btn" id="close-chat-btn" aria-label="Đóng cửa sổ chat">×</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Tin nhắn sẽ được chèn vào đây bởi JS -->
+        </div>
+        <form class="chat-input-form" id="chat-input-form">
+            <input type="text" id="chat-input" placeholder="Nhập câu hỏi của bạn..." autocomplete="off">
+            <button type="submit" aria-label="Gửi tin nhắn"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+    </div>
+</div>
+
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/ai-chat.js"></script>
+</body>
+</html>
