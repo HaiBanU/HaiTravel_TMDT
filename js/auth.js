@@ -15,6 +15,19 @@ export function initAuth() {
     const loginErrorMessage = document.getElementById('login-error-message');
     const registerErrorMessage = document.getElementById('register-error-message');
     
+    const openAuthModal = () => {
+        authModal.classList.add('show');
+        document.body.classList.add('modal-open');
+    };
+
+    const closeModal = () => {
+        authModal.classList.remove('show');
+        document.body.classList.remove('modal-open');
+        showLoginForm();
+        loginForm.reset();
+        registerForm.reset();
+    };
+
     const showLoginForm = () => {
         loginForm.style.display = 'block';
         registerForm.style.display = 'none';
@@ -33,16 +46,9 @@ export function initAuth() {
 
     showLoginForm();
 
-    const closeModal = () => {
-        authModal.classList.remove('show');
-        showLoginForm();
-        loginForm.reset();
-        registerForm.reset();
-    };
-
     closeButton.addEventListener('click', closeModal);
     authModal.addEventListener('click', (event) => { if (event.target === authModal) closeModal(); });
-
+    
     authSwitchText.addEventListener('click', (e) => {
         e.preventDefault();
         const targetLink = e.target.closest('a');
@@ -59,7 +65,6 @@ export function initAuth() {
         if (result.success) {
             closeModal();
             showCustomAlert('Chào mừng trở lại!', `Chào mừng ${result.user.name} đến với HaiTravel!`);
-            // Không cần gọi updateAuthDisplay ở đây vì nó sẽ tự reload
         } else {
             loginErrorMessage.textContent = result.message;
             loginErrorMessage.style.display = 'block';
@@ -81,10 +86,13 @@ export function initAuth() {
         if (result.success) {
             closeModal();
             showCustomAlert('Đăng ký thành công!', `Chào mừng ${result.user.name}! Bắt đầu hành trình của bạn với HaiTravel.`);
-            // Không cần gọi updateAuthDisplay ở đây vì nó sẽ tự reload
         } else {
             registerErrorMessage.textContent = result.message;
             registerErrorMessage.style.display = 'block';
         }
     });
+
+    // Cập nhật lại logic trong updateAuthDisplay để gọi hàm openAuthModal
+    // Logic này nằm trong file services/auth.js, bạn cần đảm bảo nó gọi đúng hàm openAuthModal
+    // thay vì tự thêm class. Vì logic này đã nằm trong services/auth.js nên không cần sửa gì ở đây.
 }
