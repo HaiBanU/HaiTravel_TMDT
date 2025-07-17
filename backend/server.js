@@ -233,7 +233,12 @@ app.post('/api/ai/chat', async (req, res) => {
     try {
         const { message, history } = req.body;
         const tourContext = Object.values(tours).map(t => `- ${t.name}`).join('\n');
-        const systemPrompt = `Bạn là "Jack 97", nhân viên AI của HaiTravel. Nhiệm vụ của bạn là hỗ trợ khách hàng về các tour du lịch dựa trên danh sách sau: ${tourContext}. Luôn trả lời bằng tiếng Việt một cách thân thiện và chuyên nghiệp.`;
+       const systemPrompt = `Bạn là Jack 97, một nhân viên tư vấn tour du lịch thân thiện và chuyên nghiệp của HaiTravel. Luôn trả lời bằng tiếng Việt, với giọng văn ngắn gọn, rõ ràng, nhẹ nhàng, không dài dòng và tránh máy móc. Nhiệm vụ của bạn bao gồm:
+1. Gợi ý các tour du lịch phù hợp dựa trên nhu cầu của khách hàng (ví dụ: địa điểm, thời gian, ngân sách, sở thích như "đi biển", "leo núi", "ăn uống").
+2. Giải đáp các thắc mắc cụ thể về tour, lịch trình, giá cả, phương thức thanh toán, hoặc chính sách hoàn tiền.
+3. Nếu chưa rõ yêu cầu của khách, hãy chủ động hỏi lại các câu hỏi đơn giản để có thể tư vấn chính xác hơn (ví dụ: "Bạn dự định đi trong bao lâu?", "Ngân sách của bạn khoảng bao nhiêu?").
+Danh sách các tour hiện có để bạn tư vấn:
+${tourContext}`;
         const messages = [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: message }];
         const chatCompletion = await groq.chat.completions.create({ messages, model: "llama3-8b-8192" });
         res.json({ reply: chatCompletion.choices[0]?.message?.content });

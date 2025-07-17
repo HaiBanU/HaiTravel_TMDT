@@ -248,75 +248,118 @@ export function initSearchModal() {
     });
 }
 // [MỚI] Hàm hiển thị popup thanh toán thành công với hiệu ứng đặc biệt
+// [NÂNG CẤP TOÀN DIỆN] Hàm hiển thị popup thanh toán siêu cấp đặc biệt
+// [NÂNG CẤP CUỐI CÙNG] Popup với Lễ Hội Pháo Hoa Bất Tận
+// [NÂNG CẤP PHÁO HOA RỰC RỠ]
 export function showCheckoutSuccessPopup(message) {
-    // Ngăn popup tạo ra nhiều lần
     if (document.querySelector('.checkout-success-overlay')) return;
 
-    // 1. Tạo HTML cho popup
     const popupHTML = `
         <div class="checkout-success-overlay">
             <div class="checkout-success-box">
                 <button class="close-btn">×</button>
-                <div class="success-icon">🎉</div>
-                <p>${message}</p>
+                <div class="profile-image-container">
+                    <img src="images/profile-image.png" alt="Profile Image">
+                </div>
+                <p class="success-message">${message}</p>
             </div>
         </div>
     `;
     document.body.insertAdjacentHTML('beforeend', popupHTML);
+    
+    const iconClass = '.profile-image-container';
+    const messageClass = '.success-message';
 
     const overlay = document.querySelector('.checkout-success-overlay');
+    const box = overlay.querySelector('.checkout-success-box');
+    const icon = overlay.querySelector(iconClass);
+    const text = overlay.querySelector(messageClass);
     const closeButton = overlay.querySelector('.close-btn');
     const audio = document.getElementById('checkout-sound');
+    
+    let confettiInterval = null;
 
-    // 2. Hàm kích hoạt hiệu ứng
-    const triggerEffects = () => {
-        // Phát nhạc
-        if (audio) {
-            audio.currentTime = 0;
-            audio.play();
+    // --- [LOGIC MỚI] Kịch bản pháo hoa RÕ NÉT VÀ HOÀNH TRÁNG HƠN ---
+    const startContinuousConfetti = () => {
+        const fire = (particleRatio, opts) => {
+            if (!window.confetti) return;
+
+            // [THAY ĐỔI] Tăng số lượng và kích thước hạt pháo hoa
+            const defaults = {
+                origin: { y: 0.7 },
+                scalar: 1.2, // Hạt to hơn
+                gravity: 0.8, // Rơi chậm hơn một chút
+                decay: 0.92, // Tồn tại lâu hơn một chút
+                zIndex: 9999 // [QUAN TRỌNG] Đảm bảo pháo hoa luôn hiển thị trên cùng
+            };
+
+            confetti(Object.assign({}, defaults, opts, {
+                particleCount: Math.floor(250 * particleRatio) // Tăng số lượng hạt
+            }));
         }
 
-        // Bắn pháo hoa liên tục trong 3 giây
-        const duration = 3 * 1000;
-        const animationEnd = Date.now() + duration;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 2001 };
+        // [THAY ĐỔI] Bảng màu rực rỡ hơn
+        const vibrantColors = ['#FF5722', '#FFC107', '#03A9F4', '#4CAF50', '#9C27B0', '#FFFFFF'];
 
-        function randomInRange(min, max) {
-            return Math.random() * (max - min) + min;
+        const randomFireworks = () => {
+            // Pháo hoa tròn từ 2 bên
+            fire(0.25, { spread: 30, startVelocity: 60, origin: { x: 0.1, y: 0.8 }, colors: vibrantColors.slice(0,3) });
+            fire(0.2, { spread: 60, origin: { x: 0.9, y: 0.8 }, colors: vibrantColors.slice(2,5) });
+            // Pháo hoa hình sao ở giữa
+            fire(0.35, { spread: 100, scalar: 1.5, shapes: ['star'], colors: ['#FFD700', '#FFFAFA', '#C0C0C0'], origin: { x: 0.5, y: 0.7 } });
+            // Pháo hoa nhỏ bất ngờ
+            fire(0.1, { spread: 120, startVelocity: 30, scalar: 1.2, origin: { x: Math.random(), y: 0.8 }, colors: vibrantColors });
+            fire(0.1, { spread: 120, startVelocity: 50, origin: { x: Math.random(), y: 0.8 }, colors: vibrantColors });
+
+            // Lặp lại sau một khoảng thời gian ngẫu nhiên
+            confettiInterval = setTimeout(randomFireworks, Math.random() * 1500 + 800);
         }
-
-        const interval = setInterval(function() {
-            const timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) {
-                return clearInterval(interval);
-            }
-            const particleCount = 50 * (timeLeft / duration);
-            // Bắn từ 2 phía
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-        }, 250);
+        
+        // Bắt đầu vòng lặp
+        randomFireworks();
     };
 
-    // 3. Hàm đóng popup
+
     const closePopup = () => {
-        if (audio) {
-            audio.pause();
-        }
+        if (audio) audio.pause();
+        clearTimeout(confettiInterval);
+        
         overlay.classList.remove('show');
         setTimeout(() => overlay.remove(), 500);
         document.body.classList.remove('modal-open');
     };
     
-    // 4. Gán sự kiện và hiển thị
     closeButton.addEventListener('click', closePopup);
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closePopup();
-    });
+    overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
 
-    // Hiển thị popup và kích hoạt hiệu ứng
+    // Hiển thị và kích hoạt
     document.body.classList.add('modal-open');
     setTimeout(() => {
         overlay.classList.add('show');
-        triggerEffects();
+        box.classList.add('show');
+        
+        setTimeout(() => {
+            icon.classList.add('show');
+            text.classList.add('show');
+            
+            // Màn mở đầu hoành tráng
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play();
+            }
+            confetti({
+                particleCount: 300, // Nhiều hạt hơn
+                spread: 120,       // Rộng hơn
+                origin: { y: 0.6 },
+                shapes: ['star'],
+                scalar: 1.8, // TO HƠN NỮA
+                colors: ['#FFD700', '#FFFFFF', '#FFC0CB'],
+                zIndex: 9999
+            });
+
+            // Bắt đầu Lễ Hội Pháo Hoa Bất Tận sau 0.5 giây
+            setTimeout(startContinuousConfetti, 500);
+
+        }, 500);
     }, 10);
 }

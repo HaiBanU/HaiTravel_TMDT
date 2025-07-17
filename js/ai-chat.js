@@ -27,53 +27,55 @@ export function initAiChat() {
         chatBubble.classList.remove('open');
     }
 
-    const displayMessage = (message, sender) => {
-        const typingIndicator = chatMessages.querySelector('.typing-indicator');
-        if (typingIndicator) typingIndicator.remove();
-        
-        const messageWrapper = document.createElement('div');
-        messageWrapper.classList.add('message-wrapper', `message-${sender}`);
+    // [CẬP NHẬT] Thay thế icon bằng ảnh cho AI
+const displayMessage = (message, sender) => {
+    const typingIndicator = chatMessages.querySelector('.typing-indicator');
+    if (typingIndicator) typingIndicator.remove();
+    
+    const messageWrapper = document.createElement('div');
+    messageWrapper.classList.add('message-wrapper', `message-${sender}`);
 
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message');
-        
-        // [SỬA ĐỔI] Tên AI mới
-        const avatarIcon = sender === 'user' ? 'fa-user' : 'fa-robot';
-        const senderName = sender === 'user' ? 'Bạn' : 'Jack 97';
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    
+    const senderName = sender === 'user' ? 'Bạn' : 'Jack 97';
+    
+    // Logic mới: Nếu là AI thì dùng <img>, nếu là user thì dùng <i>
+    const avatarHTML = sender === 'ai' 
+        ? `<img src="images/avatar-jack97.png" alt="Jack 97 Avatar">`
+        : `<i class="fa-solid fa-user"></i>`;
 
-        messageElement.innerHTML = `
-            <div class="avatar"><i class="fa-solid ${avatarIcon}"></i></div>
-            <div class="message-content">
-                <div class="sender-name">${senderName}</div>
-                <div class="text-bubble">${message}</div>
-            </div>`;
-        
-        messageWrapper.appendChild(messageElement);
-        chatMessages.appendChild(messageWrapper);
-        
-        // Scroll và thêm animation
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        setTimeout(() => messageWrapper.classList.add('visible'), 50);
-    };
-
+    messageElement.innerHTML = `
+        <div class="avatar">${avatarHTML}</div>
+        <div class="message-content">
+            <div class="sender-name">${senderName}</div>
+            <div class="text-bubble">${message}</div>
+        </div>`;
+    
+    messageWrapper.appendChild(messageElement);
+    chatMessages.appendChild(messageWrapper);
+    
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    setTimeout(() => messageWrapper.classList.add('visible'), 50);
+};
     const showTypingIndicator = () => {
-        const indicatorWrapper = document.createElement('div');
-        indicatorWrapper.classList.add('message-wrapper', 'message-ai', 'typing-indicator');
-        
-        indicatorWrapper.innerHTML = `
-            <div class="message">
-                 <div class="avatar"><i class="fa-solid fa-robot"></i></div>
-                 <div class="message-content">
-                    <div class="sender-name">Jack 97</div>
-                    <div class="text-bubble">
-                        <div class="dot-flashing"></div>
-                    </div>
+    const indicatorWrapper = document.createElement('div');
+    indicatorWrapper.classList.add('message-wrapper', 'message-ai', 'typing-indicator');
+    
+    indicatorWrapper.innerHTML = `
+        <div class="message">
+             <div class="avatar"><img src="images/avatar-jack97.png" alt="Jack 97 Avatar"></div>
+             <div class="message-content">
+                <div class="sender-name">Jack 97</div>
+                <div class="text-bubble">
+                    <div class="dot-flashing"></div>
                 </div>
             </div>
-        `;
-        chatMessages.appendChild(indicatorWrapper);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    };
+        </div>
+    `;
+    chatMessages.appendChild(indicatorWrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+};
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();

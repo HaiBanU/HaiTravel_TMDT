@@ -202,3 +202,11 @@
         left: 15px;
     }
 }
+/* [THÊM MỚI] Đảm bảo avatar hình ảnh luôn tròn và đẹp */
+.agent-avatar img,
+.message .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
