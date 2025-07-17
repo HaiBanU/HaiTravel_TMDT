@@ -247,3 +247,76 @@ export function initSearchModal() {
         if (e.target === searchModal) closeModal();
     });
 }
+// [MỚI] Hàm hiển thị popup thanh toán thành công với hiệu ứng đặc biệt
+export function showCheckoutSuccessPopup(message) {
+    // Ngăn popup tạo ra nhiều lần
+    if (document.querySelector('.checkout-success-overlay')) return;
+
+    // 1. Tạo HTML cho popup
+    const popupHTML = `
+        <div class="checkout-success-overlay">
+            <div class="checkout-success-box">
+                <button class="close-btn">×</button>
+                <div class="success-icon">🎉</div>
+                <p>${message}</p>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', popupHTML);
+
+    const overlay = document.querySelector('.checkout-success-overlay');
+    const closeButton = overlay.querySelector('.close-btn');
+    const audio = document.getElementById('checkout-sound');
+
+    // 2. Hàm kích hoạt hiệu ứng
+    const triggerEffects = () => {
+        // Phát nhạc
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play();
+        }
+
+        // Bắn pháo hoa liên tục trong 3 giây
+        const duration = 3 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 2001 };
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+            const particleCount = 50 * (timeLeft / duration);
+            // Bắn từ 2 phía
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+    };
+
+    // 3. Hàm đóng popup
+    const closePopup = () => {
+        if (audio) {
+            audio.pause();
+        }
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.remove(), 500);
+        document.body.classList.remove('modal-open');
+    };
+    
+    // 4. Gán sự kiện và hiển thị
+    closeButton.addEventListener('click', closePopup);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closePopup();
+    });
+
+    // Hiển thị popup và kích hoạt hiệu ứng
+    document.body.classList.add('modal-open');
+    setTimeout(() => {
+        overlay.classList.add('show');
+        triggerEffects();
+    }, 10);
+}

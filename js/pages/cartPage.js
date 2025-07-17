@@ -2,26 +2,37 @@
 
 import { getCart, removeItemFromCart, updateItemQuantity, fetchAndSetCart } from '../services/cart.js';
 import { formatTourName, formatDateRange } from '../utils/formatters.js';
+// [THÊM MỚI] Import hàm popup mới
+import { showCheckoutSuccessPopup } from '../utils/dom.js';
 
 function addCartEventListeners() {
     const cartPageContainer = document.querySelector('.cart-page');
     if (!cartPageContainer) return;
 
+    // [THÊM MỚI] Gán sự kiện cho nút thanh toán
+    // Dùng event delegation vì nút này được render động
+    cartPageContainer.addEventListener('click', (event) => {
+        if (event.target.id === 'checkout-btn') {
+            event.preventDefault(); // Ngăn hành vi mặc định nếu có
+            showCheckoutSuccessPopup("Thầy Hiển đẹp trai sẽ cho nhóm em 10 điểm");
+        }
+    });
+
+
     if (cartPageContainer.dataset.cartListenersAttached) return;
 
     cartPageContainer.addEventListener('click', async (event) => {
         const button = event.target.closest('button');
-        if (!button) return;
+        if (!button || button.id === 'checkout-btn') return; // Bỏ qua nút checkout ở đây
 
         const id = button.dataset.id;
         if (!id) return;
         
-        // [SỬA LỖI] Luôn lấy giỏ hàng mới nhất trước khi hành động
         const currentCart = getCart();
         const item = currentCart[id];
         if (!item) return;
 
-        button.disabled = true; // Vô hiệu hóa nút tạm thời
+        button.disabled = true;
 
         if (button.classList.contains('btn-increase')) {
             await updateItemQuantity(id, item.quantity + 1);
@@ -31,9 +42,8 @@ function addCartEventListeners() {
             await removeItemFromCart(id);
         }
         
-        // Sau khi API chạy xong, render lại trang
         renderCartPage(); 
-        button.disabled = false; // Bật lại nút
+        button.disabled = false;
     });
 
     cartPageContainer.dataset.cartListenersAttached = 'true';
@@ -97,18 +107,13 @@ function renderCartPage() {
         <button id="checkout-btn" class="btn btn-primary">Tiến hành thanh toán</button>`;
 }
 
-// [SỬA LỖI] Chuyển thành hàm async và chờ lấy dữ liệu
 export async function initCartPage() {
-    // Hiển thị trạng thái loading (tùy chọn)
     const cartItemsContainer = document.getElementById('cart-items-list');
     if(cartItemsContainer) cartItemsContainer.innerHTML = `<p>Đang tải giỏ hàng...</p>`;
     
-    // Luôn lấy dữ liệu mới nhất từ server khi vào trang
     await fetchAndSetCart();
     
-    // Sau khi có dữ liệu, mới render ra giao diện
     renderCartPage();
 
-    // Gán các trình nghe sự kiện
     addCartEventListeners();
 }
