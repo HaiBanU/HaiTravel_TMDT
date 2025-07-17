@@ -1,8 +1,9 @@
+// js/pages/discover.js
+
 import { tours } from '../data/tours.js';
 import { renderTourCard } from '../utils/dom.js';
 
 function filterAndRenderTours() {
-    // [SỬA LỖI] Tìm các thẻ có class là .is-selected thay vì .active
     const selectedTags = Array.from(document.querySelectorAll('.interest-tag-card.is-selected')).map(el => el.dataset.tag);
     const resultsGrid = document.getElementById('discover-results-grid');
     const noResultsMessage = document.getElementById('no-results-message');
@@ -17,10 +18,13 @@ function filterAndRenderTours() {
         filteredTours = Object.entries(tours);
         resultsTitle.textContent = "Tất Cả Các Tour Nổi Bật";
     } else {
+        const selectedTagNames = Array.from(document.querySelectorAll('.interest-tag-card.is-selected span:first-of-type'))
+                                     .map(span => `"${span.textContent.trim()}"`)
+                                     .join(' hoặc ');
+        resultsTitle.textContent = `Gợi ý cho sở thích ${selectedTagNames}`;
         filteredTours = Object.entries(tours).filter(([, tour]) => 
             tour.tags && tour.tags.some(tourTag => selectedTags.includes(tourTag))
         );
-        resultsTitle.textContent = "Kết Quả Phù Hợp Với Bạn";
     }
     
     if (filteredTours.length > 0) {
@@ -29,7 +33,6 @@ function filterAndRenderTours() {
             resultsGrid.insertAdjacentHTML('beforeend', renderTourCard(id, tour, delay));
             delay += 50;
         });
-        // Kích hoạt animation cho các thẻ tour vừa được tạo
         resultsGrid.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
         noResultsMessage.style.display = 'none';
         resultsGrid.style.display = 'grid';
@@ -46,7 +49,6 @@ function addEventListeners() {
     grid.addEventListener('click', (event) => {
         const card = event.target.closest('.interest-tag-card');
         if (card) {
-            // [SỬA LỖI] Bật/tắt class .is-selected thay vì .active
             card.classList.toggle('is-selected');
             filterAndRenderTours();
         }
@@ -54,7 +56,19 @@ function addEventListeners() {
 }
 
 export function initDiscoverPage() {
-    // Không cần hàm render nữa vì HTML đã có sẵn các thẻ
     addEventListeners();
-    filterAndRenderTours(); // Hiển thị tất cả tour lúc ban đầu
+    const urlParams = new URLSearchParams(window.location.search);
+    const tarotTagsParam = urlParams.get('tags');
+
+    if (tarotTagsParam) {
+        const tagsToSelect = tarotTagsParam.split(',');
+        tagsToSelect.forEach(tag => {
+            const tagElement = document.querySelector(`.interest-tag-card[data-tag="${tag.trim()}"]`);
+            if (tagElement) {
+                tagElement.classList.add('is-selected');
+            }
+        });
+    }
+
+    filterAndRenderTours(); 
 }

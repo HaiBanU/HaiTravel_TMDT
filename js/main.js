@@ -12,6 +12,7 @@ import { initSearchResultsPage } from './pages/searchResults.js';
 import { initCartPage } from './pages/cartPage.js';
 import { initTransportPage } from './pages/transportPage.js';
 import { initDiscoverPage } from './pages/discover.js';
+import { initTarotPage } from './pages/tarot.js'; // Thêm import
 import { initAuth } from './auth.js';
 import { updateAuthDisplay } from './services/auth.js'; 
 import { initAiChat } from './ai-chat.js';
@@ -56,7 +57,7 @@ async function initCommon() {
     initSmoothScroll();
     initContactModal();
     initSearchModal();
-    initInfoModal(); // Gọi hàm khởi tạo modal thông tin
+    initInfoModal();
     initMobileNav();
     initAuth(); 
     updateAuthDisplay();
@@ -73,6 +74,7 @@ function router() {
         case 'cart.html': initCartPage(); break;
         case 'transport.html': initTransportPage(); break;
         case 'discover.html': initDiscoverPage(); break;
+        case 'tarot.html': initTarotPage(); break; // Thêm case mới
     }
 }
 
