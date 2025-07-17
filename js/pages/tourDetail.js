@@ -163,7 +163,17 @@ export function initTourDetailPage() {
 
     // --- Render thông tin tour từ dữ liệu tĩnh ---
     document.getElementById('tour-hero').style.backgroundImage = `url('${tour.gallery[0]}')`;
-    document.title = `${tour.name} - HaiTravel`;
+   document.title = `${tour.name} - Chi Tiết Tour & Lịch Trình | HaiTravel`;
+   // Cập nhật hoặc tạo thẻ meta description
+let metaDescription = document.querySelector('meta[name="description"]');
+if (!metaDescription) {
+    metaDescription = document.createElement('meta');
+    metaDescription.setAttribute('name', 'description');
+    document.head.appendChild(metaDescription);
+}
+// Lấy một phần mô tả từ hoạt động đầu tiên của tour để làm nội dung
+const descriptionContent = `Khám phá chi tiết tour '${tour.name}'. Lịch trình hấp dẫn với các hoạt động như: ${tour.activities[0]?.title || 'tham quan các địa điểm nổi tiếng'}. Đặt ngay tại HaiTravel!`;
+metaDescription.setAttribute('content', descriptionContent);
     document.getElementById('breadcrumbs').innerHTML = `<a href="index.html">Trang chủ</a> / <span>${tour.name}</span>`;
     document.getElementById('tour-title').innerHTML = formatTourName(tour.name);
 
