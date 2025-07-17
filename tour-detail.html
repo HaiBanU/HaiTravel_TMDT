@@ -51,24 +51,31 @@
                 </div>
             </div>
         </section>
+        
         <section class="tour-content-section">
             <div class="tour-detail-container">
-                <div class="tour-content-body">
-                    <div class="tour-main-content">
-                        <div id="tour-highlights" class="tour-highlights"></div>
-                        <div class="tour-itinerary"><h2 id="itinerary-title"></h2><div id="itinerary-details"></div></div>
-                        <section id="tour-reviews" class="tour-reviews"><h2>Đánh giá từ khách hàng</h2><div id="review-list"></div><div class="review-form-container"><h3>Chia sẻ trải nghiệm của bạn</h3><form id="review-form"><div class="form-group"><label for="reviewer-name">Tên của bạn</label><input type="text" id="reviewer-name" name="name" required placeholder="Nhập tên của bạn"></div><div class="form-group"><label>Đánh giá</label><div class="star-input"><i class="fa-solid fa-star" data-value="5"></i><i class="fa-solid fa-star" data-value="4"></i><i class="fa-solid fa-star" data-value="3"></i><i class="fa-solid fa-star" data-value="2"></i><i class="fa-solid fa-star" data-value="1"></i></div><input type="hidden" name="rating" required></div><div class="form-group"><label for="reviewer-comment">Bình luận</label><textarea id="reviewer-comment" name="comment" rows="4" required placeholder="Chuyến đi của bạn thế nào?"></textarea></div><button type="submit" class="btn btn-primary">Gửi đánh giá</button></form></div></section>
+                <div class="tour-main-content">
+                    <section id="tour-activities-section" class="tour-activities-section" style="display: none;">
+                        <h2>Hoạt Động Nổi Bật</h2>
+                        <div id="activities-scroll-container" class="activities-scroll-container"></div>
+                    </section>
+                    <div class="tour-itinerary">
+                        <h2 id="itinerary-title">Lịch trình chi tiết</h2>
+                        <div id="itinerary-timeline" class="itinerary-timeline"></div>
                     </div>
-                    <aside class="tour-sidebar">
-                        <div class="info-accordion"><h2>Thông tin quan trọng</h2><details open><summary><i class="fa-solid fa-box-open"></i> Dịch vụ bao gồm và không bao gồm</summary><div id="info-includes" class="details-content"></div></details><details><summary><i class="fa-solid fa-passport"></i> Giấy tờ du lịch cần thiết</summary><div id="info-documents" class="details-content"></div></details><details><summary><i class="fa-solid fa-suitcase-rolling"></i> Bạn nên chuẩn bị những gì</summary><div id="info-prepare" class="details-content"></div></details><details><summary><i class="fa-solid fa-file-contract"></i> Điều khoản và Điều kiện</summary><div id="info-terms" class="details-content"></div></details></div>
-                    </aside>
+                    <section id="tour-reviews" class="tour-reviews"><h2>Đánh giá từ khách hàng</h2><div id="review-list"></div><div class="review-form-container"><h3>Chia sẻ trải nghiệm của bạn</h3><form id="review-form"><div class="form-group"><label for="reviewer-name">Tên của bạn</label><input type="text" id="reviewer-name" name="name" required placeholder="Nhập tên của bạn"></div><div class="form-group"><label>Đánh giá</label><div class="star-input"><i class="fa-solid fa-star" data-value="5"></i><i class="fa-solid fa-star" data-value="4"></i><i class="fa-solid fa-star" data-value="3"></i><i class="fa-solid fa-star" data-value="2"></i><i class="fa-solid fa-star" data-value="1"></i></div><input type="hidden" name="rating" required></div><div class="form-group"><label for="reviewer-comment">Bình luận</label><textarea id="reviewer-comment" name="comment" rows="4" required placeholder="Chuyến đi của bạn thế nào?"></textarea></div><button type="submit" class="btn btn-primary">Gửi đánh giá</button></form></div></section>
                 </div>
             </div>
         </section>
     </main>
     
     <footer>
-        <div class="footer-container"><div class="footer-col footer-about"><a href="index.html" class="logo">Hai Travel</a><p>Chuyên cung cấp các tour du lịch chất lượng cao, mang đến những trải nghiệm độc đáo và khó quên tại Việt Nam.</p></div><div class="footer-col"><h3>Về HaiTravel</h3><ul><li><a href="#">Về chúng tôi</a></li><li><a href="#">Blog du lịch</a></li></ul></div><div class="footer-col"><h3>Hỗ Trợ</h3><ul><li><a href="#">Trung tâm trợ giúp</a></li><li><a href="#">Liên hệ</a></li></ul></div><div class="footer-col"><h3>Kết nối với chúng tôi</h3><div class="social-icons"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div></div>
+        <div class="footer-container">
+            <div class="footer-col footer-about"><a href="index.html" class="logo">Hai Travel</a><p>Chuyên cung cấp các tour du lịch chất lượng cao, mang đến những trải nghiệm độc đáo và khó quên tại Việt Nam.</p></div>
+            <div class="footer-col"><h3>Về HaiTravel</h3><ul><li><a href="#">Về chúng tôi</a></li><li><a href="#">Blog du lịch</a></li></ul></div>
+            <div class="footer-col"><h3>Hỗ Trợ</h3><ul><li><a href="#">Trung tâm trợ giúp</a></li><li><a href="#">Liên hệ</a></li></ul></div>
+            <div class="footer-col"><h3>Kết nối với chúng tôi</h3><div class="social-icons"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div>
+        </div>
         <div class="footer-bottom"><p>© 2025 HaiTravel. Mọi quyền được bảo lưu.</p></div>
     </footer>
 
@@ -97,6 +104,24 @@
                     <button type="submit" class="btn btn-primary">Đăng Ký</button>
                 </form>
                 <p id="auth-switch-text" class="auth-switch-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <button id="info-fab" class="floating-action-button" aria-label="Xem thông tin quan trọng">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Thông tin</span>
+    </button>
+
+    <div id="info-modal" class="info-modal-overlay">
+        <div class="info-modal-box">
+            <button class="close-btn">×</button>
+            <div id="info-modal-content" class="info-accordion">
+                 <h2>Thông tin quan trọng</h2>
+                 <details open><summary><i class="fa-solid fa-box-open"></i> Dịch vụ bao gồm và không bao gồm</summary><div id="info-includes" class="details-content"></div></details>
+                 <details><summary><i class="fa-solid fa-passport"></i> Giấy tờ du lịch cần thiết</summary><div id="info-documents" class="details-content"></div></details>
+                 <details><summary><i class="fa-solid fa-suitcase-rolling"></i> Bạn nên chuẩn bị những gì</summary><div id="info-prepare" class="details-content"></div></details>
+                 <details><summary><i class="fa-solid fa-file-contract"></i> Điều khoản và Điều kiện</summary><div id="info-terms" class="details-content"></div></details>
             </div>
         </div>
     </div>

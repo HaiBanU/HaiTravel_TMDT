@@ -4,7 +4,7 @@
 const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
 
-import { initPageTransitions, initScrollBasedAnimations, initSmoothScroll, initContactModal, initSearchModal } from './utils/dom.js';
+import { initPageTransitions, initScrollBasedAnimations, initSmoothScroll, initContactModal, initSearchModal, initInfoModal } from './utils/dom.js';
 import { fetchAndSetCart } from './services/cart.js';
 import { initHomePage } from './pages/home.js';
 import { initTourDetailPage } from './pages/tourDetail.js';
@@ -56,6 +56,7 @@ async function initCommon() {
     initSmoothScroll();
     initContactModal();
     initSearchModal();
+    initInfoModal(); // Gọi hàm khởi tạo modal thông tin
     initMobileNav();
     initAuth(); 
     updateAuthDisplay();

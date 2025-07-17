@@ -16,8 +16,6 @@ export function initPageTransitions() {
             const href = this.getAttribute('href');
             if (!href) return;
 
-            // Kiểm tra để đảm bảo không can thiệp vào các link có hash trên cùng một trang,
-            // vì việc này đã được initSmoothScroll xử lý.
             const url = new URL(link.href, window.location.origin);
             if (url.pathname === window.location.pathname && url.hash) {
                 return;
@@ -33,8 +31,7 @@ export function initPageTransitions() {
 }
 
 /**
- * Khởi tạo các hiệu ứng hoạt ảnh dựa trên vị trí cuộn của người dùng,
- * như làm cho header thay đổi và nút "Back to Top" xuất hiện.
+ * Khởi tạo các hiệu ứng hoạt ảnh dựa trên vị trí cuộn của người dùng.
  */
 export function initScrollBasedAnimations() {
     const header = document.querySelector('header');
@@ -64,16 +61,13 @@ export function initScrollBasedAnimations() {
 }
 
 /**
- * [NÂNG CẤP] Xử lý việc cuộn mượt đến các anchor link (#).
- * Bao gồm cả việc click trên trang hiện tại và việc được điều hướng từ trang khác tới.
+ * Xử lý việc cuộn mượt đến các anchor link (#).
  */
 export function initSmoothScroll() {
-    // 1. Xử lý các link cuộn nội bộ trang khi người dùng click
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
         if (!link || !link.hash) return;
 
-        // Chỉ xử lý nếu link trỏ đến một ID trên trang HIỆN TẠI
         if (link.pathname === window.location.pathname) {
             e.preventDefault(); 
             e.stopPropagation(); 
@@ -85,7 +79,6 @@ export function initSmoothScroll() {
         }
     });
 
-    // 2. Xử lý khi trang được tải với một hash trong URL
     window.addEventListener('load', () => {
         if (window.location.hash) {
             const targetId = window.location.hash.substring(1);
@@ -131,6 +124,35 @@ export function initContactModal() {
         if (event.target === contactModal) closeModal();
     });
 }
+
+/**
+ * Khởi tạo và quản lý modal "Thông Tin Quan Trọng" trên trang chi tiết tour.
+ */
+export function initInfoModal() {
+    const infoFab = document.getElementById('info-fab');
+    const infoModal = document.getElementById('info-modal');
+    // Chỉ chạy nếu đang ở trang có các phần tử này (trang chi tiết tour)
+    if (!infoFab || !infoModal) return; 
+
+    const closeButton = infoModal.querySelector('.close-btn');
+
+    const openModal = () => {
+        infoModal.classList.add('show');
+        document.body.classList.add('modal-open');
+    };
+    const closeModal = () => {
+        infoModal.classList.remove('show');
+        document.body.classList.remove('modal-open');
+    };
+
+    infoFab.addEventListener('click', openModal);
+    closeButton.addEventListener('click', closeModal);
+    infoModal.addEventListener('click', (event) => {
+        // Chỉ đóng khi click vào lớp phủ ngoài, không phải box nội dung
+        if (event.target === infoModal) closeModal();
+    });
+}
+
 
 /**
  * Hiển thị một hộp thoại thông báo tùy chỉnh.

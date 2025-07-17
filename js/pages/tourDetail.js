@@ -4,25 +4,20 @@ import { formatTourName, formatDateRange } from '../utils/formatters.js';
 import { showCustomAlert } from '../utils/dom.js';
 import { getCurrentUser } from '../services/auth.js';
 
-// Hàm lấy và hiển thị reviews từ server
+// Hàm lấy và hiển thị reviews từ server (không đổi)
 async function renderReviews(tourId) {
     const reviewListContainer = document.getElementById('review-list');
     if (!reviewListContainer) return;
-
     try {
         const response = await fetch(`https://haitravel-backend.onrender.com/api/tours/${tourId}/reviews`);
         const reviews = await response.json();
-
         if (!reviews || reviews.length === 0) {
             reviewListContainer.innerHTML = '<p>Chưa có đánh giá nào cho tour này. Hãy là người đầu tiên để lại cảm nhận của bạn!</p>';
             return;
         }
-
         reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
         const reviewsHTML = reviews.map(review => {
             const starsHTML = Array.from({ length: 5 }, (_, i) => `<i class="fa-solid fa-star${i < review.rating ? '' : ' empty'}"></i>`).join('');
-            
             return `
                 <div class="review-card">
                     <div class="review-author">
@@ -43,7 +38,7 @@ async function renderReviews(tourId) {
     }
 }
 
-// Hàm khởi tạo form đánh giá (đã loại bỏ chức năng ảnh)
+// Hàm khởi tạo form đánh giá (không đổi)
 function initReviewForm(tourId) {
     const reviewForm = document.getElementById('review-form');
     if (!reviewForm) return;
@@ -68,10 +63,8 @@ function initReviewForm(tourId) {
 
     reviewForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
         submitBtn.disabled = true;
         submitBtn.textContent = 'Đang gửi...';
-
         const name = nameInput.value;
         const rating = ratingInput.value;
         const comment = this.elements['comment'].value;
@@ -84,23 +77,19 @@ function initReviewForm(tourId) {
         }
 
         try {
-            const reviewPayload = { name, rating, comment }; // Không còn trường image
+            const reviewPayload = { name, rating, comment };
             const reviewRes = await fetch(`https://haitravel-backend.onrender.com/api/tours/${tourId}/reviews`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(reviewPayload),
             });
             if (!reviewRes.ok) throw new Error((await reviewRes.json()).message || 'Gửi đánh giá thất bại.');
-            
             showCustomAlert('Thành công!', 'Cảm ơn bạn đã chia sẻ đánh giá!');
-            
             this.reset();
             if (user) nameInput.value = user.name;
             ratingInput.value = '';
             stars.forEach(s => s.classList.remove('selected'));
-            
             await renderReviews(tourId);
-
         } catch (error) {
             showCustomAlert('Lỗi', error.message, 'fa-solid fa-circle-xmark');
         } finally {
@@ -108,6 +97,57 @@ function initReviewForm(tourId) {
             submitBtn.textContent = 'Gửi đánh giá';
         }
     });
+}
+
+// Hàm render các hoạt động
+function renderActivities(activities) {
+    const container = document.getElementById('activities-scroll-container');
+    const section = document.getElementById('tour-activities-section');
+    if (!container || !section || !activities || activities.length === 0) return;
+
+    section.style.display = 'block';
+    container.innerHTML = activities.map(activity => `
+        <div class="activity-card">
+            <div class="activity-image">
+                <img src="${activity.image}" alt="${activity.title}">
+            </div>
+            <div class="activity-content">
+                <h4>${activity.title}</h4>
+                <p>${activity.description}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Hàm render lịch trình timeline
+function renderItinerary(itinerary) {
+    const timelineContainer = document.getElementById('itinerary-timeline');
+    if (!timelineContainer || !itinerary || itinerary.length === 0) return;
+
+    let currentDay = '';
+    let dayCounter = 0;
+    const itineraryHTML = itinerary.map(item => {
+        let dayIconHTML = '';
+        if (item.day !== currentDay) {
+            currentDay = item.day;
+            dayCounter++;
+            dayIconHTML = `<div class="timeline-icon">${dayCounter}</div>`;
+        } else {
+            dayIconHTML = `<div class="timeline-icon dot"></div>`;
+        }
+
+        return `
+            <div class="timeline-item">
+                ${dayIconHTML}
+                <div class="timeline-content">
+                    <h4>${item.day}</h4>
+                    <p class="time">${item.time}</p>
+                    <p>${item.details}</p>
+                </div>
+            </div>`;
+    }).join('');
+    
+    timelineContainer.innerHTML = itineraryHTML;
 }
 
 // Hàm khởi tạo chính của trang
@@ -122,7 +162,7 @@ export function initTourDetailPage() {
     }
 
     // --- Render thông tin tour từ dữ liệu tĩnh ---
-    document.getElementById('tour-hero').style.backgroundImage = `url('../${tour.gallery[0]}')`;
+    document.getElementById('tour-hero').style.backgroundImage = `url('${tour.gallery[0]}')`;
     document.title = `${tour.name} - HaiTravel`;
     document.getElementById('breadcrumbs').innerHTML = `<a href="index.html">Trang chủ</a> / <span>${tour.name}</span>`;
     document.getElementById('tour-title').innerHTML = formatTourName(tour.name);
@@ -142,22 +182,15 @@ export function initTourDetailPage() {
             <div class="key-info-item"><i class="fa-solid fa-route"></i> <span>Hải trình: ${tour.keyInfo.route}</span></div>`;
     }
     
-    if (tour.highlights && tour.highlights.length > 0) {
-        let highlightsHTML = '<h2>Điểm nhấn hành trình</h2><ul>';
-        tour.highlights.forEach(item => highlightsHTML += `<li><i class="fa-solid fa-check"></i> ${item}</li>`);
-        highlightsHTML += '</ul>';
-        document.getElementById('tour-highlights').innerHTML = highlightsHTML;
+    // [CẬP NHẬT] Đặt tiêu đề lịch trình một cách linh hoạt
+    const itineraryTitle = document.getElementById('itinerary-title');
+    if (itineraryTitle) {
+        const uniqueDays = [...new Set(tour.itinerary.map(item => item.day))].length;
+        itineraryTitle.textContent = uniqueDays > 1 ? 'Lịch trình chi tiết' : 'Chi tiết hành trình trong ngày';
     }
 
-    document.getElementById('itinerary-title').textContent = tour.itinerary.length > 1 ? `Lịch trình chi tiết` : 'Lịch trình trong ngày';
-    const itineraryContainer = document.getElementById('itinerary-details');
-    itineraryContainer.innerHTML = '';
-    tour.itinerary.forEach(item => {
-        const detailElement = document.createElement('details');
-        detailElement.setAttribute('open', '');
-        detailElement.innerHTML = `<summary><strong>${item.day}</strong></summary><div class="details-content"><p>${item.details}</p></div>`;
-        itineraryContainer.appendChild(detailElement);
-    });
+    renderActivities(tour.activities);
+    renderItinerary(tour.itinerary);
     
     const populateList = (elementId, items) => {
         const container = document.getElementById(elementId);

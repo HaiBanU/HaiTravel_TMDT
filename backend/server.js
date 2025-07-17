@@ -13,23 +13,18 @@ import { tours } from '../js/data/tours.js';
 dotenv.config();
 const app = express();
 
-// --- [SỬA ĐỔI QUAN TRỌNG 1]: Cấu hình CORS cho môi trường Production ---
 const allowedOrigins = [
-    'http://127.0.0.1:5500', // Cho phép Live Server ở máy bạn
-    'http://localhost:5500', // Một địa chỉ khác của Live Server
-    process.env.FRONTEND_URL  // Biến môi trường chứa URL của web thật trên Render
+    'http://127.0.0.1:5500', 
+    'http://localhost:5500', 
+    process.env.FRONTEND_URL 
 ];
 
 app.use(cors({
   origin: function(origin, callback){
-    // Cho phép các request không có 'origin' (ví dụ: từ Postman hoặc app di động)
     if(!origin) return callback(null, true);
-    
-    // Nếu địa chỉ request nằm trong danh sách trắng, cho phép nó
     if(allowedOrigins.indexOf(origin) !== -1){
       return callback(null, true);
     } else {
-      // Nếu không, từ chối request
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
@@ -45,7 +40,6 @@ mongoose.connect(process.env.MONGO_URI)
 
 // --- ĐỊNH NGHĨA MODELS ---
 
-// 1. User Model
 const userSchema = mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -71,7 +65,6 @@ userSchema.methods.matchPassword = async function(enteredPassword) {
 };
 const User = mongoose.model('User', userSchema);
 
-// 2. Tour Model
 const reviewSchema = mongoose.Schema({
     name: { type: String, required: true },
     rating: { type: Number, required: true },
@@ -95,6 +88,7 @@ const protect = async (req, res, next) => {
             if (!req.user) return res.status(401).json({ message: 'Không tìm thấy người dùng' });
             next();
         } catch (error) {
+            console.error(error);
             res.status(401).json({ message: 'Không có quyền truy cập, token không hợp lệ' });
         }
     } else {
@@ -108,28 +102,37 @@ const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expires
 
 // A. User Routes
 app.post('/api/users/register', async (req, res) => {
-    const { name, email, password } = req.body;
-    const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ message: 'Email đã được sử dụng' });
     try {
+        const { name, email, password } = req.body;
+        const userExists = await User.findOne({ email });
+        if (userExists) return res.status(400).json({ message: 'Email đã được sử dụng' });
+
         const user = await User.create({ name, email, password });
         res.status(201).json({ _id: user._id, name: user.name, email: user.email, token: generateToken(user._id) });
     } catch (error) {
-        res.status(400).json({ message: 'Dữ liệu không hợp lệ' });
+        res.status(400).json({ message: 'Dữ liệu không hợp lệ hoặc đã xảy ra lỗi' });
     }
 });
 
+// [SỬA LỖI] Bổ sung try...catch cho route đăng nhập
 app.post('/api/users/login', async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (user && (await user.matchPassword(password))) {
-        res.json({ _id: user._id, name: user.name, email: user.email, token: generateToken(user._id), cart: user.cart });
-    } else {
-        res.status(401).json({ message: 'Email hoặc mật khẩu không chính xác' });
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        
+        if (user && (await user.matchPassword(password))) {
+            res.json({ _id: user._id, name: user.name, email: user.email, token: generateToken(user._id), cart: user.cart });
+        } else {
+            res.status(401).json({ message: 'Email hoặc mật khẩu không chính xác' });
+        }
+    } catch (error) {
+        console.error("Lỗi server khi đăng nhập:", error);
+        res.status(500).json({ message: 'Đã có lỗi xảy ra ở máy chủ. Vui lòng thử lại sau.' });
     }
 });
 
 // B. Tour Routes
+// Các route này đã có try...catch, giữ nguyên
 app.get('/api/tours/:tourId/reviews', async (req, res) => {
     try {
         const tour = await Tour.findOne({ tourId: req.params.tourId });
@@ -153,73 +156,85 @@ app.post('/api/tours/:tourId/reviews', async (req, res) => {
     }
 });
 
-// C. Cart Routes
+// C. Cart Routes - Đã được bảo vệ bởi middleware 'protect' có sẵn try...catch
 app.get('/api/cart', protect, (req, res) => res.json(req.user.cart));
 
 app.post('/api/cart', protect, async (req, res) => {
-    const itemToAdd = req.body;
-    const user = req.user;
-    const existItem = user.cart.find(item => item.itemId === itemToAdd.itemId);
-    if (existItem) {
-        existItem.quantity += itemToAdd.quantity > 0 ? itemToAdd.quantity : 1;
-    } else {
-        user.cart.push(itemToAdd);
-    }
-    const updatedUser = await user.save();
-    res.status(201).json(updatedUser.cart);
-});
-
-// [THÊM MỚI] Route để đồng bộ giỏ hàng của khách khi đăng nhập
-app.post('/api/cart/sync', protect, async (req, res) => {
-    const { items } = req.body; // Mảng các sản phẩm từ giỏ hàng của khách
-    const user = req.user;
-    
-    items.forEach(guestItem => {
-        const existItem = user.cart.find(userItem => userItem.itemId === guestItem.itemId);
+    try {
+        const itemToAdd = req.body;
+        const user = req.user;
+        const existItem = user.cart.find(item => item.itemId === itemToAdd.itemId);
         if (existItem) {
-            // Nếu sản phẩm đã có, cộng dồn số lượng
-            existItem.quantity += guestItem.quantity;
+            existItem.quantity += itemToAdd.quantity > 0 ? itemToAdd.quantity : 1;
         } else {
-            // Nếu chưa có, thêm mới vào giỏ hàng của user
-            user.cart.push(guestItem);
+            user.cart.push(itemToAdd);
         }
-    });
-
-    const updatedUser = await user.save();
-    res.json(updatedUser.cart);
+        const updatedUser = await user.save();
+        res.status(201).json(updatedUser.cart);
+    } catch (error) {
+        res.status(400).json({ message: 'Thêm vào giỏ hàng thất bại' });
+    }
 });
 
+app.post('/api/cart/sync', protect, async (req, res) => {
+    try {
+        const { items } = req.body;
+        const user = req.user;
+        
+        items.forEach(guestItem => {
+            const existItem = user.cart.find(userItem => userItem.itemId === guestItem.itemId);
+            if (existItem) {
+                existItem.quantity += guestItem.quantity;
+            } else {
+                user.cart.push(guestItem);
+            }
+        });
+
+        const updatedUser = await user.save();
+        res.json(updatedUser.cart);
+    } catch (error) {
+        res.status(400).json({ message: 'Đồng bộ giỏ hàng thất bại' });
+    }
+});
 
 app.put('/api/cart', protect, async (req, res) => {
-    const { itemId, quantity } = req.body;
-    const user = req.user;
-    const itemToUpdate = user.cart.find(item => item.itemId === itemId);
-    if (itemToUpdate) {
-        if (quantity > 0) {
-            itemToUpdate.quantity = Number(quantity);
-        } else {
-            user.cart = user.cart.filter(item => item.itemId !== itemId);
+    try {
+        const { itemId, quantity } = req.body;
+        const user = req.user;
+        const itemToUpdate = user.cart.find(item => item.itemId === itemId);
+        if (itemToUpdate) {
+            if (quantity > 0) {
+                itemToUpdate.quantity = Number(quantity);
+            } else {
+                user.cart = user.cart.filter(item => item.itemId !== itemId);
+            }
         }
+        const updatedUser = await user.save();
+        res.json(updatedUser.cart);
+    } catch (error) {
+        res.status(400).json({ message: 'Cập nhật giỏ hàng thất bại' });
     }
-    const updatedUser = await user.save();
-    res.json(updatedUser.cart);
 });
 
 app.delete('/api/cart/:itemId', protect, async (req, res) => {
-    const user = req.user;
-    user.cart = user.cart.filter(item => item.itemId !== req.params.itemId);
-    const updatedUser = await user.save();
-    res.json(updatedUser.cart);
+    try {
+        const user = req.user;
+        user.cart = user.cart.filter(item => item.itemId !== req.params.itemId);
+        const updatedUser = await user.save();
+        res.json(updatedUser.cart);
+    } catch (error) {
+        res.status(400).json({ message: 'Xóa sản phẩm thất bại' });
+    }
 });
 
 // D. AI Chat Route
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 app.post('/api/ai/chat', async (req, res) => {
-    const { message, history } = req.body;
-    const tourContext = Object.values(tours).map(t => `- ${t.name}`).join('\n');
-    const systemPrompt = `Bạn là "Jack 97", nhân viên AI của HaiTravel. Nhiệm vụ của bạn là hỗ trợ khách hàng về các tour du lịch dựa trên danh sách sau: ${tourContext}. Luôn trả lời bằng tiếng Việt một cách thân thiện và chuyên nghiệp.`;
-    const messages = [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: message }];
     try {
+        const { message, history } = req.body;
+        const tourContext = Object.values(tours).map(t => `- ${t.name}`).join('\n');
+        const systemPrompt = `Bạn là "Jack 97", nhân viên AI của HaiTravel. Nhiệm vụ của bạn là hỗ trợ khách hàng về các tour du lịch dựa trên danh sách sau: ${tourContext}. Luôn trả lời bằng tiếng Việt một cách thân thiện và chuyên nghiệp.`;
+        const messages = [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: message }];
         const chatCompletion = await groq.chat.completions.create({ messages, model: "llama3-8b-8192" });
         res.json({ reply: chatCompletion.choices[0]?.message?.content });
     } catch (error) {
@@ -229,6 +244,5 @@ app.post('/api/ai/chat', async (req, res) => {
 
 
 // --- KHỞI ĐỘNG SERVER ---
-// [SỬA ĐỔI QUAN TRỌNG 2]: Sử dụng PORT linh động do Render cung cấp
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server HaiTravel đang chạy trên cổng ${PORT}`));
