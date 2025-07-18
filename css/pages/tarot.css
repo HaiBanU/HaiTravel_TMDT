@@ -1,178 +1,116 @@
 /* css/pages/tarot.css */
 
-/* --- Hiệu ứng và Nền chung --- */
-@keyframes animateGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* --- HIỆU ỨNG NỀN ĐỘNG --- */
+@keyframes cosmic-drift {
+    0% { transform: scale(1) rotate(0deg) translateX(0) translateY(0); }
+    50% { transform: scale(1.2) rotate(1.5deg) translateX(-2%) translateY(2%); }
+    100% { transform: scale(1) rotate(0deg) translateX(0) translateY(0); }
 }
-@keyframes animateStars {
-    from { transform: translateY(0px); }
-    to { transform: translateY(-2000px); }
-}
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.9; }
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
 }
 
 .tarot-page {
-    display: block;
-    padding: 4rem 2rem 6rem;
-    position: relative;
-    overflow: hidden; 
-    background: #000;
+    position: relative; overflow: hidden; background: #000; padding: 4rem 2rem 6rem;
 }
-.tarot-page::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 1;
-    background: linear-gradient(125deg, #0f0c29, #302b63, #24243e, #141E30);
-    background-size: 400% 400%;
-    animation: animateGradient 20s ease infinite;
+.tarot-animated-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+    background-image: url(../../images/tarot-background.jpg);
+    background-size: cover; background-position: center center;
+    animation: cosmic-drift 60s ease-in-out infinite alternate;
 }
-/* [SỬA LỖI] Xóa nền đen trên các lớp sao để lộ gradient */
-.stars, .stars2, .stars3 {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%; height: 100%;
-    display: block; z-index: 2;
-    background-repeat: repeat;
-    background-position: top center;
-}
-.stars {
-    background-image: url(https://www.script-tutorials.com/demos/360/images/stars.png);
-    animation: animateStars 200s linear infinite;
-}
-.stars2 {
-    background-image: url(https://www.script-tutorials.com/demos/360/images/twinkling.png);
-    animation: twinkle 5s linear infinite;
-}
-.stars3 {
-    background-image: url(https://www.script-tutorials.com/demos/360/images/clouds.png);
-    animation: animateStars 150s linear infinite;
-    opacity: 0.5; 
+.tarot-page::after {
+    content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); z-index: 2;
 }
 
-/* --- Bố cục chính --- */
+/* --- Bố cục chính và Form nhập liệu --- */
 .tarot-container {
-    width: 100%; max-width: 1200px;
-    margin: 0 auto; text-align: center;
-    color: var(--white-color);
+    width: 100%; max-width: 1200px; margin: 0 auto; text-align: center; color: var(--white-color);
     position: relative; z-index: 3;
 }
-.tarot-intro {
-    min-height: 60vh;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
+.tarot-user-input, .tarot-intro {
+    min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    animation: fadeIn 1.5s ease;
 }
-.tarot-intro h1 { font-size: 3.5rem; color: var(--accent-color); text-shadow: 0 0 15px rgba(197, 164, 126, 0.5); }
-.tarot-intro p { font-size: 1.2rem; max-width: 600px; margin: 1rem auto 2rem; opacity: 0.9; line-height: 1.7; }
-
-/* --- Màn hình Bốc bài --- */
-.tarot-game-board { padding: 2rem 0; }
-.tarot-instruction { font-size: 1.1rem; font-style: italic; margin-bottom: 1rem; min-height: 24px; }
-
-/* Bộ bài xòe ra */
-.tarot-deck-container {
-    position: relative; height: 300px;
-    display: flex; align-items: center; justify-content: center;
-    perspective: 1500px; margin-bottom: 2rem;
+.tarot-user-input h1, .tarot-intro h1 {
+    font-size: 3.5rem; color: var(--accent-color); text-shadow: 0 0 15px rgba(197, 164, 126, 0.7);
+}
+.tarot-user-input p, .tarot-intro p {
+    font-size: 1.2rem; max-width: 600px; margin: 1rem auto 2rem; opacity: 0.9; line-height: 1.7; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+.tarot-user-input form {
+    background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+    padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%; max-width: 500px;
+}
+.tarot-user-input .form-group { position: relative; margin-bottom: 1.5rem; }
+.tarot-user-input input {
+    width: 100%; padding: 12px 15px; border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px; font-size: 1rem; font-family: var(--body-font);
+    background-color: rgba(0,0,0,0.2); color: var(--white-color); box-sizing: border-box;
+}
+.tarot-user-input input:focus { border-color: var(--accent-color); outline: none; }
+.tarot-user-input label {
+    font-size: 1rem; color: rgba(255, 255, 255, 0.7); position: absolute;
+    top: 13px; left: 15px; transition: all 0.2s ease-out; pointer-events: none;
+    background: none; padding: 0 5px;
+}
+.tarot-user-input input:focus + label, .tarot-user-input input:not(:placeholder-shown) + label {
+    top: -11px; font-size: 0.8rem; color: var(--accent-color);
+    background-color: #1a1d2e;
+}
+.tarot-user-input input[type="date"] + label.static {
+    top: -11px; left: 15px; font-size: 0.8rem; color: var(--accent-color);
+    background-color: #1a1d2e;
+    padding: 2px 5px;
+}
+.tarot-user-input button, .tarot-intro .btn {
+    font-size: 1.1rem; padding: 15px 35px;
 }
 
-/* Các lá bài chung */
-.tarot-card {
-    width: 120px; height: 200px;
-    position: absolute;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
+/* --- Các lá bài --- */
+.tarot-game-board { padding: 2rem 0; animation: fadeIn 1.5s ease; }
+.tarot-instruction { font-size: 1.1rem; font-style: italic; margin-bottom: 1rem; min-height: 24px; transition: opacity 0.3s; }
+.tarot-deck-container { position: relative; height: 300px; display: flex; align-items: center; justify-content: center; perspective: 1500px; margin-bottom: 2rem; }
+.tarot-card { width: 120px; height: 200px; position: absolute; cursor: pointer; transform-style: preserve-3d; transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1); }
 .tarot-card-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s ease; }
 .tarot-card-front, .tarot-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); overflow: hidden; }
 
-/* Mặt sau lá bài */
-.tarot-card-back { background: linear-gradient(145deg, #1e3c72, #2a5298); border: 2px solid #c5a47e; }
-.tarot-card-back::before { content: ''; position: absolute; inset: 7px; border: 1px solid rgba(197, 164, 126, 0.5); border-radius: 4px; }
-.tarot-card-back::after { content: 'H'; font-family: var(--heading-font); font-size: 4rem; color: rgba(197, 164, 126, 0.3); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-
-/* Mặt trước lá bài (đồng bộ hóa) */
-.tarot-card-front {
-    background-color: #0c0c1e; transform: rotateY(180deg);
-    padding: 8px; box-sizing: border-box;
-    display: flex; align-items: center; justify-content: center;
+/* [THAY ĐỔI TẠI ĐÂY] */
+.tarot-card-back {
+    background-image: url(../../images/tarot-card-back.jpg);
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #c5a47e; /* Giữ lại viền vàng cho sang trọng */
 }
-.tarot-card-front img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
-.tarot-deck-container .tarot-card:not(.is-chosen):hover { transform: translateY(-20px) scale(1.05) !important; z-index: 100; }
+/* Xóa bỏ các pseudo-element không cần thiết */
+.tarot-card-back::before, .tarot-card-back::after {
+    content: none;
+}
 
-/* Các ô chọn bài */
+.tarot-card-front { background-color: #0c0c1e; transform: rotateY(180deg); padding: 8px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; }
+.tarot-card-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+.tarot-deck-container .tarot-card:not(.is-chosen):hover { transform: translateY(-20px) scale(1.05) !important; z-index: 100; }
 .tarot-chosen-slots { display: flex; justify-content: center; gap: 2rem; min-height: 270px; }
 .tarot-slot-wrapper { display: flex; flex-direction: column; align-items: center; width: 150px; }
 .tarot-slot-name { margin-bottom: 1rem; font-family: var(--heading-font); color: var(--accent-color); font-size: 1rem; min-height: 24px; opacity: 0; transition: opacity 0.5s ease-in-out; }
 .tarot-slot-name.visible { opacity: 1; }
-.tarot-slot {
-    width: 130px; height: 215px;
-    border: 2px dashed rgba(197, 164, 126, 0.4);
-    border-radius: 12px;
-    /* [SỬA LỖI VỊ TRÍ BỐC BÀI] Dùng grid để căn giữa lá bài con một cách hoàn hảo */
-    display: grid;
-    place-items: center;
-}
-.tarot-slot.is-active { border-color: rgba(197, 164, 126, 0.8); }
-
-/* Quy tắc quan trọng: Bất kỳ lá bài nào nằm trong ô bốc bài sẽ là 'relative' */
-.tarot-slot .tarot-card {
-    position: relative;
-}
-
-/* --- Màn hình Kết quả --- */
-.tarot-final-reading {
-    max-width: 1000px; margin: 0 auto; padding-top: 2rem;
-    animation: fadeIn 1.5s ease-in-out forwards;
-}
-.reading-cards-display {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 3rem; margin-bottom: 4rem; align-items: flex-start;
-}
-.reading-card-item {
-    display: flex; flex-direction: column; align-items: center; text-align: center;
-}
-
-/* [SỬA LỖI VỊ TRÍ KẾT QUẢ] Đảm bảo lá bài chiếm đúng không gian của nó */
-.reading-card-item .tarot-card {
-    position: relative; /* Quan trọng: để lá bài đẩy văn bản xuống dưới */
-    width: 180px;
-    height: 300px;
-    margin-bottom: 1.5rem;
-}
-.reading-card-item .tarot-card-inner {
-    transform: rotateY(180deg);
-}
-/* Đồng bộ hóa ảnh ở màn hình kết quả */
-.reading-card-item .tarot-card-front img {
-    object-fit: cover;
-}
-
-.reading-card-item h3 {
-    font-family: var(--heading-font); color: var(--accent-color);
-    font-size: 1.5rem; margin-bottom: 0.75rem;
-    text-shadow: 0 1px 5px rgba(0,0,0,0.3);
-}
+.tarot-slot { width: 130px; height: 215px; border: 2px dashed rgba(197, 164, 126, 0.4); border-radius: 12px; display: grid; place-items: center; }
+.tarot-slot .tarot-card { position: relative; }
+.tarot-final-reading { max-width: 1000px; margin: 0 auto; padding-top: 2rem; animation: fadeIn 1.5s ease-in-out forwards; }
+.reading-cards-display { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 4rem; align-items: flex-start; }
+.reading-card-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.reading-card-item .tarot-card { position: relative; width: 180px; height: 300px; margin-bottom: 1.5rem; }
+.reading-card-item .tarot-card-inner { transform: rotateY(180deg); }
+.reading-card-item h3 { font-family: var(--heading-font); color: var(--accent-color); font-size: 1.5rem; margin-bottom: 0.75rem; text-shadow: 0 1px 5px rgba(0,0,0,0.3); }
 .reading-card-item p { text-align: left; font-size: 1rem; line-height: 1.6; opacity: 0.8; }
-
-.final-prophecy {
-    background-color: rgba(0,0,0,0.2); border-radius: 16px;
-    padding: 2.5rem; border: 1px solid rgba(197, 164, 126, 0.3);
-}
+.final-prophecy { background-color: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-radius: 16px; padding: 2.5rem; border: 1px solid rgba(197, 164, 126, 0.3); }
 .final-prophecy h2 { font-size: 2.5rem; color: var(--white-color); margin-bottom: 1rem; }
-.final-prophecy p { font-size: 1.2rem; line-height: 1.8; opacity: 0.9; margin-bottom: 2.5rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+.final-prophecy p { font-size: 1.1rem; line-height: 1.8; opacity: 0.9; margin-bottom: 2.5rem; max-width: 800px; margin-left: auto; margin-right: auto; text-align: left; white-space: pre-wrap; }
 .final-prophecy .btn { font-size: 1.1rem; }
 
-/* Responsive */
 @media (max-width: 768px) {
     .tarot-chosen-slots { gap: 1rem; flex-direction: column; align-items: center; }
     .reading-cards-display { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }

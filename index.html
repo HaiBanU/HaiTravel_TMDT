@@ -59,10 +59,13 @@
             </div>
             <div class="slider-dots"></div>
         </section>
-        <section id="story-section" class="story-section">
+        <section id="story-section" class="story-section dynamic-blob-bg">
             <div class="story-container">
                 <div class="story-video-wrapper reveal">
-    <video autoplay loop muted playsinline><source src="/videos/video-vietnam-overview.mp4" type="video/mp4"></video>
+    <video autoplay loop muted playsinline poster="images/video-poster.jpg">
+        <source src="/videos/video-vietnam-overview.mp4" type="video/mp4">
+        Trình duyệt của bạn không hỗ trợ thẻ video.
+    </video>
 </div>
                 <div class="story-content reveal">
                     <div class="section-header" style="text-align: left;">
@@ -73,7 +76,8 @@
                 </div>
             </div>
         </section>
-        <section id="values-section" class="values-section">
+        
+        <section id="values-section" class="values-section dynamic-blob-bg">
             <div class="section-header reveal"><h2>Giá Trị Của Chúng Tôi</h2></div>
             <div class="values-grid">
                 <div class="value-card reveal" style="transition-delay: 100ms;"><div class="icon"><i class="fa-solid fa-gem"></i></div><h3>Chất Lượng Vượt Trội</h3><p>Mọi dịch vụ, từ phương tiện đến hướng dẫn viên, đều đạt tiêu chuẩn cao nhất để đảm bảo sự hài lòng và an toàn cho bạn.</p></div>
@@ -81,7 +85,8 @@
                 <div class="value-card reveal" style="transition-delay: 300ms;"><div class="icon"><i class="fa-solid fa-heart-pulse"></i></div><h3>Tận Tâm Phục Vụ</h3><p>Đội ngũ chuyên nghiệp luôn lắng nghe và hỗ trợ bạn 24/7, biến mọi mong muốn của bạn thành hiện thực.</p></div>
             </div>
         </section>
-        <section id="tour-list-section" class="tour-list">
+
+        <section id="tour-list-section" class="tour-list dynamic-blob-bg">
             <div class="section-header"><h2>Tour Du Lịch Nổi Bật</h2><p>Khám phá những điểm đến được yêu thích nhất</p></div>
             <div class="tour-scroll-container">
                 <button id="scroll-prev" class="scroll-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
@@ -212,5 +217,17 @@
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/ai-chat.js"></script>
+
+    <script type="text/javascript" src="https://unpkg.com/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            VanillaTilt.init(document.querySelectorAll(".tour-card"), {
+                max: 15,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.5
+            });
+        });
+    </script>
 </body>
 </html>

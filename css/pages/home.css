@@ -34,7 +34,7 @@
 .slides .slide img { 
     width: 100%; 
     height: 100%; 
-    object-fit: cover; 
+    object-fit: cover;
 }
 .banner-content { 
     position: relative; 
@@ -73,8 +73,7 @@
 
 /* --- STORY SECTION (HOME PAGE) --- */
 .story-section { 
-    padding: 100px 5%; 
-    background-color: var(--white-color); 
+    padding: 100px 5%;
 }
 .story-container {
     max-width: 1200px;
@@ -114,7 +113,6 @@
 /* --- VALUES SECTION (HOME PAGE) --- */
 .values-section { 
     padding: 100px 5%; 
-    background-color: var(--white-color); 
 }
 .values-section .section-header { 
     margin-bottom: 60px; 
@@ -143,7 +141,11 @@
 .value-card .icon { 
     font-size: 3rem; 
     color: var(--accent-color); 
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.value-card:hover .icon {
+    transform: rotate(15deg) scale(1.1);
 }
 .value-card h3 { 
     font-size: 1.5rem; 
@@ -157,7 +159,10 @@
     color: var(--secondary-color); 
 }
 
-/* --- CSS CHO DANH SÁCH TOUR CUỘN NGANG --- */
+/* --- TOUR LIST SECTION --- */
+.tour-list {
+    padding: 100px 5%;
+}
 .tour-scroll-container {
     position: relative;
     max-width: 1200px;
@@ -175,13 +180,7 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
-.tour-grid-scrollable::-webkit-scrollbar {
-    display: none;
-}
-.tour-grid-scrollable .tour-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-}
+.tour-grid-scrollable::-webkit-scrollbar { display: none; }
 .scroll-btn {
     position: absolute;
     top: 50%;
@@ -206,50 +205,22 @@
     color: var(--white-color);
     transform: translateY(-50%) scale(1.1);
 }
-.scroll-btn.prev {
-    left: -25px;
-}
-.scroll-btn.next {
-    right: -25px;
-}
+.scroll-btn.prev { left: -25px; }
+.scroll-btn.next { right: -25px; }
 
 /* --- RESPONSIVE FOR HOME PAGE --- */
 @media (max-width: 1200px) {
-    .scroll-btn {
-        display: none;
-    }
+    .scroll-btn { display: none; }
 }
-
 @media (max-width: 992px) {
-    .banner-content h1 { 
-        font-size: 3.5rem; 
-    }
-    .story-container { 
-        grid-template-columns: 1fr; 
-    }
-
-    /* [SỬA LỖI] Giấu hoàn toàn thanh tìm kiếm trên trang chủ tablet và mobile */
-    .home-search-bar {
-        display: none !important;
-    }
+    .banner-content h1 { font-size: 3.5rem; }
+    .story-container { grid-template-columns: 1fr; }
+    .home-search-bar { display: none !important; }
 }
-
 @media (max-width: 768px) {
-    .banner-slider { 
-        height: 60vh; 
-    }
-    .banner-content h1 { 
-        font-size: 2.5rem !important; 
-    }
-    .values-grid { 
-        grid-template-columns: 1fr; 
-    }
-    .story-container { 
-        grid-template-columns: 1fr; 
-        gap: 2rem; 
-    }
-    .tour-grid-scrollable {
-        grid-auto-columns: 80vw;
-        gap: 1rem;
-    }
+    .banner-slider { height: 60vh; }
+    .banner-content h1 { font-size: 2.5rem !important; }
+    .values-grid { grid-template-columns: 1fr; }
+    .story-container { gap: 2rem; }
+    .tour-grid-scrollable { grid-auto-columns: 80vw; gap: 1rem; }
 }

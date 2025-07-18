@@ -42,8 +42,9 @@
     </header>
 
     <main>
-        <section id="tour-list-section" class="tour-list search-results-page">
-            <div class="section-header">
+        <!-- [CẬP NHẬT] Thêm class nền động -->
+        <section id="tour-list-section" class="tour-list search-results-page dynamic-blob-bg">
+            <div class="section-header reveal">
                 <h2 id="search-results-title">Kết quả tìm kiếm</h2>
                 <p id="search-query-display"></p>
             </div>
@@ -163,5 +164,15 @@
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/ai-chat.js"></script>
+
+    <!-- [CẬP NHẬT] Kích hoạt hiệu ứng 3D Tilt -->
+    <script type="text/javascript" src="https://unpkg.com/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            VanillaTilt.init(document.querySelectorAll(".tour-card"), {
+                max: 15, speed: 400, glare: true, "max-glare": 0.5
+            });
+        });
+    </script>
 </body>
 </html>

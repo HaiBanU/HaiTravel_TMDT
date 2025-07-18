@@ -14,6 +14,7 @@
 }
 .btn:active { transform: scale(0.95); }
 .btn-primary { background-color: var(--primary-color); color: var(--white-color); }
+
 .btn-primary:hover {
     background-color: #084c59;
     transform: translateY(-2px);
@@ -37,24 +38,73 @@ body.home-page header:not(.scrolled) .search-bar {
 .search-bar input { border: none; outline: none; padding: 8px 15px; background: transparent; }
 .search-bar input[type="text"] { width: 250px; }
 .search-bar input[type="date"] { width: 140px; border-left: 1px solid var(--border-color); }
-.search-bar button { background-color: var(--primary-color); color: var(--white-color); border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.3s; flex-shrink: 0; } /* [THÊM] flex-shrink */
+.search-bar button { background-color: var(--primary-color); color: var(--white-color); border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.3s; flex-shrink: 0; }
 .search-bar button:hover { background-color: #084c59; }
 
 /* --- TIÊU ĐỀ SECTION --- */
 .section-header { text-align: center; margin-bottom: 60px; }
-.section-header h2 { font-size: 3.5rem; margin-bottom: 10px; }
+.section-header h2 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
 .section-header p { font-size: 1.2rem; color: var(--secondary-color); font-family: var(--body-font); }
 
-/* --- THẺ TOUR --- */
-.tour-list { padding: 100px 5%; background-color: var(--light-color); }
-.tour-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-.tour-card { background-color: var(--white-color); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; transition: transform 0.4s ease, box-shadow 0.4s ease; display: flex; flex-direction: column; }
-.tour-card:hover { transform: translateY(-12px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
-.tour-card-image { height: 220px; overflow: hidden; }
-.tour-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-.tour-card:hover .tour-card-image img { transform: scale(1.1); }
-.tour-card-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: var(--accent-color);
+    transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.reveal.active .section-header h2::after {
+    width: 80px;
+    transition-delay: 0.5s;
+}
 
+
+/* --- THẺ TOUR --- */
+.tour-list { padding: 100px 5%; }
+.tour-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+.tour-card {
+    background-color: var(--white-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    transform-style: preserve-3d;
+}
+.tour-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+.tour-card-image {
+    height: 220px;
+    overflow: hidden;
+    transform: translateZ(20px);
+}
+.tour-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.tour-card:hover .tour-card-image img { transform: scale(1.1); }
+.tour-card-content {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    transform: translateZ(20px);
+}
 .tour-card-content h3 {
     font-size: 1.5rem;
     margin-top: 0;
@@ -85,9 +135,50 @@ body.home-page header:not(.scrolled) .search-bar {
 .search-results-page { padding-top: 50px; }
 .search-results-page .section-header { margin-bottom: 40px; }
 #search-query-display strong { color: var(--primary-color); }
+
 /* --- RESPONSIVE COMPONENTS --- */
 @media (max-width: 480px) {
     .tour-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* --- [THÊM MỚI] HIỆU ỨNG NỀN BLOB CHUNG --- */
+.dynamic-blob-bg {
+    position: relative;
+    background-color: var(--light-color);
+    overflow: hidden;
+}
+.dynamic-blob-bg::before, .dynamic-blob-bg::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    filter: blur(80px);
+    will-change: transform;
+}
+.dynamic-blob-bg::before {
+    width: 400px; height: 400px;
+    background: rgba(13, 94, 110, 0.3);
+    border-radius: 50%;
+    top: -150px; left: -150px;
+    animation: moveBlob1 25s ease-in-out infinite alternate;
+}
+.dynamic-blob-bg::after {
+    width: 500px; height: 500px;
+    background: rgba(197, 164, 126, 0.3);
+    border-radius: 50%;
+    bottom: -200px; right: -200px;
+    animation: moveBlob2 30s ease-in-out infinite alternate;
+}
+@keyframes moveBlob1 {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.3) translate(100vw, 50vh) rotate(360deg); }
+}
+@keyframes moveBlob2 {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.4) translate(-80vw, -40vh) rotate(-360deg); }
+}
+.dynamic-blob-bg > * {
+    position: relative;
+    z-index: 2;
 }

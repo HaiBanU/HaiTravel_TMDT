@@ -43,27 +43,41 @@
     </header>
 
     <main class="tarot-page">
-        <!-- [CẢI TIẾN] Thêm các lớp div cho hiệu ứng nền sao động -->
-        <div class="stars"></div>
-        <div class="stars2"></div>
-        <div class="stars3"></div>
+        <!-- Nền động mới với một div duy nhất -->
+        <div class="tarot-animated-bg"></div>
 
         <div id="tarot-container" class="tarot-container">
-            <!-- Giai đoạn 1: Giới thiệu & Bắt đầu -->
-            <div id="tarot-intro" class="tarot-intro">
-                <h1>Khám Phá Hành Trình Định Mệnh</h1>
+            
+            <!-- Giai đoạn 0: Nhập thông tin người dùng -->
+            <div id="tarot-user-input" class="tarot-user-input">
+                <form id="user-info-form">
+                    <h1>Lời Nhắn Từ Vũ Trụ</h1>
+                    <p>Để nhận được thông điệp dành riêng cho bạn, hãy cho các vì sao biết danh tính của bạn.</p>
+                    <div class="form-group">
+                        <input type="text" id="user-name" required placeholder=" ">
+                        <label for="user-name">Họ và Tên</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" id="user-dob" required>
+                        <label for="user-dob" class="static">Ngày sinh</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Gửi thông tin & Bắt đầu</button>
+                </form>
+            </div>
+
+            <!-- Giai đoạn 1: Giới thiệu & Bắt đầu (bị ẩn ban đầu) -->
+            <div id="tarot-intro" class="tarot-intro" style="display: none;">
+                <h1 id="tarot-welcome-heading"></h1>
                 <p>Hãy để vũ trụ dẫn lối. Nhắm mắt, hít một hơi thật sâu và chọn 3 lá bài để hé lộ chuyến đi dành riêng cho tâm hồn bạn.</p>
                 <button id="start-tarot-btn" class="btn btn-primary">Bắt Đầu Trải Bài</button>
             </div>
 
-            <!-- Giai đoạn 2: Trải bài & Chọn bài -->
+            <!-- Giai đoạn 2: Trải bài & Chọn bài (bị ẩn ban đầu) -->
             <div id="tarot-game-board" class="tarot-game-board" style="display: none;">
                 <p id="tarot-instruction" class="tarot-instruction"></p>
                 <div id="tarot-deck-container" class="tarot-deck-container">
                     <!-- Các lá bài sẽ được JS tạo và chèn vào đây -->
                 </div>
-
-                <!-- [SỬA LỖI QUAN TRỌNG] Đảo ngược vị trí của slot và tên -->
                 <div id="tarot-chosen-slots" class="tarot-chosen-slots">
                     <div class="tarot-slot-wrapper">
                         <div class="tarot-slot-name"></div>
@@ -80,20 +94,20 @@
                 </div>
             </div>
             
-            <!-- Giai đoạn 3: Hiển thị kết quả cuối cùng -->
+            <!-- Giai đoạn 3: Hiển thị kết quả cuối cùng (bị ẩn ban đầu) -->
             <section id="tarot-final-reading" class="tarot-final-reading" style="display: none;">
                 <div id="reading-cards-display" class="reading-cards-display">
                     <!-- JS sẽ tạo nội dung ở đây -->
                 </div>
                 <div class="final-prophecy">
-                     <h2 id="reading-title">Lời Tiên Tri Của Bạn</h2>
+                     <h2 id="reading-title">Lời Tiên Tri Dành Cho Bạn</h2>
                      <p id="reading-description"></p>
-                     <a href="#" id="reading-cta-btn" class="btn btn-primary">Khám Phá Hành Trình Chữa Lành</a>
+                     <a href="#" id="reading-cta-btn" class="btn btn-primary">Khám Phá Hành Trình Gợi Ý</a>
                 </div>
             </section>
         </div>
     </main>
-
+    
     <footer>
         <div class="footer-container">
             <div class="footer-col footer-about"><a href="index.html" class="logo">Hai Travel</a><p>Chuyên cung cấp các tour du lịch chất lượng cao, mang đến những trải nghiệm độc đáo và khó quên tại Việt Nam.</p></div>
@@ -143,8 +157,8 @@
             <div class="chat-header">
                 <div class="agent-info">
                     <div class="agent-avatar">
-    <img src="images/avatar-jack97.png" alt="Jack 97">
-</div>
+                        <img src="images/avatar-jack97.png" alt="Jack 97">
+                    </div>
                     <div>
                         <h3>Jack 97</h3>
                         <div class="agent-status">

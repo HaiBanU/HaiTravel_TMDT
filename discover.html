@@ -42,9 +42,8 @@
         </div>
     </header>
 
-    <main class="discover-page">
+    <main class="discover-page dynamic-blob-bg">
         <div class="discover-container">
-            <!-- Khối kêu gọi hành động Tarot -->
             <section id="tarot-cta-section" class="tarot-cta-section reveal">
                 <div class="tarot-cta-content">
                     <h2>Chưa biết đi đâu? Hãy để vũ trụ dẫn lối!</h2>
@@ -53,7 +52,7 @@
                 </div>
             </section>
 
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Tìm Hành Trình Dành Riêng Cho Bạn</h2>
                 <p>Hoặc chọn những điều bạn yêu thích và để chúng tôi gợi ý chuyến đi hoàn hảo.</p>
             </div>
@@ -70,7 +69,7 @@
                 <div class="interest-tag-card reveal" data-tag="adventure"><div class="tag-icon-wrapper"><i class="fa-solid fa-person-hiking"></i></div><span>Du lịch mạo hiểm – thể thao</span><span class="checkmark"><i class="fa-solid fa-check"></i></span></div>
             </div>
             <section id="discover-results-section" class="tour-list">
-                <div class="section-header"><h2 id="discover-results-title">Tất Cả Các Tour Nổi Bật</h2></div>
+                <div class="section-header reveal"><h2 id="discover-results-title">Tất Cả Các Tour Nổi Bật</h2></div>
                 <div id="discover-results-grid" class="tour-grid"></div>
                 <div id="no-results-message" style="display: none; text-align: center; padding: 40px;"><h3>Rất tiếc, chưa có tour nào phù hợp với sở thích của bạn!</h3><p>Hãy thử bỏ chọn một vài sở thích để có nhiều kết quả hơn.</p></div>
             </section>
@@ -185,5 +184,24 @@
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/ai-chat.js"></script>
+
+    <script type="text/javascript" src="https://unpkg.com/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultsGrid = document.getElementById('discover-results-grid');
+            const observer = new MutationObserver(mutations => {
+                mutations.forEach(mutation => {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === 1 && node.classList.contains('tour-card')) {
+                            VanillaTilt.init(node, {
+                                max: 15, speed: 400, glare: true, "max-glare": 0.5
+                            });
+                        }
+                    });
+                });
+            });
+            observer.observe(resultsGrid, { childList: true });
+        });
+    </script>
 </body>
 </html>
