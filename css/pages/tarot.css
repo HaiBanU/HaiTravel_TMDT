@@ -78,14 +78,12 @@
 .tarot-card-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s ease; }
 .tarot-card-front, .tarot-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); overflow: hidden; }
 
-/* [THAY ĐỔI TẠI ĐÂY] */
 .tarot-card-back {
     background-image: url(../../images/tarot-card-back.jpg);
     background-size: cover;
     background-position: center;
-    border: 2px solid #c5a47e; /* Giữ lại viền vàng cho sang trọng */
+    border: 2px solid #c5a47e;
 }
-/* Xóa bỏ các pseudo-element không cần thiết */
 .tarot-card-back::before, .tarot-card-back::after {
     content: none;
 }
@@ -108,7 +106,19 @@
 .reading-card-item p { text-align: left; font-size: 1rem; line-height: 1.6; opacity: 0.8; }
 .final-prophecy { background-color: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-radius: 16px; padding: 2.5rem; border: 1px solid rgba(197, 164, 126, 0.3); }
 .final-prophecy h2 { font-size: 2.5rem; color: var(--white-color); margin-bottom: 1rem; }
-.final-prophecy p { font-size: 1.1rem; line-height: 1.8; opacity: 0.9; margin-bottom: 2.5rem; max-width: 800px; margin-left: auto; margin-right: auto; text-align: left; white-space: pre-wrap; }
+.final-prophecy p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin-bottom: 2.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+.final-prophecy p strong {
+    color: var(--accent-color);
+}
 .final-prophecy .btn { font-size: 1.1rem; }
 
 @media (max-width: 768px) {

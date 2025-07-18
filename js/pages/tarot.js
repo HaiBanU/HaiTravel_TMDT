@@ -4,7 +4,6 @@ import { tarotDeck } from '../data/tarot.js';
 import { tarotReadings } from '../data/tarotReadings.js'; 
 
 export function initTarotPage() {
-    // ... (Toàn bộ phần khai báo biến giữ nguyên)
     const userInputSection = document.getElementById('tarot-user-input');
     const userInfoForm = document.getElementById('user-info-form');
     const introSection = document.getElementById('tarot-intro');
@@ -25,7 +24,6 @@ export function initTarotPage() {
     let userName = '';
     let userDob = null;
 
-    // ... (Hàm getZodiacSign giữ nguyên)
     const getZodiacSign = (date) => {
         const day = date.getDate();
         const month = date.getMonth() + 1;
@@ -44,7 +42,6 @@ export function initTarotPage() {
         return { sign: "", advice: "" };
     };
 
-    // ... (Hàm userInfoForm.addEventListener giữ nguyên)
     userInfoForm.addEventListener('submit', (e) => {
         e.preventDefault();
         userName = document.getElementById('user-name').value;
@@ -57,7 +54,6 @@ export function initTarotPage() {
         }
     });
 
-    // ... (Các hàm createCardElement, handleCardSelect, updateInstruction giữ nguyên)
     const createCardElement = (cardData) => {
         const cardEl = document.createElement('div');
         cardEl.className = 'tarot-card';
@@ -97,15 +93,11 @@ export function initTarotPage() {
         instructionEl.textContent = remaining > 0 ? `Hãy chọn ${remaining} lá bài nữa...` : '';
     };
 
-    /**
-     * [CẬP NHẬT LOGIC]
-     */
     const showFinalReading = () => {
         let allTags = chosenCardsData.flatMap(card => card.tags);
         let uniqueTags = [...new Set(allTags)].sort();
         let readingKey = "default";
 
-        // [THAY ĐỔI] Chỉ tìm kiếm tổ hợp 3 lá
         if (uniqueTags.length === 3) {
             const potentialKey = uniqueTags.join(',');
             if (tarotReadings[potentialKey]) {
@@ -117,7 +109,8 @@ export function initTarotPage() {
         const zodiacInfo = getZodiacSign(userDob);
         let finalReadingText = baseReading.replace('{{name}}', userName);
         if (zodiacInfo.advice) {
-            finalReadingText += `\n\n✨ **Gợi ý từ Chiêm tinh:**\n${zodiacInfo.advice}`;
+            // [CẬP NHẬT] Thay thế cú pháp Markdown bằng thẻ HTML
+            finalReadingText += `<br><br><strong>✨ Gợi ý từ Chiêm tinh:</strong><br>${zodiacInfo.advice}`;
         }
         
         const readingCardsDisplay = document.getElementById('reading-cards-display');
@@ -134,7 +127,8 @@ export function initTarotPage() {
             </div>
         `).join('');
         
-        readingDescriptionEl.textContent = finalReadingText;
+        // [THAY ĐỔI] Sử dụng .innerHTML thay vì .textContent
+        readingDescriptionEl.innerHTML = finalReadingText;
         readingCtaBtn.href = `discover.html?tags=${uniqueTags.join(',')}`;
 
         gameBoard.style.display = 'none';
@@ -142,7 +136,6 @@ export function initTarotPage() {
         finalReadingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
-    // ... (Hàm startGame giữ nguyên)
     const startGame = () => {
         introSection.style.display = 'none';
         gameBoard.style.display = 'block';
