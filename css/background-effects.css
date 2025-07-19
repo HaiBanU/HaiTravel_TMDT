@@ -1,0 +1,55 @@
+/* css/background-effects.css */
+
+/* 
+  Chúng ta sẽ sử dụng pseudo-elements của body để tạo hiệu ứng toàn cục, 
+  thay thế cho lớp .dynamic-blob-bg đã dùng ở một số trang trước đây.
+  Cách này đảm bảo hiệu ứng xuất hiện trên TẤT CẢ các trang một cách nhất quán.
+*/
+
+body::before,
+body::after {
+    content: '';
+    position: fixed; /* Sử dụng 'fixed' để các giọt nước không cuộn theo trang */
+    left: 0;
+    top: 0;
+    width: 40vmax; /* Kích thước tương đối với viewport */
+    height: 40vmax;
+    border-radius: 50%;
+    z-index: -1; /* ĐẶT BIỆT QUAN TRỌNG: Đảm bảo hiệu ứng nằm dưới tất cả nội dung */
+    will-change: transform, border-radius; /* Tối ưu hóa hiệu suất animation */
+    filter: blur(100px); /* Hiệu ứng làm mờ cạnh, tạo cảm giác mềm mại như giọt nước */
+}
+
+/* Giọt nước thứ nhất (màu xanh của HaiTravel) */
+body::before {
+    background: rgba(13, 94, 110, 0.25); /* Lấy màu --primary-color với độ trong suốt */
+    animation: moveBlob1 25s ease-in-out infinite alternate;
+}
+
+/* Giọt nước thứ hai (màu vàng của HaiTravel) */
+body::after {
+    background: rgba(197, 164, 126, 0.2); /* Lấy màu --accent-color với độ trong suốt */
+    width: 50vmax;
+    height: 50vmax;
+    animation: moveBlob2 35s ease-in-out infinite alternate;
+}
+
+/* Định nghĩa chuyển động cho giọt nước thứ nhất */
+@keyframes moveBlob1 {
+    0% {
+        transform: translate(-10%, -10%) scale(1);
+    }
+    100% {
+        transform: translate(calc(100vw - 30vmax), calc(100vh - 30vmax)) scale(1.3);
+    }
+}
+
+/* Định nghĩa chuyển động cho giọt nước thứ hai (khác với giọt 1 để tạo sự ngẫu nhiên) */
+@keyframes moveBlob2 {
+    0% {
+        transform: translate(calc(100vw - 40vmax), calc(100vh - 40vmax)) scale(1.4);
+    }
+    100% {
+        transform: translate(10%, 10%) scale(1);
+    }
+}
