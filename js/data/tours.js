@@ -6,7 +6,12 @@ export const tours = {
         startDate: '2025-08-15', 
         endDate: '2025-08-16', 
         gallery: ["images/tour-halong-bay.jpg", "images/activity-halong-cave.jpg", "images/activity-halong-kayak.jpg"], 
-        keyInfo: { line: 'Du thuyền Paradise', departure: '11:00 - Cảng Tuần Châu', route: 'Hà Nội - Hạ Long' }, 
+        keyInfo: { 
+            line: 'Du thuyền Paradise', 
+            departure: '11:00 - Cảng Tuần Châu', 
+            route: 'Hà Nội - Hạ Long',
+            transportDestination: 'Quảng Ninh' // Điểm đến để đặt vé
+        }, 
         activities: [
             {
                 title: 'Chèo Kayak & Thuyền Nan',
@@ -51,8 +56,8 @@ export const tours = {
                 details: 'Chào ngày mới với bài tập Taichi trên boong tàu. Sau bữa sáng nhẹ, thuyền nan sẽ đưa bạn đi tham quan Làng chài, tìm hiểu cuộc sống của ngư dân. Quay lại du thuyền, bạn sẽ tham gia một lớp học nấu ăn ngắn và thưởng thức bữa trưa tự chọn. 12:00, tàu cập bến, xe đưa quý khách trở về Hà Nội, kết thúc hành trình khó quên.' 
             } 
         ], 
-        includes: ['Cabin sang trọng', 'Các bữa ăn theo chương trình', 'Vé tham quan', 'Hướng dẫn viên trên tàu', 'Thuyền kayak'], 
-        notIncludes: ['Xe di chuyển Hà Nội - Hạ Long', 'Đồ uống', 'Chi phí cá nhân', 'Tip'], 
+       includes: ['Xe di chuyển khứ hồi Hà Nội - Hạ Long bằng limousine', 'Cabin sang trọng', 'Các bữa ăn theo chương trình', 'Vé tham quan', 'Hướng dẫn viên trên tàu', 'Thuyền kayak', 'Bảo hiểm du lịch (mức đền bù tối đa 120.000.000 VNĐ/vụ)'], 
+notIncludes: ['Đồ uống', 'Chi phí cá nhân', 'Tip', 'Bảo hiểm hủy tour và các rủi ro cá nhân khác'], 
         documents: ['CCCD hoặc Hộ chiếu còn hiệu lực.'], 
         prepare: ['Đồ bơi, kính râm, kem chống nắng.', 'Máy ảnh, sạc dự phòng.', 'Một chút tiền mặt cho các chi phí nhỏ.'], 
         terms: ['Đặt cọc 50% khi đăng ký tour.', 'Hủy tour trước 7 ngày không mất phí.'],
@@ -65,7 +70,12 @@ export const tours = {
         startDate: '2025-09-22', 
         endDate: '2025-09-22', 
         gallery: ["images/tour-hoi-an-lanterns.jpg", "images/activity-hoian-boat.jpg", "images/activity-hoian-food.jpg"], 
-        keyInfo: { line: 'Tour đi bộ', departure: '18:00 - Tại khách sạn', route: 'Trong khu vực phố cổ' }, 
+        keyInfo: { 
+            line: 'Tour đi bộ', 
+            departure: '18:00 - Tại khách sạn', 
+            route: 'Trong khu vực phố cổ',
+            transportDestination: 'Quảng Nam'
+        }, 
         activities: [
             {
                 title: 'Dạo Thuyền Sông Hoài & Thả Hoa Đăng',
@@ -100,7 +110,7 @@ export const tours = {
                 details: 'Trải nghiệm lãng mạn nhất của đêm Hội An đang chờ đón. Bạn sẽ lên thuyền và tự tay thả đèn hoa đăng trên sông Hoài. Khung cảnh hàng trăm ngọn nến trôi lung linh trên mặt nước chắc chắn sẽ là một kỷ niệm khó phai. Kết thúc chương trình, HDV đưa bạn về lại khách sạn.'
             }
         ], 
-        includes: ['Hướng dẫn viên', 'Vé vào cổng Phố cổ', '1 đèn hoa đăng/khách', 'Thuyền trên sông Hoài'], 
+        includes: ['Hướng dẫn viên', 'Vé vào cổng Phố cổ', '1 đèn hoa đăng/khách', 'Thuyền trên sông Hoài', 'Bảo hiểm du lịch trong tour'], 
         notIncludes: ['Chi phí ăn uống', 'Chi phí cá nhân'], 
         documents: ['Không yêu cầu'], 
         prepare: ['Giày dép thoải mái', 'Máy ảnh'], 
@@ -114,7 +124,12 @@ export const tours = {
         startDate: '2025-10-10', 
         endDate: '2025-10-11', 
         gallery: ["images/tour-sapa-terraces.jpg", "images/activity-sapa-fansipan.jpg", "images/activity-sapa-village.jpg"], 
-        keyInfo: { line: 'Tour trekking', departure: '06:00 - Hà Nội', route: 'Hà Nội - Sapa - Bản Cát Cát' }, 
+        keyInfo: { 
+            line: 'Tour trekking', 
+            departure: '06:00 - Hà Nội', 
+            route: 'Hà Nội - Sapa - Bản Cát Cát',
+            transportDestination: 'Hà Nội'
+        }, 
         activities: [
             {
                 title: 'Chinh Phục "Nóc Nhà Đông Dương"',
@@ -154,7 +169,7 @@ export const tours = {
                 details: 'Quý khách tự do mua sắm đặc sản địa phương trước khi lên xe giường nằm trở về Hà Nội. Dự kiến 21:00, xe về đến Hà Nội, kết thúc hành trình chinh phục đầy cảm xúc.'
             } 
         ], 
-        includes: ['Xe giường nằm khứ hồi', 'Khách sạn tại Sapa (2 người/phòng)', 'Các bữa ăn theo chương trình', 'Vé tham quan bản Cát Cát', 'Vé cáp treo Fansipan khứ hồi', 'Hướng dẫn viên nhiệt tình'], 
+        includes: ['Xe giường nằm khứ hồi', 'Khách sạn tại Sapa (2 người/phòng)', 'Các bữa ăn theo chương trình', 'Vé tham quan bản Cát Cát', 'Vé cáp treo Fansipan khứ hồi', 'Hướng dẫn viên nhiệt tình', 'Bảo hiểm du lịch mạo hiểm (mức đền bù tối đa 150.000.000 VNĐ/vụ)'], 
         notIncludes: ['Đồ uống trong các bữa ăn', 'Chi phí cá nhân ngoài chương trình', 'Tip cho HDV và tài xế'], 
         documents: ['CCCD hoặc Hộ chiếu'], 
         prepare: ['Giày trekking hoặc giày thể thao thoải mái', 'Quần áo ấm, áo khoác gió', 'Mũ, kính, kem chống nắng', 'Máy ảnh'], 
@@ -168,7 +183,12 @@ export const tours = {
         startDate: '2025-07-25', 
         endDate: '2025-07-25', 
         gallery: ["images/tour-danang-golden-bridge.jpg", "images/activity-danang-fantasy.jpg", "images/activity-danang-village.jpg"], 
-        keyInfo: { line: 'Tour trong ngày', departure: '08:00 - Đà Nẵng', route: 'Đà Nẵng - Bà Nà Hills' }, 
+        keyInfo: { 
+            line: 'Tour trong ngày', 
+            departure: '08:00 - Đà Nẵng', 
+            route: 'Đà Nẵng - Bà Nà Hills',
+            transportDestination: 'Đà Nẵng'
+        }, 
         activities: [
             {
                 title: 'Check-in Cầu Vàng Biểu Tượng',
@@ -203,7 +223,7 @@ export const tours = {
                 details: 'Tập trung tại ga cáp treo để xuống núi. Xe sẽ đưa quý khách về lại điểm đón ban đầu tại Đà Nẵng, kết thúc một ngày vui chơi và khám phá trọn vẹn tại "đường lên tiên cảnh".'
             }
         ], 
-        includes: ['Xe đưa đón', 'Hướng dẫn viên', 'Vé cáp treo và vé vào cổng', 'Ăn trưa buffet'], 
+        includes: ['Xe đưa đón', 'Hướng dẫn viên', 'Vé cáp treo và vé vào cổng', 'Ăn trưa buffet', 'Bảo hiểm du lịch (mức đền bù tối đa 100.000.000 VNĐ/vụ)'], 
         notIncludes: ['Vé Bảo tàng Sáp', 'Chi phí cá nhân'], 
         documents: ['Không yêu cầu'], 
         prepare: ['Mũ, nón', 'Kính râm'], 
@@ -217,7 +237,12 @@ export const tours = {
         startDate: '2025-11-05', 
         endDate: '2025-11-05', 
         gallery: ["images/tour-ninhbinh-trangan.jpg", "images/activity-ninhbinh-pagoda.jpg", "images/activity-ninhbinh-food.jpg"], 
-        keyInfo: { line: 'Tour trong ngày', departure: '07:30 - Hà Nội', route: 'Hà Nội - Tràng An - Bái Đính' }, 
+        keyInfo: { 
+            line: 'Tour trong ngày', 
+            departure: '07:30 - Hà Nội', 
+            route: 'Hà Nội - Tràng An - Bái Đính',
+            transportDestination: 'Hà Nội'
+        }, 
         activities: [
             {
                 title: 'Du Thuyền Tràng An',
@@ -252,7 +277,7 @@ export const tours = {
                 details: 'Lên thuyền đi dọc theo dòng sông Sào Khê trong khu du lịch sinh thái Tràng An, khám phá hệ thống hang động tự nhiên và các di tích lịch sử. Khoảng 17:00, quý khách lên xe trở về Hà Nội, kết thúc chuyến đi.'
             }
         ], 
-        includes: ['Xe đưa đón', 'Hướng dẫn viên', 'Ăn trưa', 'Vé thuyền Tràng An', 'Vé xe điện chùa Bái Đính'], 
+        includes: ['Xe đưa đón', 'Hướng dẫn viên', 'Ăn trưa', 'Vé thuyền Tràng An', 'Vé xe điện chùa Bái Đính', 'Bảo hiểm du lịch (mức đền bù tối đa 100.000.000 VNĐ/vụ)'], 
         notIncludes: ['Đồ uống', 'Chi phí cá nhân'], 
         documents: ['Không yêu cầu'], 
         prepare: ['Quần áo lịch sự khi vào chùa', 'Mũ, nón'], 
@@ -266,7 +291,12 @@ export const tours = {
         startDate: '2025-12-20', 
         endDate: '2025-12-22', 
         gallery: ["images/tour-phuquoc-beach.jpg", "images/activity-phuquoc-cablecar.jpg", "images/activity-phuquoc-market.jpg"], 
-        keyInfo: { line: 'Tour trọn gói', departure: 'Theo chuyến bay', route: 'Tham quan Nam đảo & Bắc đảo' }, 
+        keyInfo: { 
+            line: 'Tour trọn gói', 
+            departure: 'Theo chuyến bay', 
+            route: 'Tham quan Nam đảo & Bắc đảo',
+            transportDestination: 'Kiên Giang'
+        }, 
         activities: [
             {
                 title: 'Tắm Biển Tại Bãi Sao',
@@ -301,8 +331,8 @@ export const tours = {
                 details: 'Quý khách tự do tắm biển tại khách sạn hoặc đi mua sắm đặc sản. Đến giờ, xe đưa quý khách ra sân bay Phú Quốc, làm thủ tục bay về. Kết thúc chuyến nghỉ dưỡng tuyệt vời.'
             }
         ], 
-        includes: ['Xe đưa đón tại sân bay', 'Khách sạn 2 đêm', 'Các bữa ăn theo chương trình', 'Vé tham quan'], 
-        notIncludes: ['Vé máy bay', 'Chi phí cá nhân', 'Vé cáp treo Hòn Thơm'], 
+        includes: ['Xe đưa đón tại sân bay', 'Khách sạn 2 đêm', 'Các bữa ăn theo chương trình', 'Vé tham quan', 'Bảo hiểm du lịch (mức đền bù tối đa 120.000.000 VNĐ/vụ)'], 
+        notIncludes: ['Vé máy bay', 'Chi phí cá nhân', 'Vé cáp treo Hòn Thơm', 'Bảo hiểm cho hành lý và tài sản cá nhân'], 
         documents: ['CCCD hoặc Hộ chiếu'], 
         prepare: ['Đồ bơi', 'Kem chống nắng'], 
         terms: ['Giá tour không bao gồm vé máy bay và có thể thay đổi tùy vào hạng khách sạn.'],
@@ -315,7 +345,12 @@ export const tours = {
         startDate: '2025-08-20', 
         endDate: '2025-08-21', 
         gallery: ["images/tour-mientay-mekong.jpg", "images/activity-mientay-floatingmarket.jpg", "images/activity-mientay-fruit.jpg"], 
-        keyInfo: { line: 'Tour đường bộ', departure: '07:00 - TP. Hồ Chí Minh', route: 'TP.HCM - Mỹ Tho - Bến Tre - Cần Thơ' }, 
+        keyInfo: { 
+            line: 'Tour đường bộ', 
+            departure: '07:00 - TP. Hồ Chí Minh', 
+            route: 'TP.HCM - Mỹ Tho - Bến Tre - Cần Thơ',
+            transportDestination: 'TP. Hồ Chí Minh'
+        }, 
         activities: [
             {
                 title: 'Đi Chợ Nổi Cái Răng',
@@ -350,7 +385,7 @@ export const tours = {
                 details: 'Sáng sớm, xe đưa quý khách ra bến tàu tham quan Chợ nổi Cái Răng, chứng kiến nét văn hóa giao thương độc đáo trên sông. Sau khi quay về khách sạn trả phòng và ăn trưa, xe sẽ đưa quý khách về lại TP.HCM, kết thúc chuyến đi về miền sông nước.'
             }
         ], 
-        includes: ['Xe du lịch đời mới', 'Khách sạn 1 đêm tại Cần Thơ', 'Các bữa ăn theo chương trình', 'Thuyền tham quan', 'Hướng dẫn viên'], 
+        includes: ['Xe du lịch đời mới', 'Khách sạn 1 đêm tại Cần Thơ', 'Các bữa ăn theo chương trình', 'Thuyền tham quan', 'Hướng dẫn viên', 'Bảo hiểm du lịch (mức đền bù tối đa 100.000.000 VNĐ/vụ)'], 
         notIncludes: ['Chi phí ăn uống ngoài chương trình', 'Chi phí cá nhân', 'Tip'], 
         documents: ['CCCD hoặc Hộ chiếu'], 
         prepare: ['Nón rộng vành, kính râm', 'Quần áo thoải mái, dễ vận động', 'Thuốc chống côn trùng'], 
@@ -364,7 +399,12 @@ export const tours = {
         startDate: '2025-09-10', 
         endDate: '2025-09-11', 
         gallery: ["images/tour-nhatrang-scuba.jpg", "images/activity-nhatrang-island.jpg", "images/activity-nhatrang-mudbath.jpg"], 
-        keyInfo: { line: 'Tour biển đảo', departure: '08:30 - Cảng Cầu Đá', route: 'Vịnh Nha Trang' }, 
+        keyInfo: { 
+            line: 'Tour biển đảo', 
+            departure: '08:30 - Cảng Cầu Đá', 
+            route: 'Vịnh Nha Trang',
+            transportDestination: 'Khánh Hòa'
+        }, 
         activities: [
             {
                 title: 'Lặn Biển Ngắm San Hô (Scuba Diving)',
@@ -399,7 +439,7 @@ export const tours = {
                 details: 'Hôm nay là ngày để bạn tự do khám phá Nha Trang theo cách riêng. Bạn có thể lựa chọn đi tham quan Tháp Bà Ponagar, Chùa Long Sơn, hoặc dành thời gian thư giãn với dịch vụ tắm bùn khoáng nóng. Tour không bao gồm chi phí và xe trong ngày này. Kết thúc chương trình tour.'
             }
         ], 
-        includes: ['Xe đưa đón ngày 1', 'Cano cao tốc', 'Vé lặn biển (Scuba Diving 1 lần)', 'Ăn trưa', 'Nước suối', 'Hướng dẫn viên'], 
+        includes: ['Xe đưa đón ngày 1', 'Cano cao tốc', 'Vé lặn biển (Scuba Diving 1 lần)', 'Ăn trưa', 'Nước suối', 'Hướng dẫn viên', 'Bảo hiểm du lịch chuyên biệt cho hoạt động lặn biển (mức đền bù tối đa 200.000.000 VNĐ/vụ)'], 
         notIncludes: ['Chi phí khách sạn', 'Các bữa ăn khác', 'Chi phí cá nhân và các trò chơi trên biển', 'Chi phí ngày 2'], 
         documents: ['CCCD hoặc Hộ chiếu'], 
         prepare: ['Đồ bơi, khăn tắm', 'Kem chống nắng', 'Máy ảnh chống nước (nếu có)'], 
