@@ -27,55 +27,56 @@ export function initAiChat() {
         chatBubble.classList.remove('open');
     }
 
-    // [CẬP NHẬT] Thay thế icon bằng ảnh cho AI
-const displayMessage = (message, sender) => {
-    const typingIndicator = chatMessages.querySelector('.typing-indicator');
-    if (typingIndicator) typingIndicator.remove();
-    
-    const messageWrapper = document.createElement('div');
-    messageWrapper.classList.add('message-wrapper', `message-${sender}`);
+    const displayMessage = (message, sender) => {
+        const typingIndicator = chatMessages.querySelector('.typing-indicator');
+        if (typingIndicator) typingIndicator.remove();
+        
+        const messageWrapper = document.createElement('div');
+        messageWrapper.classList.add('message-wrapper', `message-${sender}`);
 
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message');
-    
-    const senderName = sender === 'user' ? 'Bạn' : 'Hai AI';
-    
-    // Logic mới: Nếu là AI thì dùng <img>, nếu là user thì dùng <i>
-    const avatarHTML = sender === 'ai' 
-        ? `<img src="images/avatar-hai-ai.png" alt="Hai AI Avatar">`
-        : `<i class="fa-solid fa-user"></i>`;
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        
+        const senderName = sender === 'user' ? 'Bạn' : 'Hai AI';
+        
+        const avatarHTML = sender === 'ai' 
+            ? `<img src="images/avatar-hai-ai.png" alt="Hai AI Avatar">`
+            : `<i class="fa-solid fa-user"></i>`;
 
-    messageElement.innerHTML = `
-        <div class="avatar">${avatarHTML}</div>
-        <div class="message-content">
-            <div class="sender-name">${senderName}</div>
-            <div class="text-bubble">${message}</div>
-        </div>`;
-    
-    messageWrapper.appendChild(messageElement);
-    chatMessages.appendChild(messageWrapper);
-    
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    setTimeout(() => messageWrapper.classList.add('visible'), 50);
-};
+        messageElement.innerHTML = `
+            <div class="avatar">${avatarHTML}</div>
+            <div class="message-content">
+                <div class="sender-name">${senderName}</div>
+                <div class="text-bubble">${message}</div>
+            </div>`;
+        
+        messageWrapper.appendChild(messageElement);
+        chatMessages.appendChild(messageWrapper);
+        
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        setTimeout(() => messageWrapper.classList.add('visible'), 50);
+    };
+
+    // [THÊM MỚI] Hàm hiển thị hiệu ứng đang trả lời
     const showTypingIndicator = () => {
-    const indicatorWrapper = document.createElement('div');
-    indicatorWrapper.classList.add('message-wrapper', 'message-ai', 'typing-indicator');
-    
-    indicatorWrapper.innerHTML = `
-        <div class="message">
-             <div class="avatar"><img src="images/avatar-hai-ai.png" alt="Hai AI Avatar"></div>
-             <div class="message-content">
-                <div class="sender-name">Hai AI</div>
-                <div class="text-bubble">
-                    <div class="dot-flashing"></div>
+        const indicatorWrapper = document.createElement('div');
+        indicatorWrapper.classList.add('message-wrapper', 'message-ai', 'typing-indicator');
+        
+        indicatorWrapper.innerHTML = `
+            <div class="message">
+                 <div class="avatar"><img src="images/avatar-hai-ai.png" alt="Hai AI Avatar"></div>
+                 <div class="message-content">
+                    <div class="sender-name">Hai AI</div>
+                    <div class="text-bubble">
+                        <div class="dot-flashing"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-    chatMessages.appendChild(indicatorWrapper);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-};
+        `;
+        chatMessages.appendChild(indicatorWrapper);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        setTimeout(() => indicatorWrapper.classList.add('visible'), 50); // Thêm hiệu ứng xuất hiện
+    };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -86,6 +87,8 @@ const displayMessage = (message, sender) => {
         chatHistory.push({ role: "user", content: userMessage });
         chatInput.value = '';
         sendBtn.disabled = true;
+        
+        // [THÊM MỚI] Gọi hàm hiển thị hiệu ứng typing
         showTypingIndicator();
         
         try {
@@ -100,7 +103,6 @@ const displayMessage = (message, sender) => {
             displayMessage(aiReply, 'ai');
             chatHistory.push({ role: "assistant", content: aiReply });
         } catch (error) {
-            // [SỬA ĐỔI] Tin nhắn lỗi
             displayMessage("Xin lỗi, tôi đang gặp một sự cố nhỏ. Vui lòng thử lại sau giây lát.", 'ai');
         } finally {
             sendBtn.disabled = false;
@@ -118,7 +120,6 @@ const displayMessage = (message, sender) => {
         }
     });
     
-    // [SỬA ĐỔI] Tin nhắn chào mừng mới
     setTimeout(() => {
          displayMessage("Xin chào! Tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho hành trình sắp tới của bạn?", 'ai');
     }, 500);
