@@ -114,6 +114,7 @@ app.post('/api/users/register', async (req, res) => {
     }
 });
 
+// [SỬA LỖI] Bổ sung try...catch cho route đăng nhập
 app.post('/api/users/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -131,6 +132,7 @@ app.post('/api/users/login', async (req, res) => {
 });
 
 // B. Tour Routes
+// Các route này đã có try...catch, giữ nguyên
 app.get('/api/tours/:tourId/reviews', async (req, res) => {
     try {
         const tour = await Tour.findOne({ tourId: req.params.tourId });
@@ -154,7 +156,7 @@ app.post('/api/tours/:tourId/reviews', async (req, res) => {
     }
 });
 
-// C. Cart Routes - Đã được bảo vệ bởi middleware 'protect'
+// C. Cart Routes - Đã được bảo vệ bởi middleware 'protect' có sẵn try...catch
 app.get('/api/cart', protect, (req, res) => res.json(req.user.cart));
 
 app.post('/api/cart', protect, async (req, res) => {
@@ -229,64 +231,18 @@ app.delete('/api/cart/:itemId', protect, async (req, res) => {
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 app.post('/api/ai/chat', async (req, res) => {
     try {
-        const { message, history, userName } = req.body; // Nhận thêm userName từ request
-
-        // [NÂNG CẤP] Tạo ngữ cảnh chi tiết từ dữ liệu tour
-        let tourDetailsContext = "";
-        for (const id in tours) {
-            const tour = tours[id];
-            tourDetailsContext += `\n\n--- TOUR: ${tour.name} ---\n`;
-            tourDetailsContext += `Giá: ${tour.price.toLocaleString('vi-VN')} VNĐ\n`;
-            if (tour.originalPrice) tourDetailsContext += `Giá gốc: ${tour.originalPrice.toLocaleString('vi-VN')} VNĐ\n`;
-            tourDetailsContext += `Thời gian: Từ ${tour.startDate} đến ${tour.endDate}\n`;
-            if (tour.keyInfo) tourDetailsContext += `Khởi hành: ${tour.keyInfo.departure}\n`;
-            tourDetailsContext += `Lịch trình: ${tour.itinerary.map(i => `${i.day} (${i.time}): ${i.details}`).join('; ')}\n`;
-            if (tour.includes) tourDetailsContext += `Bao gồm: ${tour.includes.join(', ')}\n`;
-            if (tour.notIncludes) tourDetailsContext += `Không bao gồm: ${tour.notIncludes.join(', ')}\n`;
-            if (tour.prepare) tourDetailsContext += `Cần chuẩn bị: ${tour.prepare.join(', ')}\n`;
-            if (tour.documents) tourDetailsContext += `Giấy tờ cần thiết: ${tour.documents.join(', ')}\n`;
-            if (tour.terms) tourDetailsContext += `Điều khoản: ${tour.terms.join(', ')}\n`;
-            // Trích xuất thông tin bảo hiểm một cách rõ ràng
-            if (tour.includes && tour.includes.some(item => item.toLowerCase().includes('bảo hiểm'))) {
-                const insuranceInfo = tour.includes.find(item => item.toLowerCase().includes('bảo hiểm'));
-                tourDetailsContext += `Thông tin bảo hiểm: ${insuranceInfo}\n`;
-            }
-        }
-
-        // [NÂNG CẤP] System Prompt mới thông minh hơn
-        const systemPrompt = `Bạn là Hai AI, một trợ lý ảo thông minh, thân thiện và chuyên nghiệp của công ty du lịch HaiTravel. Luôn luôn trả lời bằng tiếng Việt.
-
-Nhiệm vụ của bạn:
-1. **Chào hỏi:** Nếu đây là tin nhắn đầu tiên từ người dùng trong cuộc trò chuyện (tức là trong 'history' chưa có lời chào của bạn), hãy chào khách hàng. Nếu biết tên khách hàng (biến \`userName\` có giá trị, ví dụ: "Sơn Tùng"), hãy chào "Xin chào ${userName}, tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho bạn?". Nếu không biết tên, hãy chào "Xin chào, tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho bạn?". Đối với các tin nhắn tiếp theo, không cần lặp lại lời chào đầy đủ, chỉ cần trả lời câu hỏi.
-2. **Sử dụng kiến thức được cung cấp:** TRẢ LỜI MỌI CÂU HỎI DỰA TRÊN "DỮ LIỆU CHI TIẾT CÁC TOUR" DƯỚI ĐÂY. Đây là nguồn thông tin duy nhất và chính xác nhất của bạn. Không được bịa đặt thông tin.
-3. **Tư vấn chi tiết:** Giải đáp mọi thắc mắc của khách hàng về tour như: lịch trình, giá cả, dịch vụ bao gồm và không bao gồm, thông tin bảo hiểm, những thứ cần chuẩn bị, điều khoản tour. Ví dụ, nếu khách hỏi "tour Hạ Long có bảo hiểm không?", bạn phải tìm trong dữ liệu và trả lời chính xác dựa trên dòng "Thông tin bảo hiểm".
-4. **Tư vấn gợi ý:** Dựa vào sở thích của khách (ví dụ: "đi biển", "leo núi", "tour cho cặp đôi"), hãy gợi ý những tour phù hợp nhất từ danh sách.
-5. **Giọng văn:** Luôn giữ giọng văn thân thiện, chuyên nghiệp, rõ ràng, và nhiệt tình. Trả lời ngắn gọn, đi thẳng vào vấn đề.
-
-**DỮ LIỆU CHI TIẾT CÁC TOUR:**
-${tourDetailsContext}`;
-        
-        // Kiểm tra xem AI đã chào chưa trong lịch sử gần đây
-        const alreadyGreeted = history.some(item => item.role === 'assistant' && item.content.toLowerCase().includes('xin chào'));
-        let finalSystemPrompt = systemPrompt;
-
-        // Nếu AI đã chào rồi, có thể đơn giản hóa prompt cho các lần sau để tiết kiệm token,
-        // nhưng với Groq thì không quá cần thiết. Ta giữ nguyên để đảm bảo AI luôn nhớ vai trò.
-        // Dòng code dưới đây được comment lại nhưng bạn có thể dùng nếu muốn tối ưu hơn.
-        // if (alreadyGreeted) {
-        //      finalSystemPrompt = systemPrompt.replace(/1\. \*\*Chào hỏi:\*\* .*\n/, ''); // Xóa quy tắc chào hỏi nếu đã chào
-        // }
-
-        const messages = [{ role: "system", content: finalSystemPrompt }, ...history, { role: "user", content: message }];
-        
-        const chatCompletion = await groq.chat.completions.create({ 
-            messages, 
-            model: "llama3-8b-8192" 
-        });
-
+        const { message, history } = req.body;
+        const tourContext = Object.values(tours).map(t => `- ${t.name}`).join('\n');
+       const systemPrompt = `Bạn là Jack 97, một nhân viên tư vấn tour du lịch thân thiện và chuyên nghiệp của HaiTravel. Luôn trả lời bằng tiếng Việt, với giọng văn ngắn gọn, rõ ràng, nhẹ nhàng, không dài dòng và tránh máy móc. Nhiệm vụ của bạn bao gồm:
+1. Gợi ý các tour du lịch phù hợp dựa trên nhu cầu của khách hàng (ví dụ: địa điểm, thời gian, ngân sách, sở thích như "đi biển", "leo núi", "ăn uống").
+2. Giải đáp các thắc mắc cụ thể về tour, lịch trình, giá cả, phương thức thanh toán, hoặc chính sách hoàn tiền.
+3. Nếu chưa rõ yêu cầu của khách, hãy chủ động hỏi lại các câu hỏi đơn giản để có thể tư vấn chính xác hơn (ví dụ: "Bạn dự định đi trong bao lâu?", "Ngân sách của bạn khoảng bao nhiêu?").
+Danh sách các tour hiện có để bạn tư vấn:
+${tourContext}`;
+        const messages = [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: message }];
+        const chatCompletion = await groq.chat.completions.create({ messages, model: "llama3-8b-8192" });
         res.json({ reply: chatCompletion.choices[0]?.message?.content });
     } catch (error) {
-        console.error("Lỗi AI Chat:", error);
         res.status(500).json({ error: 'Lỗi kết nối với trợ lý AI.' });
     }
 });

@@ -1,7 +1,5 @@
 // js/ai-chat.js
 
-import { getCurrentUser } from './services/auth.js'; // Thêm import để lấy thông tin người dùng
-
 export function initAiChat() {
     const chatBubble = document.getElementById('chat-bubble-trigger');
     const chatWindow = document.getElementById('ai-chat-window');
@@ -29,57 +27,55 @@ export function initAiChat() {
         chatBubble.classList.remove('open');
     }
 
-    const displayMessage = (message, sender) => {
-        const typingIndicator = chatMessages.querySelector('.typing-indicator');
-        if (typingIndicator) typingIndicator.remove();
-        
-        const messageWrapper = document.createElement('div');
-        messageWrapper.classList.add('message-wrapper', `message-${sender}`);
+    // [CẬP NHẬT] Thay thế icon bằng ảnh cho AI
+const displayMessage = (message, sender) => {
+    const typingIndicator = chatMessages.querySelector('.typing-indicator');
+    if (typingIndicator) typingIndicator.remove();
+    
+    const messageWrapper = document.createElement('div');
+    messageWrapper.classList.add('message-wrapper', `message-${sender}`);
 
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message');
-        
-        // [CẬP NHẬT] Thay đổi tên chatbot
-        const senderName = sender === 'user' ? 'Bạn' : 'Hai AI';
-        
-        // [CẬP NHẬT] Thay đổi avatar
-        const avatarHTML = sender === 'ai' 
-            ? `<img src="images/avatar-hai-ai.png" alt="Hai AI Avatar">`
-            : `<i class="fa-solid fa-user"></i>`;
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    
+    const senderName = sender === 'user' ? 'Bạn' : 'Jack 97';
+    
+    // Logic mới: Nếu là AI thì dùng <img>, nếu là user thì dùng <i>
+    const avatarHTML = sender === 'ai' 
+        ? `<img src="images/avatar-jack97.png" alt="Jack 97 Avatar">`
+        : `<i class="fa-solid fa-user"></i>`;
 
-        messageElement.innerHTML = `
-            <div class="avatar">${avatarHTML}</div>
-            <div class="message-content">
-                <div class="sender-name">${senderName}</div>
-                <div class="text-bubble">${message}</div>
-            </div>`;
-        
-        messageWrapper.appendChild(messageElement);
-        chatMessages.appendChild(messageWrapper);
-        
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        setTimeout(() => messageWrapper.classList.add('visible'), 50);
-    };
-
+    messageElement.innerHTML = `
+        <div class="avatar">${avatarHTML}</div>
+        <div class="message-content">
+            <div class="sender-name">${senderName}</div>
+            <div class="text-bubble">${message}</div>
+        </div>`;
+    
+    messageWrapper.appendChild(messageElement);
+    chatMessages.appendChild(messageWrapper);
+    
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    setTimeout(() => messageWrapper.classList.add('visible'), 50);
+};
     const showTypingIndicator = () => {
-        const indicatorWrapper = document.createElement('div');
-        indicatorWrapper.classList.add('message-wrapper', 'message-ai', 'typing-indicator');
-        
-        // [CẬP NHẬT] Thay đổi avatar và tên trong typing indicator
-        indicatorWrapper.innerHTML = `
-            <div class="message">
-                 <div class="avatar"><img src="images/avatar-hai-ai.png" alt="Hai AI Avatar"></div>
-                 <div class="message-content">
-                    <div class="sender-name">Hai AI</div>
-                    <div class="text-bubble">
-                        <div class="dot-flashing"></div>
-                    </div>
+    const indicatorWrapper = document.createElement('div');
+    indicatorWrapper.classList.add('message-wrapper', 'message-ai', 'typing-indicator');
+    
+    indicatorWrapper.innerHTML = `
+        <div class="message">
+             <div class="avatar"><img src="images/avatar-jack97.png" alt="Jack 97 Avatar"></div>
+             <div class="message-content">
+                <div class="sender-name">Jack 97</div>
+                <div class="text-bubble">
+                    <div class="dot-flashing"></div>
                 </div>
             </div>
-        `;
-        chatMessages.appendChild(indicatorWrapper);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    };
+        </div>
+    `;
+    chatMessages.appendChild(indicatorWrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+};
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -93,16 +89,10 @@ export function initAiChat() {
         showTypingIndicator();
         
         try {
-            // [CẬP NHẬT] Thêm tên người dùng vào request gửi đi
-            const user = getCurrentUser();
             const response = await fetch('https://haitravel-backend.onrender.com/api/ai/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    message: userMessage, 
-                    history: chatHistory.slice(-6),
-                    userName: user ? user.name : null // Gửi tên người dùng nếu có
-                })
+                body: JSON.stringify({ message: userMessage, history: chatHistory.slice(-6) })
             });
             if (!response.ok) throw new Error('Có lỗi xảy ra, vui lòng thử lại.');
             const data = await response.json();
@@ -110,6 +100,7 @@ export function initAiChat() {
             displayMessage(aiReply, 'ai');
             chatHistory.push({ role: "assistant", content: aiReply });
         } catch (error) {
+            // [SỬA ĐỔI] Tin nhắn lỗi
             displayMessage("Xin lỗi, tôi đang gặp một sự cố nhỏ. Vui lòng thử lại sau giây lát.", 'ai');
         } finally {
             sendBtn.disabled = false;
@@ -127,14 +118,8 @@ export function initAiChat() {
         }
     });
     
-    // [CẬP NHẬT] Lời chào mừng được cá nhân hóa
+    // [SỬA ĐỔI] Tin nhắn chào mừng mới
     setTimeout(() => {
-        const user = getCurrentUser();
-        const welcomeMessage = user
-            ? `Xin chào ${user.name}! Tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho hành trình sắp tới của bạn?`
-            : "Xin chào! Tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho hành trình sắp tới của bạn?";
-        displayMessage(welcomeMessage, 'ai');
-        // Thêm lời chào vào lịch sử chat để AI biết đã chào rồi
-        chatHistory.push({ role: "assistant", content: welcomeMessage });
+         displayMessage("Xin chào! Tôi là Jack 97, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho hành trình sắp tới của bạn?", 'ai');
     }, 500);
 }

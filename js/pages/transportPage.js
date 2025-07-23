@@ -5,6 +5,8 @@ import { addItemToCart } from '../services/cart.js';
 import { formatTravelTime } from '../utils/formatters.js';
 import { showCustomAlert } from '../utils/dom.js';
 
+// ... (Các hàm createSearchableDropdown không đổi)
+
 function createSearchableDropdown(inputElement, listContainer, data) {
     inputElement.addEventListener('input', () => {
         const query = inputElement.value.toLowerCase().trim();
@@ -38,7 +40,7 @@ function createSearchableDropdown(inputElement, listContainer, data) {
 
 
 function renderTransportResults(routeData) {
-    document.getElementById('route-map-image').src = `${routeData.mapImage}`;
+    document.getElementById('route-map-image').src = `${routeData.mapImage}`; // [SỬA LỖI] Bỏ ../
     document.getElementById('route-title').textContent = `${routeData.start} → ${routeData.end}`;
     
     document.getElementById('route-description').textContent = routeData.description || 'Hành trình tuyệt vời đang chờ đón bạn.';
@@ -88,12 +90,13 @@ function renderTransportResults(routeData) {
         button.className = 'btn btn-primary';
         button.textContent = 'Thêm vào giỏ';
 
+        // [SỬA LỖI] Tạo đúng đối tượng itemData để thêm vào giỏ hàng
         button.onclick = () => {
             const itemData = {
                 itemId: `transport-${routeData.start}-${routeData.end}-${vehicle.name}-${departDate}`.replace(/\s/g, '-').toLowerCase(),
                 name: `Vé ${vehicle.name}: ${routeData.start} → ${routeData.end}`,
                 price: currentPrice,
-                image: 'images/logo-haitravel.jpg',
+                image: 'images/logo-haitravel.jpg', // Ảnh mặc định cho vé
                 startDate: departDate,
                 endDate: departDate,
             };
@@ -168,14 +171,4 @@ export function initTransportPage() {
     }
     
     form.addEventListener('submit', handleTransportSearch);
-
-    // [THÊM MỚI] Tự động điền điểm đến từ URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const endPointParam = urlParams.get('endPoint');
-    if (endPointParam) {
-        endPointInput.value = endPointParam;
-        // Gợi ý người dùng nhập điểm đi
-        startPointInput.focus();
-        showCustomAlert('Gợi ý', `Hãy nhập điểm xuất phát của bạn để tìm vé tới ${endPointParam}!`, 'fa-solid fa-circle-info');
-    }
 }
