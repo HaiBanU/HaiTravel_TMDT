@@ -8,15 +8,17 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Groq from 'groq-sdk';
 import { tours } from '../js/data/tours.js';
+// Thêm import fetch để gọi API bên ngoài
+import fetch from 'node-fetch';
 
 // --- KHỞI TẠO VÀ CẤU HÌNH ---
 dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-    'http://127.0.0.1:5500', 
-    'http://localhost:5500', 
-    process.env.FRONTEND_URL 
+    'http://127.0.0.1:5500',
+    'http://localhost:5500',
+    process.env.FRONTEND_URL
 ];
 
 app.use(cors({
@@ -114,7 +116,6 @@ app.post('/api/users/register', async (req, res) => {
     }
 });
 
-// [SỬA LỖI] Bổ sung try...catch cho route đăng nhập
 app.post('/api/users/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -132,7 +133,6 @@ app.post('/api/users/login', async (req, res) => {
 });
 
 // B. Tour Routes
-// Các route này đã có try...catch, giữ nguyên
 app.get('/api/tours/:tourId/reviews', async (req, res) => {
     try {
         const tour = await Tour.findOne({ tourId: req.params.tourId });
@@ -156,7 +156,7 @@ app.post('/api/tours/:tourId/reviews', async (req, res) => {
     }
 });
 
-// C. Cart Routes - Đã được bảo vệ bởi middleware 'protect' có sẵn try...catch
+// C. Cart Routes
 app.get('/api/cart', protect, (req, res) => res.json(req.user.cart));
 
 app.post('/api/cart', protect, async (req, res) => {
@@ -227,23 +227,79 @@ app.delete('/api/cart/:itemId', protect, async (req, res) => {
     }
 });
 
-// D. AI Chat Route
+// D. AI Routes
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 app.post('/api/ai/chat', async (req, res) => {
     try {
-        const { message, history } = req.body;
-        const tourContext = Object.values(tours).map(t => `- ${t.name}`).join('\n');
-       const systemPrompt = `Bạn là Jack 97, một nhân viên tư vấn tour du lịch thân thiện và chuyên nghiệp của HaiTravel. Luôn trả lời bằng tiếng Việt, với giọng văn ngắn gọn, rõ ràng, nhẹ nhàng, không dài dòng và tránh máy móc. Nhiệm vụ của bạn bao gồm:
-1. Gợi ý các tour du lịch phù hợp dựa trên nhu cầu của khách hàng (ví dụ: địa điểm, thời gian, ngân sách, sở thích như "đi biển", "leo núi", "ăn uống").
-2. Giải đáp các thắc mắc cụ thể về tour, lịch trình, giá cả, phương thức thanh toán, hoặc chính sách hoàn tiền.
-3. Nếu chưa rõ yêu cầu của khách, hãy chủ động hỏi lại các câu hỏi đơn giản để có thể tư vấn chính xác hơn (ví dụ: "Bạn dự định đi trong bao lâu?", "Ngân sách của bạn khoảng bao nhiêu?").
-Danh sách các tour hiện có để bạn tư vấn:
-${tourContext}`;
+        const { message, history, userName } = req.body;
+
+        let tourDetailsContext = "";
+        for (const id in tours) {
+            const tour = tours[id];
+            tourDetailsContext += `\n\n--- TOUR: ${tour.name} ---\n`;
+            tourDetailsContext += `Giá: ${tour.price.toLocaleString('vi-VN')} VNĐ\n`;
+            if (tour.originalPrice) tourDetailsContext += `Giá gốc: ${tour.originalPrice.toLocaleString('vi-VN')} VNĐ\n`;
+            tourDetailsContext += `Thời gian: Từ ${tour.startDate} đến ${tour.endDate}\n`;
+            if (tour.keyInfo) tourDetailsContext += `Khởi hành: ${tour.keyInfo.departure}\n`;
+            tourDetailsContext += `Lịch trình: ${tour.itinerary.map(i => `${i.day} (${i.time}): ${i.details}`).join('; ')}\n`;
+            if (tour.includes) tourDetailsContext += `Bao gồm: ${tour.includes.join(', ')}\n`;
+            if (tour.notIncludes) tourDetailsContext += `Không bao gồm: ${tour.notIncludes.join(', ')}\n`;
+            if (tour.prepare) tourDetailsContext += `Cần chuẩn bị: ${tour.prepare.join(', ')}\n`;
+            if (tour.documents) tourDetailsContext += `Giấy tờ cần thiết: ${tour.documents.join(', ')}\n`;
+            if (tour.terms) tourDetailsContext += `Điều khoản: ${tour.terms.join(', ')}\n`;
+            if (tour.includes && tour.includes.some(item => item.toLowerCase().includes('bảo hiểm'))) {
+                const insuranceInfo = tour.includes.find(item => item.toLowerCase().includes('bảo hiểm'));
+                tourDetailsContext += `Thông tin bảo hiểm: ${insuranceInfo}\n`;
+            }
+        }
+
+        const systemPrompt = `Bạn là Hai AI, một trợ lý ảo thông minh, thân thiện và chuyên nghiệp của công ty du lịch HaiTravel. Luôn luôn trả lời bằng tiếng Việt.\n\nNhiệm vụ của bạn:\n1. **Chào hỏi:** Nếu đây là tin nhắn đầu tiên từ người dùng trong cuộc trò chuyện (tức là trong 'history' chưa có lời chào của bạn), hãy chào khách hàng. Nếu biết tên khách hàng (biến \`userName\` có giá trị, ví dụ: "Sơn Tùng"), hãy chào "Xin chào ${userName}, tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho bạn?". Nếu không biết tên, hãy chào "Xin chào, tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho bạn?". Đối với các tin nhắn tiếp theo, không cần lặp lại lời chào đầy đủ, chỉ cần trả lời câu hỏi.\n2. **Sử dụng kiến thức được cung cấp:** TRẢ LỜI MỌI CÂU HỎI DỰA TRÊN "DỮ LIỆU CHI TIẾT CÁC TOUR" DƯỚI ĐÂY. Đây là nguồn thông tin duy nhất và chính xác nhất của bạn. Không được bịa đặt thông tin.\n3. **Tư vấn chi tiết:** Giải đáp mọi thắc mắc của khách hàng về tour như: lịch trình, giá cả, dịch vụ bao gồm và không bao gồm, thông tin bảo hiểm, những thứ cần chuẩn bị, điều khoản tour. Ví dụ, nếu khách hỏi "tour Hạ Long có bảo hiểm không?", bạn phải tìm trong dữ liệu và trả lời chính xác dựa trên dòng "Thông tin bảo hiểm".\n4. **Tư vấn gợi ý:** Dựa vào sở thích của khách (ví dụ: "đi biển", "leo núi", "tour cho cặp đôi"), hãy gợi ý những tour phù hợp nhất từ danh sách.\n5. **Giọng văn:** Luôn giữ giọng văn thân thiện, chuyên nghiệp, rõ ràng, và nhiệt tình. Trả lời ngắn gọn, đi thẳng vào vấn đề.\n\n**DỮ LIỆU CHI TIẾT CÁC TOUR:**\n${tourDetailsContext}`;
+        
         const messages = [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: message }];
-        const chatCompletion = await groq.chat.completions.create({ messages, model: "llama3-8b-8192" });
+        
+        const chatCompletion = await groq.chat.completions.create({ 
+            messages, 
+            model: "llama3-8b-8192" 
+        });
+
         res.json({ reply: chatCompletion.choices[0]?.message?.content });
     } catch (error) {
+        console.error("Lỗi AI Chat:", error);
         res.status(500).json({ error: 'Lỗi kết nối với trợ lý AI.' });
+    }
+});
+
+// Route để chuyển văn bản thành giọng nói (Text-to-Speech)
+app.post('/api/ai/tts', async (req, res) => {
+    const { text } = req.body;
+    if (!text) {
+        return res.status(400).json({ error: 'Không có văn bản để đọc.' });
+    }
+    if (!process.env.FPT_API_KEY) {
+        return res.status(500).json({ error: 'API Key của FPT chưa được cấu hình trên server.' });
+    }
+
+    try {
+        const fptResponse = await fetch('https://api.fpt.ai/hmi/tts/v5', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'api-key': process.env.FPT_API_KEY
+            },
+            body: text
+        });
+
+        const data = await fptResponse.json();
+
+        if (data.async) {
+            res.json({ audioUrl: data.async });
+        } else {
+            console.error('Lỗi từ FPT.AI:', data);
+            res.status(500).json({ error: 'Không thể tạo file âm thanh.' });
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API FPT.AI TTS:', error);
+        res.status(500).json({ error: 'Lỗi server khi xử lý giọng nói.' });
     }
 });
 
