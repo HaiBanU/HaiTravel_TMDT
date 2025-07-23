@@ -38,11 +38,11 @@ const displayMessage = (message, sender) => {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
     
-    const senderName = sender === 'user' ? 'Bạn' : 'Jack 97';
+    const senderName = sender === 'user' ? 'Bạn' : 'Hai AI';
     
     // Logic mới: Nếu là AI thì dùng <img>, nếu là user thì dùng <i>
     const avatarHTML = sender === 'ai' 
-        ? `<img src="images/avatar-jack97.png" alt="Jack 97 Avatar">`
+        ? `<img src="images/avatar-hai-ai.png" alt="Hai AI Avatar">`
         : `<i class="fa-solid fa-user"></i>`;
 
     messageElement.innerHTML = `
@@ -64,9 +64,9 @@ const displayMessage = (message, sender) => {
     
     indicatorWrapper.innerHTML = `
         <div class="message">
-             <div class="avatar"><img src="images/avatar-jack97.png" alt="Jack 97 Avatar"></div>
+             <div class="avatar"><img src="images/avatar-hai-ai.png" alt="Hai AI Avatar"></div>
              <div class="message-content">
-                <div class="sender-name">Jack 97</div>
+                <div class="sender-name">Hai AI</div>
                 <div class="text-bubble">
                     <div class="dot-flashing"></div>
                 </div>
@@ -120,6 +120,6 @@ const displayMessage = (message, sender) => {
     
     // [SỬA ĐỔI] Tin nhắn chào mừng mới
     setTimeout(() => {
-         displayMessage("Xin chào! Tôi là Jack 97, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho hành trình sắp tới của bạn?", 'ai');
+         displayMessage("Xin chào! Tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho hành trình sắp tới của bạn?", 'ai');
     }, 500);
 }
