@@ -67,7 +67,7 @@ app.delete('/api/cart/:itemId', protect, async (req, res) => { try { const user 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 app.post('/api/ai/chat', async (req, res) => { try { const { message, history, userName } = req.body; let tourDetailsContext = ""; for (const id in tours) { const tour = tours[id]; tourDetailsContext += `\n\n--- TOUR: ${tour.name} ---\n`; tourDetailsContext += `Giá: ${tour.price.toLocaleString('vi-VN')} VNĐ\n`; if (tour.originalPrice) tourDetailsContext += `Giá gốc: ${tour.originalPrice.toLocaleString('vi-VN')} VNĐ\n`; tourDetailsContext += `Thời gian: Từ ${tour.startDate} đến ${tour.endDate}\n`; if (tour.keyInfo) tourDetailsContext += `Khởi hành: ${tour.keyInfo.departure}\n`; tourDetailsContext += `Lịch trình: ${tour.itinerary.map(i => `${i.day} (${i.time}): ${i.details}`).join('; ')}\n`; if (tour.includes) tourDetailsContext += `Bao gồm: ${tour.includes.join(', ')}\n`; if (tour.notIncludes) tourDetailsContext += `Không bao gồm: ${tour.notIncludes.join(', ')}\n`; if (tour.prepare) tourDetailsContext += `Cần chuẩn bị: ${tour.prepare.join(', ')}\n`; if (tour.documents) tourDetailsContext += `Giấy tờ cần thiết: ${tour.documents.join(', ')}\n`; if (tour.terms) tourDetailsContext += `Điều khoản: ${tour.terms.join(', ')}\n`; if (tour.includes && tour.includes.some(item => item.toLowerCase().includes('bảo hiểm'))) { const insuranceInfo = tour.includes.find(item => item.toLowerCase().includes('bảo hiểm')); tourDetailsContext += `Thông tin bảo hiểm: ${insuranceInfo}\n`; } } const systemPrompt = `Bạn là Hai AI, một trợ lý ảo thông minh, thân thiện và chuyên nghiệp của công ty du lịch HaiTravel. Luôn luôn trả lời bằng tiếng Việt.\n\nNhiệm vụ của bạn:\n1. **Chào hỏi:** Nếu đây là tin nhắn đầu tiên từ người dùng trong cuộc trò chuyện (tức là trong 'history' chưa có lời chào của bạn), hãy chào khách hàng. Nếu biết tên khách hàng (biến \`userName\` có giá trị, ví dụ: "Sơn Tùng"), hãy chào "Xin chào ${userName}, tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho bạn?". Nếu không biết tên, hãy chào "Xin chào, tôi là Hai AI, trợ lý ảo của HaiTravel. Tôi có thể giúp gì cho bạn?". Đối với các tin nhắn tiếp theo, không cần lặp lại lời chào đầy đủ, chỉ cần trả lời câu hỏi.\n2. **Sử dụng kiến thức được cung cấp:** TRẢ LỜI MỌI CÂU HỎI DỰA TRÊN "DỮ LIỆU CHI TIẾT CÁC TOUR" DƯỚI ĐÂY. Đây là nguồn thông tin duy nhất và chính xác nhất của bạn. Không được bịa đặt thông tin.\n3. **Tư vấn chi tiết:** Giải đáp mọi thắc mắc của khách hàng về tour như: lịch trình, giá cả, dịch vụ bao gồm và không bao gồm, thông tin bảo hiểm, những thứ cần chuẩn bị, điều khoản tour. Ví dụ, nếu khách hỏi "tour Hạ Long có bảo hiểm không?", bạn phải tìm trong dữ liệu và trả lời chính xác dựa trên dòng "Thông tin bảo hiểm".\n4. **Tư vấn gợi ý:** Dựa vào sở thích của khách (ví dụ: "đi biển", "leo núi", "tour cho cặp đôi"), hãy gợi ý những tour phù hợp nhất từ danh sách.\n5. **Giọng văn:** Luôn giữ giọng văn thân thiện, chuyên nghiệp, rõ ràng, và nhiệt tình. Trả lời ngắn gọn, đi thẳng vào vấn đề.\n\n**DỮ LIỆU CHI TIẾT CÁC TOUR:**\n${tourDetailsContext}`; const messages = [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: message }]; const chatCompletion = await groq.chat.completions.create({ messages, model: "llama3-8b-8192" }); res.json({ reply: chatCompletion.choices[0]?.message?.content }); } catch (error) { console.error("Lỗi AI Chat:", error); res.status(500).json({ error: 'Lỗi kết nối với trợ lý AI.' }); } });
 
-// [SỬA LỖI] Route để chuyển văn bản thành giọng nói (Text-to-Speech)
+// [SỬA LỖI LẦN 2] Route để chuyển văn bản thành giọng nói (Text-to-Speech)
 app.post('/api/ai/tts', async (req, res) => {
     const { text } = req.body;
     if (!text) {
@@ -78,19 +78,16 @@ app.post('/api/ai/tts', async (req, res) => {
     }
 
     try {
-        // [SỬA ĐỔI QUAN TRỌNG] Chuyển `body` thành đối tượng URLSearchParams
-        const params = new URLSearchParams();
-        params.append('text', text);
-        params.append('voice', 'banmai'); // Giọng nữ miền Bắc
-        params.append('speed', '0'); // Tốc độ bình thường
-
         const fptResponse = await fetch('https://api.fpt.ai/hmi/tts/v5', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'api-key': process.env.FPT_API_KEY
+                'api-key': process.env.FPT_API_KEY,
+                // [SỬA ĐỔI] Thêm giọng nói và tốc độ vào header theo một số tài liệu
+                // Nếu vẫn lỗi, chúng ta có thể thử lại cách dùng URLSearchParams, nhưng cách này thường đúng hơn
+                'voice': 'banmai',
+                'speed': '' // Để trống cho tốc độ mặc định
             },
-            body: params // Sử dụng params đã được định dạng
+            body: text // [SỬA ĐỔI QUAN TRỌNG] Gửi thẳng văn bản thô
         });
 
         const data = await fptResponse.json();
@@ -106,7 +103,6 @@ app.post('/api/ai/tts', async (req, res) => {
         res.status(500).json({ error: 'Lỗi server khi xử lý giọng nói.' });
     }
 });
-
 
 // --- KHỞI ĐỘNG SERVER ---
 const PORT = process.env.PORT || 5000;
