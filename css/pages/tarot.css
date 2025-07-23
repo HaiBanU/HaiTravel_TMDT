@@ -66,6 +66,10 @@
     background-color: #1a1d2e;
     padding: 2px 5px;
 }
+/* [THÊM MỚI] Đổi màu biểu tượng lịch sang màu trắng */
+.tarot-user-input input[type="date"] {
+    color-scheme: dark;
+}
 .tarot-user-input button, .tarot-intro .btn {
     font-size: 1.1rem; padding: 15px 35px;
 }
