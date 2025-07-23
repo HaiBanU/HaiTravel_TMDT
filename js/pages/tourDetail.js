@@ -4,7 +4,7 @@ import { formatTourName, formatDateRange } from '../utils/formatters.js';
 import { showCustomAlert } from '../utils/dom.js';
 import { getCurrentUser } from '../services/auth.js';
 
-// Hàm lấy và hiển thị reviews từ server (không đổi)
+// ... (Các hàm renderReviews, initReviewForm, renderActivities, renderItinerary không thay đổi)
 async function renderReviews(tourId) {
     const reviewListContainer = document.getElementById('review-list');
     if (!reviewListContainer) return;
@@ -38,7 +38,6 @@ async function renderReviews(tourId) {
     }
 }
 
-// Hàm khởi tạo form đánh giá (không đổi)
 function initReviewForm(tourId) {
     const reviewForm = document.getElementById('review-form');
     if (!reviewForm) return;
@@ -90,7 +89,8 @@ function initReviewForm(tourId) {
             ratingInput.value = '';
             stars.forEach(s => s.classList.remove('selected'));
             await renderReviews(tourId);
-        } catch (error) {
+        } catch (error)
+        {
             showCustomAlert('Lỗi', error.message, 'fa-solid fa-circle-xmark');
         } finally {
             submitBtn.disabled = false;
@@ -99,7 +99,6 @@ function initReviewForm(tourId) {
     });
 }
 
-// Hàm render các hoạt động
 function renderActivities(activities) {
     const container = document.getElementById('activities-scroll-container');
     const section = document.getElementById('tour-activities-section');
@@ -119,7 +118,6 @@ function renderActivities(activities) {
     `).join('');
 }
 
-// Hàm render lịch trình timeline
 function renderItinerary(itinerary) {
     const timelineContainer = document.getElementById('itinerary-timeline');
     if (!timelineContainer || !itinerary || itinerary.length === 0) return;
@@ -150,7 +148,31 @@ function renderItinerary(itinerary) {
     timelineContainer.innerHTML = itineraryHTML;
 }
 
-// Hàm khởi tạo chính của trang
+// [CẬP NHẬT LOGIC]
+function setupTransportCta(tour) {
+    const ctaSection = document.getElementById('transport-cta-section');
+    const citySpan = document.getElementById('transport-cta-city');
+    const ctaBtn = document.getElementById('transport-cta-btn');
+
+    // Kiểm tra thuộc tính MỚI `transportDestination`
+    if (!ctaSection || !citySpan || !ctaBtn || !tour.keyInfo || !tour.keyInfo.transportDestination) {
+        return;
+    }
+    
+    // Lấy điểm đến để đặt vé (ví dụ: "Quảng Ninh")
+    const destinationForLink = tour.keyInfo.transportDestination;
+    
+    // Lấy điểm khởi hành cụ thể để hiển thị (ví dụ: "Cảng Tuần Châu")
+    const departureParts = tour.keyInfo.departure.split(' - ');
+    const displayLocation = departureParts.length > 1 ? departureParts[1].trim() : tour.keyInfo.departure;
+
+    // Cập nhật giao diện
+    citySpan.textContent = displayLocation; // Hiển thị "Cảng Tuần Châu"
+    ctaBtn.href = `transport.html?endPoint=${encodeURIComponent(destinationForLink)}`; // Tạo link với "Quảng Ninh"
+    ctaSection.style.display = 'block';
+}
+
+
 export function initTourDetailPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const tourId = urlParams.get('id');
@@ -161,19 +183,17 @@ export function initTourDetailPage() {
         return;
     }
 
-    // --- Render thông tin tour từ dữ liệu tĩnh ---
     document.getElementById('tour-hero').style.backgroundImage = `url('${tour.gallery[0]}')`;
-   document.title = `${tour.name} - Chi Tiết Tour & Lịch Trình | HaiTravel`;
-   // Cập nhật hoặc tạo thẻ meta description
-let metaDescription = document.querySelector('meta[name="description"]');
-if (!metaDescription) {
-    metaDescription = document.createElement('meta');
-    metaDescription.setAttribute('name', 'description');
-    document.head.appendChild(metaDescription);
-}
-// Lấy một phần mô tả từ hoạt động đầu tiên của tour để làm nội dung
-const descriptionContent = `Khám phá chi tiết tour '${tour.name}'. Lịch trình hấp dẫn với các hoạt động như: ${tour.activities[0]?.title || 'tham quan các địa điểm nổi tiếng'}. Đặt ngay tại HaiTravel!`;
-metaDescription.setAttribute('content', descriptionContent);
+    document.title = `${tour.name} - Chi Tiết Tour & Lịch Trình | HaiTravel`;
+
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.setAttribute('name', 'description');
+        document.head.appendChild(metaDescription);
+    }
+    const descriptionContent = `Khám phá chi tiết tour '${tour.name}'. Lịch trình hấp dẫn với các hoạt động như: ${tour.activities[0]?.title || 'tham quan các địa điểm nổi tiếng'}. Đặt ngay tại HaiTravel!`;
+    metaDescription.setAttribute('content', descriptionContent);
     document.getElementById('breadcrumbs').innerHTML = `<a href="index.html">Trang chủ</a> / <span>${tour.name}</span>`;
     document.getElementById('tour-title').innerHTML = formatTourName(tour.name);
 
@@ -192,7 +212,6 @@ metaDescription.setAttribute('content', descriptionContent);
             <div class="key-info-item"><i class="fa-solid fa-route"></i> <span>Hải trình: ${tour.keyInfo.route}</span></div>`;
     }
     
-    // [CẬP NHẬT] Đặt tiêu đề lịch trình một cách linh hoạt
     const itineraryTitle = document.getElementById('itinerary-title');
     if (itineraryTitle) {
         const uniqueDays = [...new Set(tour.itinerary.map(item => item.day))].length;
@@ -201,6 +220,8 @@ metaDescription.setAttribute('content', descriptionContent);
 
     renderActivities(tour.activities);
     renderItinerary(tour.itinerary);
+    
+    setupTransportCta(tour);
     
     const populateList = (elementId, items) => {
         const container = document.getElementById(elementId);

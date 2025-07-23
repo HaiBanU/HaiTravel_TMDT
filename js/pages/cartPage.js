@@ -2,18 +2,15 @@
 
 import { getCart, removeItemFromCart, updateItemQuantity, fetchAndSetCart } from '../services/cart.js';
 import { formatTourName, formatDateRange } from '../utils/formatters.js';
-// [THÊM MỚI] Import hàm popup mới
 import { showCheckoutSuccessPopup } from '../utils/dom.js';
 
 function addCartEventListeners() {
     const cartPageContainer = document.querySelector('.cart-page');
     if (!cartPageContainer) return;
 
-    // [THÊM MỚI] Gán sự kiện cho nút thanh toán
-    // Dùng event delegation vì nút này được render động
     cartPageContainer.addEventListener('click', (event) => {
         if (event.target.id === 'checkout-btn') {
-            event.preventDefault(); // Ngăn hành vi mặc định nếu có
+            event.preventDefault();
             showCheckoutSuccessPopup("Thầy Hiển đẹp trai sẽ cho nhóm em 10 điểm");
         }
     });
@@ -23,7 +20,7 @@ function addCartEventListeners() {
 
     cartPageContainer.addEventListener('click', async (event) => {
         const button = event.target.closest('button');
-        if (!button || button.id === 'checkout-btn') return; // Bỏ qua nút checkout ở đây
+        if (!button || button.id === 'checkout-btn') return;
 
         const id = button.dataset.id;
         if (!id) return;
@@ -54,16 +51,21 @@ function renderCartPage() {
     const cartItems = Object.values(cart);
     const cartItemsContainer = document.getElementById('cart-items-list');
     const cartSummaryContainer = document.getElementById('cart-summary-box');
-    
-    if (!cartItemsContainer || !cartSummaryContainer) return;
+    const cartLayout = document.querySelector('.cart-layout'); // [THÊM MỚI] Lấy layout grid
+
+    if (!cartItemsContainer || !cartSummaryContainer || !cartLayout) return;
 
     if (cartItems.length === 0) {
         cartItemsContainer.innerHTML = `<div class="empty-cart-message"><h3>Giỏ hàng của bạn đang trống</h3><a href="index.html#tour-list-section" class="btn btn-primary">Khám phá tour ngay</a></div>`;
         cartSummaryContainer.style.display = 'none';
+        cartLayout.style.gridTemplateColumns = '1fr'; // [CẬP NHẬT] Chuyển layout thành 1 cột
         return;
     }
 
+    // [CẬP NHẬT] Khôi phục layout 2 cột khi có sản phẩm
+    cartLayout.style.gridTemplateColumns = ''; // Xóa style inline để CSS gốc hoạt động
     cartSummaryContainer.style.display = 'block';
+    
     let subtotal = 0;
 
     cartItemsContainer.innerHTML = cartItems.map(item => {

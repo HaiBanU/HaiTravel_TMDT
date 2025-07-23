@@ -91,6 +91,37 @@
 .timeline-content .time { font-weight: 700; color: var(--primary-color); margin: 0.5rem 0; font-size: 0.9rem; }
 .timeline-content p { margin: 0; line-height: 1.7; color: var(--secondary-color); }
 
+
+/* [CẬP NHẬT] CSS CHO KHỐI ĐẶT VÉ DI CHUYỂN */
+.transport-cta-section {
+    background-color: #f4f7f9;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 2px dashed var(--border-color);
+    margin-bottom: 2rem; /* THÊM KHOẢNG CÁCH VỚI PHẦN DƯỚI */
+    text-align: center;
+}
+.transport-cta-section h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+.transport-cta-section p {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.transport-cta-section .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+
 /* --- CSS CHO NÚT BẤM NỔI VÀ MODAL --- */
 .floating-action-button {
     position: fixed;
