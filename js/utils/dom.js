@@ -352,3 +352,40 @@ export function showCheckoutSuccessPopup(message) {
         }, 500);
     }, 10);
 }
+// Thêm hàm này vào cuối file js/utils/dom.js
+
+export function createSearchableDropdown(inputElement, listContainer, data) {
+    inputElement.addEventListener('input', () => {
+        const query = inputElement.value.toLowerCase().trim();
+        listContainer.innerHTML = '';
+        if (!query) {
+            listContainer.style.display = 'none';
+            return;
+        }
+        const filteredData = data.filter(item => 
+            item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .includes(query.normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+        );
+
+        if (filteredData.length > 0) {
+            filteredData.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = item;
+                itemDiv.addEventListener('click', () => {
+                    inputElement.value = item;
+                    listContainer.style.display = 'none';
+                });
+                listContainer.appendChild(itemDiv);
+            });
+            listContainer.style.display = 'block';
+        } else {
+            listContainer.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!inputElement.contains(event.target) && !listContainer.contains(event.target)) {
+            listContainer.style.display = 'none';
+        }
+    });
+}

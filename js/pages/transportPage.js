@@ -4,38 +4,7 @@ import { vietnamProvinces, transportRoutes, vehicleInfo } from '../data/transpor
 import { addItemToCart } from '../services/cart.js'; 
 import { formatTravelTime } from '../utils/formatters.js';
 import { showCustomAlert } from '../utils/dom.js';
-
-function createSearchableDropdown(inputElement, listContainer, data) {
-    inputElement.addEventListener('input', () => {
-        const query = inputElement.value.toLowerCase().trim();
-        listContainer.innerHTML = '';
-        if (!query) {
-            listContainer.style.display = 'none';
-            return;
-        }
-        const filteredData = data.filter(item => item.toLowerCase().includes(query));
-        if (filteredData.length > 0) {
-            filteredData.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.textContent = item;
-                itemDiv.addEventListener('click', () => {
-                    inputElement.value = item;
-                    listContainer.style.display = 'none';
-                });
-                listContainer.appendChild(itemDiv);
-            });
-            listContainer.style.display = 'block';
-        } else {
-            listContainer.style.display = 'none';
-        }
-    });
-    document.addEventListener('click', (event) => {
-        if (!inputElement.contains(event.target) && !listContainer.contains(event.target)) {
-            listContainer.style.display = 'none';
-        }
-    });
-}
-
+import { createSearchableDropdown } from '../utils/dom.js'; // Import hàm dùng chung
 
 function renderTransportResults(routeData) {
     document.getElementById('route-map-image').src = `${routeData.mapImage}`;
@@ -169,12 +138,10 @@ export function initTransportPage() {
     
     form.addEventListener('submit', handleTransportSearch);
 
-    // [THÊM MỚI] Tự động điền điểm đến từ URL
     const urlParams = new URLSearchParams(window.location.search);
     const endPointParam = urlParams.get('endPoint');
     if (endPointParam) {
         endPointInput.value = endPointParam;
-        // Gợi ý người dùng nhập điểm đi
         startPointInput.focus();
         showCustomAlert('Gợi ý', `Hãy nhập điểm xuất phát của bạn để tìm vé tới ${endPointParam}!`, 'fa-solid fa-circle-info');
     }

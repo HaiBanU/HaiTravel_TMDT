@@ -2,12 +2,11 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-site-verification" content="jEyfBCZfbvFOg0iDo1Dgd7o0q1Q7sEsLvIvS5Zke024" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gợi Ý Hành Trình Tarot - HaiTravel</title>
+    <title>Blog Du Lịch - HaiTravel</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/pages/tarot.css">
+    <link rel="stylesheet" href="css/pages/blog.css">
     <link rel="stylesheet" href="css/pages/auth.css">
     <link rel="stylesheet" href="css/pages/ai-chat.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -43,76 +42,22 @@
         </div>
     </header>
 
-    <main class="tarot-page">
-        <!-- Nền động mới với một div duy nhất -->
-        <div class="tarot-animated-bg"></div>
-
-        <div id="tarot-container" class="tarot-container">
-            
-            <!-- Giai đoạn 0: Nhập thông tin người dùng -->
-            <div id="tarot-user-input" class="tarot-user-input">
-                <form id="user-info-form">
-                    <h1>Lời Nhắn Từ Vũ Trụ</h1>
-                    <p>Để nhận được thông điệp dành riêng cho bạn, hãy cho các vì sao biết danh tính của bạn.</p>
-                    <div class="form-group">
-                        <input type="text" id="user-name" required placeholder=" ">
-                        <label for="user-name">Họ và Tên</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="date" id="user-dob" required>
-                        <label for="user-dob" class="static">Ngày sinh</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Gửi thông tin & Bắt đầu</button>
-                </form>
+    <main class="blog-list-page dynamic-blob-bg">
+        <div class="blog-container">
+            <div class="section-header reveal">
+                <h2>Cẩm Nang Du Lịch</h2>
+                <p>Khám phá những câu chuyện, kinh nghiệm và cảm hứng cho hành trình của bạn.</p>
             </div>
-
-            <!-- Giai đoạn 1: Giới thiệu & Bắt đầu (bị ẩn ban đầu) -->
-            <div id="tarot-intro" class="tarot-intro" style="display: none;">
-                <h1 id="tarot-welcome-heading"></h1>
-                <p>Hãy để vũ trụ dẫn lối. Nhắm mắt, hít một hơi thật sâu và chọn 3 lá bài để hé lộ chuyến đi dành riêng cho tâm hồn bạn.</p>
-                <button id="start-tarot-btn" class="btn btn-primary">Bắt Đầu Trải Bài</button>
+            <div id="blog-grid" class="blog-grid">
+                <!-- Các bài blog sẽ được JS chèn vào đây -->
             </div>
-
-            <!-- Giai đoạn 2: Trải bài & Chọn bài (bị ẩn ban đầu) -->
-            <div id="tarot-game-board" class="tarot-game-board" style="display: none;">
-                <p id="tarot-instruction" class="tarot-instruction"></p>
-                <div id="tarot-deck-container" class="tarot-deck-container">
-                    <!-- Các lá bài sẽ được JS tạo và chèn vào đây -->
-                </div>
-                <div id="tarot-chosen-slots" class="tarot-chosen-slots">
-                    <div class="tarot-slot-wrapper">
-                        <div class="tarot-slot-name"></div>
-                        <div class="tarot-slot" data-slot="1"></div>
-                    </div>
-                    <div class="tarot-slot-wrapper">
-                        <div class="tarot-slot-name"></div>
-                        <div class="tarot-slot" data-slot="2"></div>
-                    </div>
-                     <div class="tarot-slot-wrapper">
-                        <div class="tarot-slot-name"></div>
-                        <div class="tarot-slot" data-slot="3"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Giai đoạn 3: Hiển thị kết quả cuối cùng (bị ẩn ban đầu) -->
-            <section id="tarot-final-reading" class="tarot-final-reading" style="display: none;">
-                <div id="reading-cards-display" class="reading-cards-display">
-                    <!-- JS sẽ tạo nội dung ở đây -->
-                </div>
-                <div class="final-prophecy">
-                     <h2 id="reading-title">Lời Tiên Tri Dành Cho Bạn</h2>
-                     <p id="reading-description"></p>
-                     <a href="#" id="reading-cta-btn" class="btn btn-primary">Khám Phá Hành Trình Gợi Ý</a>
-                </div>
-            </section>
         </div>
     </main>
     
     <footer>
         <div class="footer-container">
             <div class="footer-col footer-about"><a href="index.html" class="logo">Hai Travel</a><p>Chuyên cung cấp các tour du lịch chất lượng cao, mang đến những trải nghiệm độc đáo và khó quên tại Việt Nam.</p></div>
-            <div class="footer-col"><h3>Về HaiTravel</h3><ul><li><a href="#">Về chúng tôi</a></li><li><a href="#">Blog du lịch</a></li></ul></div>
+            <div class="footer-col"><h3>Về HaiTravel</h3><ul><li><a href="#">Về chúng tôi</a></li><li><a href="blog.html">Blog du lịch</a></li></ul></div>
             <div class="footer-col"><h3>Hỗ Trợ</h3><ul><li><a href="#">Trung tâm trợ giúp</a></li><li><a href="#">Liên hệ</a></li></ul></div>
             <div class="footer-col"><h3>Kết nối với chúng tôi</h3><div class="social-icons"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div>
         </div>
@@ -120,7 +65,18 @@
     </footer>
 
     <div id="contact-modal" class="contact-modal-overlay">
-        <div class="contact-modal-box"><button class="close-btn">×</button><h2>Thông Tin Liên Hệ</h2><p>Chúng tôi luôn sẵn lòng lắng nghe và hỗ trợ bạn. Vui lòng liên hệ với HaiTravel qua các kênh dưới đây:</p><ul><li><i class="fa-solid fa-map-marker-alt"></i> <strong>Địa chỉ:</strong> Đại Học Kinh Tế Tài Chính TP.HCM (UEF) CS 141</li><li><i class="fa-solid fa-phone"></i> <strong>Hotline:</strong> 0354089235</li><li><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> hailth22@uef.edu.vn</li><li><i class="fa-solid fa-clock"></i> <strong>Giờ làm việc:</strong> 08:00 - 21:00, Thứ Hai - Chủ Nhật</li></ul><p>Cảm ơn bạn đã tin tưởng và lựa chọn HaiTravel!</p></div>
+        <div class="contact-modal-box">
+            <button class="close-btn">×</button>
+            <h2>Thông Tin Liên Hệ</h2>
+            <p>Chúng tôi luôn sẵn lòng lắng nghe và hỗ trợ bạn. Vui lòng liên hệ với HaiTravel qua các kênh dưới đây:</p>
+            <ul>
+                <li><i class="fa-solid fa-map-marker-alt"></i> <strong>Địa chỉ:</strong> Đại Học Kinh Tế Tài Chính TP.HCM (UEF) CS 141</li>
+                <li><i class="fa-solid fa-phone"></i> <strong>Hotline:</strong> 0354089235</li>
+                <li><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> hailth22@uef.edu.vn</li>
+                <li><i class="fa-solid fa-clock"></i> <strong>Giờ làm việc:</strong> 08:00 - 21:00, Thứ Hai - Chủ Nhật</li>
+            </ul>
+            <p>Cảm ơn bạn đã tin tưởng và lựa chọn HaiTravel!</p>
+        </div>
     </div>
     
     <div id="auth-modal" class="auth-modal-overlay">
@@ -128,14 +84,16 @@
             <button class="close-btn">×</button>
             <div class="auth-form-container">
                 <form id="login-form" class="auth-form">
-                    <h2>Đăng Nhập</h2><p class="form-subtitle">Chào mừng bạn trở lại!</p>
+                    <h2>Đăng Nhập</h2>
+                    <p class="form-subtitle">Chào mừng bạn trở lại!</p>
                     <div id="login-error-message" class="auth-error-message"></div>
                     <div class="form-group"><input type="email" id="login-email" name="email" required placeholder=" "><label for="login-email">Email</label><i class="fa-solid fa-envelope"></i></div>
                     <div class="form-group"><input type="password" id="login-password" name="password" required placeholder=" "><label for="login-password">Mật khẩu</label><i class="fa-solid fa-lock"></i></div>
                     <button type="submit" class="btn btn-primary">Đăng Nhập</button>
                 </form>
                 <form id="register-form" class="auth-form" style="display: none;">
-                    <h2>Tạo Tài Khoản</h2><p class="form-subtitle">Tham gia và khám phá cùng HaiTravel</p>
+                    <h2>Tạo Tài Khoản</h2>
+                    <p class="form-subtitle">Tham gia và khám phá cùng HaiTravel</p>
                     <div id="register-error-message" class="auth-error-message"></div>
                     <div class="form-group"><input type="text" id="register-name" name="name" required placeholder=" "><label for="register-name">Họ và tên</label><i class="fa-solid fa-user"></i></div>
                     <div class="form-group"><input type="email" id="register-email" name="email" required placeholder=" "><label for="register-email">Email</label><i class="fa-solid fa-envelope"></i></div>
@@ -196,7 +154,7 @@
         <div class="mobile-nav-links">
             <a href="index.html">Trang Chủ</a>
             <a href="/#tour-list-section">Du Lịch</a>
-             <a href="blog.html">Blog</a>
+            <a href="blog.html">Blog</a>
             <a href="discover.html">Gợi Ý Tour</a>
             <a href="transport.html">Đặt Vé</a>
             <a href="#" id="contact-link-mobile">Liên Hệ</a>
@@ -215,7 +173,6 @@
             </div>
         </div>
     </nav>
-
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/ai-chat.js"></script>

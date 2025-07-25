@@ -12,7 +12,8 @@ import { initSearchResultsPage } from './pages/searchResults.js';
 import { initCartPage } from './pages/cartPage.js';
 import { initTransportPage } from './pages/transportPage.js';
 import { initDiscoverPage } from './pages/discover.js';
-import { initTarotPage } from './pages/tarot.js'; // Thêm import
+import { initTarotPage } from './pages/tarot.js';
+import { initBlogListPage, initBlogPostPage } from './pages/blogPage.js'; // Thêm import mới
 import { initAuth } from './auth.js';
 import { updateAuthDisplay } from './services/auth.js'; 
 import { initAiChat } from './ai-chat.js';
@@ -74,7 +75,10 @@ function router() {
         case 'cart.html': initCartPage(); break;
         case 'transport.html': initTransportPage(); break;
         case 'discover.html': initDiscoverPage(); break;
-        case 'tarot.html': initTarotPage(); break; // Thêm case mới
+        case 'tarot.html': initTarotPage(); break;
+        // Thêm 2 case mới
+        case 'blog.html': initBlogListPage(); break;
+        case 'blog-post.html': initBlogPostPage(); break;
     }
 }
 

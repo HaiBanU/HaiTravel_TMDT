@@ -36,7 +36,8 @@ body.home-page header:not(.scrolled) .search-bar {
     visibility: hidden;
 }
 .search-bar input { border: none; outline: none; padding: 8px 15px; background: transparent; }
-.search-bar input[type="text"] { width: 250px; }
+/* [CẬP NHẬT] Giảm chiều rộng thanh tìm kiếm */
+.search-bar input[type="text"] { width: 200px; }
 .search-bar input[type="date"] { width: 140px; border-left: 1px solid var(--border-color); }
 .search-bar button { background-color: var(--primary-color); color: var(--white-color); border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.3s; flex-shrink: 0; }
 .search-bar button:hover { background-color: #084c59; }
@@ -181,4 +182,34 @@ body.home-page header:not(.scrolled) .search-bar {
 .dynamic-blob-bg > * {
     position: relative;
     z-index: 2;
+}
+/* [THÊM MỚI] CSS DÙNG CHUNG CHO DROPDOWN GỢI Ý */
+.searchable-dropdown-wrapper {
+    position: relative;
+    flex: 1; /* Cho phép nó co giãn */
+}
+
+.dropdown-list {
+    position: absolute;
+    top: calc(100% + 5px); /* Hiển thị ngay dưới input */
+    left: 0;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    z-index: 1001; /* Đảm bảo nổi trên các phần tử khác */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    display: none;
+}
+
+.dropdown-list div { 
+    padding: 12px 15px; 
+    cursor: pointer; 
+    font-family: var(--body-font);
+}
+
+.dropdown-list div:hover { 
+    background-color: var(--light-color); 
 }

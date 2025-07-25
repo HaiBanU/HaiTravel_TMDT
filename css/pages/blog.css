@@ -1,0 +1,223 @@
+/* css/pages/blog.css */
+
+.blog-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* --- TRANG DANH SÁCH BLOG (blog.html) --- */
+.blog-list-page {
+    padding: 4rem 0;
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.blog-card {
+    background-color: var(--white-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--dark-color);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+
+.blog-card__image {
+    height: 240px;
+    overflow: hidden;
+}
+
+.blog-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.blog-card:hover .blog-card__image img {
+    transform: scale(1.1);
+}
+
+.blog-card__content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.blog-card__title {
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+    line-height: 1.4;
+}
+
+.blog-card__meta {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.blog-card__summary {
+    line-height: 1.6;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+.blog-card__readmore {
+    margin-top: auto;
+    font-weight: 700;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.blog-card__readmore i {
+    transition: transform 0.3s ease;
+}
+
+.blog-card:hover .blog-card__readmore i {
+    transform: translateX(5px);
+}
+
+/* --- TRANG CHI TIẾT BÀI VIẾT (blog-post.html) --- */
+.blog-post__hero {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    align-items: flex-end;
+    color: var(--white-color);
+    padding: 4rem 1rem;
+    background-size: cover;
+    background-position: center;
+}
+.blog-post__hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+.blog-post__hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+}
+.blog-post__hero-content h1 {
+    font-size: 4rem;
+    margin: 0 0 1rem 0;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+.blog-post__meta {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+.blog-post__layout {
+    padding: 4rem 0;
+}
+.blog-post__grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: flex-start;
+}
+.blog-post__content {
+    background-color: var(--white-color);
+    padding: 2.5rem;
+    border-radius: 12px;
+}
+.blog-post__content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+.blog-post__content h3 {
+    font-size: 1.8rem;
+    margin: 2.5rem 0 1rem 0;
+}
+.blog-post__content blockquote {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+.blog-post__sidebar {
+    position: sticky;
+    top: 100px;
+}
+.blog-post__sidebar h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.recent-posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.recent-post-card {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    text-decoration: none;
+    color: var(--dark-color);
+}
+.recent-post-card img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+.recent-post-card h4 {
+    font-size: 1rem;
+    line-height: 1.4;
+    font-family: var(--body-font);
+    font-weight: 500;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+.recent-post-card:hover h4 {
+    color: var(--primary-color);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .blog-post__grid {
+        grid-template-columns: 1fr;
+    }
+    .blog-post__sidebar {
+        position: static;
+        margin-top: 3rem;
+    }
+    .blog-post__hero-content h1 {
+        font-size: 3rem;
+    }
+}
+@media (max-width: 768px) {
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+    .blog-post__hero {
+        height: 50vh;
+    }
+     .blog-post__hero-content h1 {
+        font-size: 2.2rem;
+    }
+    .blog-post__content {
+        padding: 1.5rem;
+    }
+}
