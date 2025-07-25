@@ -159,59 +159,47 @@
     color: var(--secondary-color); 
 }
 
-/* --- TOUR LIST SECTION --- */
+/* --- [CẬP NHẬT LẦN 3] TOUR LIST SECTION VỚI HIỆU ỨNG MỜ --- */
 .tour-list {
-    padding: 100px 5%;
+    padding: 100px 5%; 
 }
 .tour-scroll-container {
     position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; 
+    margin: 0 auto;     
+    overflow: hidden;   
+    border-radius: 16px; 
+    /* Thêm lại 2 dòng này */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 .tour-grid-scrollable {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 340px;
-    gap: 30px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding: 20px; 
-    margin: -20px; 
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-.tour-grid-scrollable::-webkit-scrollbar { display: none; }
-.scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: var(--white-color);
-    color: var(--primary-color);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    font-size: 1.5rem;
-    cursor: pointer;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+    gap: 30px;
+    padding: 20px 0;
+    /* Animation sẽ được thêm bằng JS */
 }
-.scroll-btn:hover {
-    background-color: var(--primary-color);
-    color: var(--white-color);
-    transform: translateY(-50%) scale(1.1);
+.tour-grid-scrollable .tour-card {
+    flex-shrink: 0;
+    width: 340px;
 }
-.scroll-btn.prev { left: -25px; }
-.scroll-btn.next { right: -25px; }
+.tour-scroll-container:hover .tour-grid-scrollable {
+    animation-play-state: paused;
+}
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+.scroll-btn {
+    display: none;
+}
+
 
 /* --- RESPONSIVE FOR HOME PAGE --- */
-@media (max-width: 1200px) {
-    .scroll-btn { display: none; }
-}
 @media (max-width: 992px) {
     .banner-content h1 { font-size: 3.5rem; }
     .story-container { grid-template-columns: 1fr; }
@@ -222,5 +210,8 @@
     .banner-content h1 { font-size: 2.5rem !important; }
     .values-grid { grid-template-columns: 1fr; }
     .story-container { gap: 2rem; }
-    .tour-grid-scrollable { grid-auto-columns: 80vw; gap: 1rem; }
+    .tour-grid-scrollable { gap: 1rem; }
+    .tour-grid-scrollable .tour-card {
+        width: 80vw;
+    }
 }

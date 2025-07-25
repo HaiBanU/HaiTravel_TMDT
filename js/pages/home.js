@@ -3,7 +3,7 @@
 import { tours } from '../data/tours.js';
 import { renderTourCard } from '../utils/dom.js';
 
-// Hàm này không thay đổi, giữ nguyên
+// Hàm initSlider giữ nguyên
 function initSlider() {
     const banner = document.querySelector('.banner-slider');
     if (!banner) return;
@@ -38,50 +38,32 @@ function initSlider() {
     }
 }
 
-// [SỬA LỖI TRIỆT ĐỂ]
+// [CẬP NHẬT HOÀN TOÀN] Hàm initTourScrollList để tạo hiệu ứng marquee
 function initTourScrollList() {
     const scrollContainer = document.getElementById('tour-grid-scrollable');
-    const prevBtn = document.getElementById('scroll-prev');
-    const nextBtn = document.getElementById('scroll-next');
+    if (!scrollContainer) return;
 
-    if (!scrollContainer || !prevBtn || !nextBtn) {
-        return;
-    }
-
-    // 1. Render các thẻ tour
-    scrollContainer.innerHTML = '';
-    let delay = 0;
-    for (const tourId in tours) {
-        if (Object.hasOwnProperty.call(tours, tourId)) {
-            const tour = tours[tourId];
-            scrollContainer.insertAdjacentHTML('beforeend', renderTourCard(tourId, tour, delay));
-            delay += 50;
-        }
-    }
-
-    // 2. [QUAN TRỌNG] Kích hoạt animation cho các thẻ tour vừa được tạo
-    const newRevealElements = scrollContainer.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-    newRevealElements.forEach(el => observer.observe(el));
-
-
-    // 3. Gán sự kiện cho các nút bấm
-    const scrollAmount = 370; // (Chiều rộng thẻ 340px + gap 30px)
-
-    nextBtn.addEventListener('click', () => {
-        scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    // 1. Render các thẻ tour gốc
+    scrollContainer.innerHTML = ''; // Xóa nội dung cũ
+    const tourEntries = Object.entries(tours);
+    tourEntries.forEach(([tourId, tour]) => {
+        // Sử dụng renderTourCard nhưng loại bỏ hiệu ứng reveal mặc định
+        let tourCardHTML = renderTourCard(tourId, tour);
+        // Bỏ class reveal để tránh xung đột
+        tourCardHTML = tourCardHTML.replace('class="tour-card reveal"', 'class="tour-card"');
+        scrollContainer.insertAdjacentHTML('beforeend', tourCardHTML);
     });
 
-    prevBtn.addEventListener('click', () => {
-        scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    });
+    // 2. Nhân đôi nội dung để tạo vòng lặp liền mạch
+    scrollContainer.innerHTML += scrollContainer.innerHTML;
+
+    // 3. Tính toán và áp dụng animation
+    const tourCount = tourEntries.length;
+    // Tốc độ: 5 giây cho mỗi tour. Càng nhiều tour, thời gian chạy càng lâu
+    const animationDuration = tourCount * 5; 
+    
+    // Áp dụng animation thông qua style
+    scrollContainer.style.animation = `scroll ${animationDuration}s linear infinite`;
 }
 
 
