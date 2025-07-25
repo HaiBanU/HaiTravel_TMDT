@@ -55,40 +55,48 @@
         
         <section class="tour-content-section dynamic-blob-bg">
             <div class="tour-detail-container">
-                <div class="tour-main-content">
-                    <section id="tour-activities-section" class="tour-activities-section" style="display: none;">
-                        <div class="section-header reveal">
-                            <h2>Hoạt Động Nổi Bật</h2>
+                <div class="tour-detail-layout">
+                    <!-- Cột bên trái cho các tour gợi ý -->
+                    <aside id="suggested-tours-sidebar" class="tour-sidebar"></aside>
+
+                    <!-- Nội dung chính của trang -->
+                    <div class="tour-main-content">
+                        <section id="tour-activities-section" class="tour-activities-section" style="display: none;">
+                            <div class="section-header reveal">
+                                <h2>Hoạt Động Nổi Bật</h2>
+                            </div>
+                            <div id="activities-scroll-container" class="activities-scroll-container"></div>
+                        </section>
+                        <!-- [CẬP NHẬT] Thêm id="itinerary-section" -->
+                        <div id="itinerary-section" class="tour-itinerary">
+                            <div class="section-header reveal">
+                                <h2 id="itinerary-title">Lịch trình chi tiết</h2>
+                            </div>
+                            <div id="itinerary-timeline" class="itinerary-timeline"></div>
                         </div>
-                        <div id="activities-scroll-container" class="activities-scroll-container"></div>
-                    </section>
-                    <div class="tour-itinerary">
-                        <div class="section-header reveal">
-                            <h2 id="itinerary-title">Lịch trình chi tiết</h2>
-                        </div>
-                        <div id="itinerary-timeline" class="itinerary-timeline"></div>
+
+                        <section id="transport-cta-section" class="transport-cta-section" style="display: none;">
+                            <h3>Cần di chuyển đến điểm khởi hành?</h3>
+                            <p>Tour này sẽ khởi hành từ <strong><span id="transport-cta-city"></span></strong>. Hãy để HaiTravel giúp bạn tìm vé máy bay, xe khách hoặc tàu hỏa một cách thuận tiện nhất!</p>
+                            <a href="#" id="transport-cta-btn" class="btn btn-primary">
+                                <i class="fa-solid fa-ticket"></i> Tìm vé di chuyển ngay
+                            </a>
+                        </section>
+                        
+                        <section id="tour-reviews" class="tour-reviews">
+                            <div class="section-header reveal">
+                                <h2>Đánh giá từ khách hàng</h2>
+                            </div>
+                            <div id="review-list"></div>
+                            <div class="review-form-container">
+                                <h3>Chia sẻ trải nghiệm của bạn</h3>
+                                <form id="review-form"><div class="form-group"><label for="reviewer-name">Tên của bạn</label><input type="text" id="reviewer-name" name="name" required placeholder="Nhập tên của bạn"></div><div class="form-group"><label>Đánh giá</label><div class="star-input"><i class="fa-solid fa-star" data-value="5"></i><i class="fa-solid fa-star" data-value="4"></i><i class="fa-solid fa-star" data-value="3"></i><i class="fa-solid fa-star" data-value="2"></i><i class="fa-solid fa-star" data-value="1"></i></div><input type="hidden" name="rating" required></div><div class="form-group"><label for="reviewer-comment">Bình luận</label><textarea id="reviewer-comment" name="comment" rows="4" required placeholder="Chuyến đi của bạn thế nào?"></textarea></div><button type="submit" class="btn btn-primary">Gửi đánh giá</button></form>
+                            </div>
+                        </section>
                     </div>
 
-                    <!-- [THÊM MỚI] Khối kêu gọi đặt vé di chuyển -->
-                    <section id="transport-cta-section" class="transport-cta-section" style="display: none;">
-                        <h3>Cần di chuyển đến điểm khởi hành?</h3>
-                        <p>Tour này sẽ khởi hành từ <strong><span id="transport-cta-city"></span></strong>. Hãy để HaiTravel giúp bạn tìm vé máy bay, xe khách hoặc tàu hỏa một cách thuận tiện nhất!</p>
-                        <a href="#" id="transport-cta-btn" class="btn btn-primary">
-                            <i class="fa-solid fa-ticket"></i> Tìm vé di chuyển ngay
-                        </a>
-                    </section>
-                    <!-- [KẾT THÚC THÊM MỚI] -->
-                    
-                    <section id="tour-reviews" class="tour-reviews">
-                        <div class="section-header reveal">
-                            <h2>Đánh giá từ khách hàng</h2>
-                        </div>
-                        <div id="review-list"></div>
-                        <div class="review-form-container">
-                            <h3>Chia sẻ trải nghiệm của bạn</h3>
-                            <form id="review-form"><div class="form-group"><label for="reviewer-name">Tên của bạn</label><input type="text" id="reviewer-name" name="name" required placeholder="Nhập tên của bạn"></div><div class="form-group"><label>Đánh giá</label><div class="star-input"><i class="fa-solid fa-star" data-value="5"></i><i class="fa-solid fa-star" data-value="4"></i><i class="fa-solid fa-star" data-value="3"></i><i class="fa-solid fa-star" data-value="2"></i><i class="fa-solid fa-star" data-value="1"></i></div><input type="hidden" name="rating" required></div><div class="form-group"><label for="reviewer-comment">Bình luận</label><textarea id="reviewer-comment" name="comment" rows="4" required placeholder="Chuyến đi của bạn thế nào?"></textarea></div><button type="submit" class="btn btn-primary">Gửi đánh giá</button></form>
-                        </div>
-                    </section>
+                    <!-- [THÊM MỚI] Cột bên phải cho mục lục -->
+                    <aside id="tour-nav-sidebar" class="tour-nav-sidebar"></aside>
                 </div>
             </div>
         </section>

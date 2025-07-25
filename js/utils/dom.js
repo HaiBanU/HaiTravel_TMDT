@@ -61,36 +61,49 @@ export function initScrollBasedAnimations() {
 }
 
 /**
- * Xử lý việc cuộn mượt đến các anchor link (#).
+ * [CẬP NHẬT TOÀN DIỆN] Xử lý cuộn mượt đến anchor link, tính toán thủ công để tránh header.
  */
 export function initSmoothScroll() {
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
-        if (!link || !link.hash) return;
+        // Chỉ xử lý các link cuộn nội trang (có hash)
+        if (!link || !link.hash || link.pathname !== window.location.pathname) return;
 
-        if (link.pathname === window.location.pathname) {
-            e.preventDefault(); 
-            e.stopPropagation(); 
-            const targetId = link.hash.substring(1);
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const targetId = link.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            const headerOffset = 100; // Chiều cao header (80px) + 20px khoảng đệm
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
         }
     });
 
+    // Phần xử lý khi tải lại trang với hash vẫn giữ nguyên
     window.addEventListener('load', () => {
         if (window.location.hash) {
             const targetId = window.location.hash.substring(1);
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
                 setTimeout(() => {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                     const headerOffset = 100;
+                     const elementPosition = targetElement.getBoundingClientRect().top;
+                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                 }, 100);
             }
         }
     });
 }
+
 
 /**
  * Khởi tạo và quản lý modal "Thông Tin Liên Hệ".
@@ -131,7 +144,6 @@ export function initContactModal() {
 export function initInfoModal() {
     const infoFab = document.getElementById('info-fab');
     const infoModal = document.getElementById('info-modal');
-    // Chỉ chạy nếu đang ở trang có các phần tử này (trang chi tiết tour)
     if (!infoFab || !infoModal) return; 
 
     const closeButton = infoModal.querySelector('.close-btn');
@@ -148,7 +160,6 @@ export function initInfoModal() {
     infoFab.addEventListener('click', openModal);
     closeButton.addEventListener('click', closeModal);
     infoModal.addEventListener('click', (event) => {
-        // Chỉ đóng khi click vào lớp phủ ngoài, không phải box nội dung
         if (event.target === infoModal) closeModal();
     });
 }
@@ -247,10 +258,7 @@ export function initSearchModal() {
         if (e.target === searchModal) closeModal();
     });
 }
-// [MỚI] Hàm hiển thị popup thanh toán thành công với hiệu ứng đặc biệt
-// [NÂNG CẤP TOÀN DIỆN] Hàm hiển thị popup thanh toán siêu cấp đặc biệt
-// [NÂNG CẤP CUỐI CÙNG] Popup với Lễ Hội Pháo Hoa Bất Tận
-// [NÂNG CẤP PHÁO HOA RỰC RỠ]
+
 export function showCheckoutSuccessPopup(message) {
     if (document.querySelector('.checkout-success-overlay')) return;
 
@@ -278,44 +286,29 @@ export function showCheckoutSuccessPopup(message) {
     const audio = document.getElementById('checkout-sound');
     
     let confettiInterval = null;
-
-    // --- [LOGIC MỚI] Kịch bản pháo hoa RÕ NÉT VÀ HOÀNH TRÁNG HƠN ---
     const startContinuousConfetti = () => {
         const fire = (particleRatio, opts) => {
             if (!window.confetti) return;
-
-            // [THAY ĐỔI] Tăng số lượng và kích thước hạt pháo hoa
             const defaults = {
                 origin: { y: 0.7 },
-                scalar: 1.2, // Hạt to hơn
-                gravity: 0.8, // Rơi chậm hơn một chút
-                decay: 0.92, // Tồn tại lâu hơn một chút
-                zIndex: 9999 // [QUAN TRỌNG] Đảm bảo pháo hoa luôn hiển thị trên cùng
+                scalar: 1.2, 
+                gravity: 0.8, 
+                decay: 0.92, 
+                zIndex: 9999 
             };
-
             confetti(Object.assign({}, defaults, opts, {
-                particleCount: Math.floor(250 * particleRatio) // Tăng số lượng hạt
+                particleCount: Math.floor(250 * particleRatio) 
             }));
         }
-
-        // [THAY ĐỔI] Bảng màu rực rỡ hơn
         const vibrantColors = ['#FF5722', '#FFC107', '#03A9F4', '#4CAF50', '#9C27B0', '#FFFFFF'];
-
         const randomFireworks = () => {
-            // Pháo hoa tròn từ 2 bên
             fire(0.25, { spread: 30, startVelocity: 60, origin: { x: 0.1, y: 0.8 }, colors: vibrantColors.slice(0,3) });
             fire(0.2, { spread: 60, origin: { x: 0.9, y: 0.8 }, colors: vibrantColors.slice(2,5) });
-            // Pháo hoa hình sao ở giữa
             fire(0.35, { spread: 100, scalar: 1.5, shapes: ['star'], colors: ['#FFD700', '#FFFAFA', '#C0C0C0'], origin: { x: 0.5, y: 0.7 } });
-            // Pháo hoa nhỏ bất ngờ
             fire(0.1, { spread: 120, startVelocity: 30, scalar: 1.2, origin: { x: Math.random(), y: 0.8 }, colors: vibrantColors });
             fire(0.1, { spread: 120, startVelocity: 50, origin: { x: Math.random(), y: 0.8 }, colors: vibrantColors });
-
-            // Lặp lại sau một khoảng thời gian ngẫu nhiên
             confettiInterval = setTimeout(randomFireworks, Math.random() * 1500 + 800);
         }
-        
-        // Bắt đầu vòng lặp
         randomFireworks();
     };
 
@@ -332,7 +325,6 @@ export function showCheckoutSuccessPopup(message) {
     closeButton.addEventListener('click', closePopup);
     overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
 
-    // Hiển thị và kích hoạt
     document.body.classList.add('modal-open');
     setTimeout(() => {
         overlay.classList.add('show');
@@ -342,22 +334,19 @@ export function showCheckoutSuccessPopup(message) {
             icon.classList.add('show');
             text.classList.add('show');
             
-            // Màn mở đầu hoành tráng
             if (audio) {
                 audio.currentTime = 0;
                 audio.play();
             }
             confetti({
-                particleCount: 300, // Nhiều hạt hơn
-                spread: 120,       // Rộng hơn
+                particleCount: 300, 
+                spread: 120,       
                 origin: { y: 0.6 },
                 shapes: ['star'],
-                scalar: 1.8, // TO HƠN NỮA
+                scalar: 1.8,
                 colors: ['#FFD700', '#FFFFFF', '#FFC0CB'],
                 zIndex: 9999
             });
-
-            // Bắt đầu Lễ Hội Pháo Hoa Bất Tận sau 0.5 giây
             setTimeout(startContinuousConfetti, 500);
 
         }, 500);

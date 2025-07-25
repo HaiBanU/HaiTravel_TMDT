@@ -4,7 +4,94 @@ import { formatTourName, formatDateRange } from '../utils/formatters.js';
 import { showCustomAlert } from '../utils/dom.js';
 import { getCurrentUser } from '../services/auth.js';
 
-// ... (Các hàm renderReviews, initReviewForm, renderActivities, renderItinerary không thay đổi)
+// [CẬP NHẬT] Thêm hiệu ứng xuất hiện cho tour gợi ý
+function renderSuggestedTours(currentTourId, allTours) {
+    const sidebarContainer = document.getElementById('suggested-tours-sidebar');
+    if (!sidebarContainer) return;
+
+    const suggestedTourIds = Object.keys(allTours)
+        .filter(id => id !== currentTourId)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4);
+
+    if (suggestedTourIds.length === 0) return;
+
+    let delay = 0;
+    const toursHTML = suggestedTourIds.map(id => {
+        const tour = allTours[id];
+        const cardHTML = `
+            <a href="tour-detail.html?id=${id}" class="sidebar-tour-card reveal" style="transition-delay: ${delay}ms">
+                <div class="image-container">
+                    <img src="${tour.gallery[0]}" alt="${tour.name}">
+                </div>
+                <div class="sidebar-tour-info">
+                    <h4>${formatTourName(tour.name)}</h4>
+                    <p class="price">${tour.price.toLocaleString('vi-VN')} VNĐ</p>
+                </div>
+            </a>
+        `;
+        delay += 100;
+        return cardHTML;
+    }).join('');
+
+    sidebarContainer.innerHTML = `
+        <h3>Tour Gợi Ý</h3>
+        <div class="suggested-tours-list">
+            ${toursHTML}
+        </div>
+    `;
+    
+    const newRevealElements = sidebarContainer.querySelectorAll('.reveal');
+    setTimeout(() => {
+        newRevealElements.forEach(el => el.classList.add('active'));
+    }, 100);
+}
+
+// [THÊM MỚI] Hàm khởi tạo và quản lý mục lục
+function initTourNavigation() {
+    const navContainer = document.getElementById('tour-nav-sidebar');
+    const activitiesSection = document.getElementById('tour-activities-section');
+    const itinerarySection = document.getElementById('itinerary-section');
+    const reviewsSection = document.getElementById('tour-reviews');
+
+    if (!navContainer || !itinerarySection || !reviewsSection) return;
+
+    let navHTML = `<h3>Mục lục</h3><ul class="nav-list">`;
+    if (activitiesSection && activitiesSection.style.display !== 'none') {
+        navHTML += `<li><a href="#tour-activities-section" class="nav-link">Hoạt Động Nổi Bật</a></li>`;
+    }
+    navHTML += `<li><a href="#itinerary-section" class="nav-link">Lịch Trình</a></li>`;
+    navHTML += `<li><a href="#tour-reviews" class="nav-link">Đánh Giá</a></li>`;
+    navHTML += `</ul>`;
+    navContainer.innerHTML = navHTML;
+
+    const navLinks = navContainer.querySelectorAll('.nav-link');
+    const sections = [activitiesSection, itinerarySection, reviewsSection].filter(Boolean);
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '-50% 0px -50% 0px', // Kích hoạt khi section ở giữa màn hình
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            const id = entry.target.getAttribute('id');
+            const navLink = navContainer.querySelector(`a[href="#${id}"]`);
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                if (navLink) {
+                    navLink.classList.add('active');
+                }
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        if (section) observer.observe(section);
+    });
+}
+
 async function renderReviews(tourId) {
     const reviewListContainer = document.getElementById('review-list');
     if (!reviewListContainer) return;
@@ -148,27 +235,22 @@ function renderItinerary(itinerary) {
     timelineContainer.innerHTML = itineraryHTML;
 }
 
-// [CẬP NHẬT LOGIC]
 function setupTransportCta(tour) {
     const ctaSection = document.getElementById('transport-cta-section');
     const citySpan = document.getElementById('transport-cta-city');
     const ctaBtn = document.getElementById('transport-cta-btn');
 
-    // Kiểm tra thuộc tính MỚI `transportDestination`
     if (!ctaSection || !citySpan || !ctaBtn || !tour.keyInfo || !tour.keyInfo.transportDestination) {
         return;
     }
     
-    // Lấy điểm đến để đặt vé (ví dụ: "Quảng Ninh")
     const destinationForLink = tour.keyInfo.transportDestination;
     
-    // Lấy điểm khởi hành cụ thể để hiển thị (ví dụ: "Cảng Tuần Châu")
     const departureParts = tour.keyInfo.departure.split(' - ');
     const displayLocation = departureParts.length > 1 ? departureParts[1].trim() : tour.keyInfo.departure;
 
-    // Cập nhật giao diện
-    citySpan.textContent = displayLocation; // Hiển thị "Cảng Tuần Châu"
-    ctaBtn.href = `transport.html?endPoint=${encodeURIComponent(destinationForLink)}`; // Tạo link với "Quảng Ninh"
+    citySpan.textContent = displayLocation;
+    ctaBtn.href = `transport.html?endPoint=${encodeURIComponent(destinationForLink)}`;
     ctaSection.style.display = 'block';
 }
 
@@ -220,7 +302,6 @@ export function initTourDetailPage() {
 
     renderActivities(tour.activities);
     renderItinerary(tour.itinerary);
-    
     setupTransportCta(tour);
     
     const populateList = (elementId, items) => {
@@ -263,4 +344,8 @@ export function initTourDetailPage() {
 
     renderReviews(tourId);
     initReviewForm(tourId);
+    renderSuggestedTours(tourId, tours);
+
+    // [THÊM MỚI] Gọi hàm khởi tạo mục lục
+    initTourNavigation();
 }
