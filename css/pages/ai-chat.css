@@ -208,3 +208,42 @@
         left: 15px;
     }
 }
+/* css/pages/ai-chat.css */
+
+/* [THÊM MỚI] CSS cho liên kết trò chuyện trực tiếp */
+.direct-contact-link {
+    text-align: center;
+    padding: 10px 15px 5px;
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    border-top: 1px solid var(--border-color);
+    background-color: var(--white-color);
+}
+
+.direct-contact-link span {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.direct-contact-link a {
+    color: #0084ff; /* Màu đặc trưng của Messenger */
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background-color: #e7f3ff;
+    transition: all 0.3s ease;
+}
+
+.direct-contact-link a:hover {
+    background-color: #dcefff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 132, 255, 0.2);
+}
+
+.direct-contact-link a i {
+    font-size: 1.2rem;
+}
