@@ -1,0 +1,96 @@
+/* css/pages/faq.css */
+
+.faq-page {
+    padding: 4rem 1rem;
+}
+
+.faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faq-accordion {
+    margin-top: 2rem;
+}
+
+.faq-accordion h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.faq-accordion h3:first-child {
+    margin-top: 0;
+}
+
+.faq-accordion details {
+    background: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.faq-accordion details:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.faq-accordion details[open] {
+    border-color: var(--primary-color);
+}
+
+.faq-accordion summary {
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 1.25rem;
+    cursor: pointer;
+    list-style: none; /* Xóa mũi tên mặc định */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    font-family: var(--body-font);
+}
+
+.faq-accordion summary::after {
+    content: '\f078'; /* Icon FontAwesome: chevron-down */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.faq-accordion details[open] summary::after {
+    transform: rotate(180deg);
+}
+
+.faq-content {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    line-height: 1.7;
+    color: var(--secondary-color);
+    border-top: 1px solid var(--border-color);
+}
+
+.faq-content p, 
+.faq-content ul, 
+.faq-content ol {
+    margin-bottom: 1rem;
+}
+.faq-content ul, .faq-content ol {
+    padding-left: 20px;
+}
+.faq-content ul li::marker {
+    color: var(--primary-color);
+}
+
+.faq-content p:last-child {
+    margin-bottom: 0;
+}

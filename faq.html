@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Du Lịch - HaiTravel</title>
+    <title>Câu Hỏi Thường Gặp (FAQ) - HaiTravel</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/pages/blog.css">
+    <link rel="stylesheet" href="css/pages/faq.css">
     <link rel="stylesheet" href="css/pages/auth.css">
     <link rel="stylesheet" href="css/pages/ai-chat.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -42,18 +42,79 @@
         </div>
     </header>
 
-    <main class="blog-list-page dynamic-blob-bg">
-        <div class="blog-container">
+    <main class="faq-page dynamic-blob-bg">
+        <div class="faq-container">
             <div class="section-header reveal">
-                <h2>Cẩm Nang Du Lịch</h2>
-                <p>Khám phá những câu chuyện, kinh nghiệm và cảm hứng cho hành trình của bạn.</p>
+                <h2>Câu Hỏi Thường Gặp</h2>
+                <p>Tìm câu trả lời cho những thắc mắc phổ biến nhất về dịch vụ của HaiTravel.</p>
             </div>
-            <div id="blog-grid" class="blog-grid">
-                <!-- Các bài blog sẽ được JS chèn vào đây -->
+
+            <div class="faq-accordion">
+                <!-- Về Tour & Đặt Dịch Vụ -->
+                <h3><i class="fa-solid fa-map-location-dot"></i> Về Tour & Đặt Dịch Vụ</h3>
+                <details class="reveal">
+                    <summary>Làm thế nào để đặt tour trên website của HaiTravel?</summary>
+                    <div class="faq-content">
+                        <p>Rất đơn giản! Bạn chỉ cần thực hiện các bước sau:</p>
+                        <ol>
+                            <li>Chọn tour bạn yêu thích và nhấn vào nút "Xem Chi Tiết".</li>
+                            <li>Trên trang chi tiết tour, nhấn "Thêm vào giỏ hàng".</li>
+                            <li>Vào giỏ hàng (biểu tượng xe đẩy ở góc trên bên phải), kiểm tra lại thông tin và nhấn "Tiến hành thanh toán".</li>
+                            <li>Làm theo các bước hướng dẫn để hoàn tất. Nếu cần hỗ trợ, đừng ngần ngại liên hệ với chúng tôi!</li>
+                        </ol>
+                    </div>
+                </details>
+                <details class="reveal">
+                    <summary>Tour của HaiTravel có bao gồm vé máy bay không?</summary>
+                    <div class="faq-content">
+                        <p>Hầu hết các tour trọn gói của chúng tôi không bao gồm vé máy bay để tạo sự linh hoạt cho khách hàng. Tuy nhiên, chúng tôi có trang "Đặt Vé" để hỗ trợ bạn tìm và đặt vé máy bay, xe khách hoặc tàu hỏa đến điểm khởi hành một cách thuận tiện nhất.</p>
+                    </div>
+                </details>
+                <details class="reveal">
+                    <summary>Tôi có thể yêu cầu một tour riêng theo ý muốn không?</summary>
+                    <div class="faq-content">
+                        <p>Chắc chắn rồi! HaiTravel chuyên thiết kế các tour riêng theo yêu cầu của cá nhân, gia đình hoặc nhóm. Vui lòng liên hệ với chúng tôi qua hotline, email hoặc mục "Liên Hệ" để chia sẻ ý tưởng của bạn, chúng tôi sẽ xây dựng một hành trình hoàn hảo dành riêng cho bạn.</p>
+                    </div>
+                </details>
+
+                <!-- Thanh Toán & Hoàn Hủy -->
+                <h3><i class="fa-solid fa-credit-card"></i> Thanh Toán & Hoàn Hủy</h3>
+                <details class="reveal">
+                    <summary>HaiTravel chấp nhận những hình thức thanh toán nào?</summary>
+                    <div class="faq-content">
+                        <p>Hiện tại, chúng tôi chấp nhận hai hình thức thanh toán chính:</p>
+                        <ul>
+                            <li><strong>Chuyển khoản ngân hàng:</strong> Thông tin tài khoản sẽ được cung cấp khi bạn tiến hành đặt tour.</li>
+                            <li><strong>Thanh toán trực tiếp:</strong> Tại văn phòng của HaiTravel (địa chỉ được ghi ở phần Liên hệ).</li>
+                        </ul>
+                        <p>Chúng tôi đang phát triển để tích hợp cổng thanh toán trực tuyến trong thời gian sớm nhất.</p>
+                    </div>
+                </details>
+                <details class="reveal">
+                    <summary>Chính sách hoàn/hủy tour như thế nào?</summary>
+                    <div class="faq-content">
+                        <p>Chính sách hoàn/hủy tour có thể thay đổi tùy thuộc vào từng tour cụ thể. Tuy nhiên, chính sách chung của chúng tôi như sau:</p>
+                        <ul>
+                            <li>Hủy trước 15 ngày so với ngày khởi hành: Hoàn 100% chi phí.</li>
+                            <li>Hủy từ 7-14 ngày so với ngày khởi hành: Phí hủy 50% giá trị tour.</li>
+                            <li>Hủy trong vòng 7 ngày so với ngày khởi hành: Không hoàn phí.</li>
+                        </ul>
+                        <p>Các điều khoản chi tiết cho từng tour sẽ được ghi rõ trong mục "Thông tin quan trọng" trên trang chi tiết tour.</p>
+                    </div>
+                </details>
+                 <!-- Khác -->
+                 <h3><i class="fa-solid fa-circle-info"></i> Các Câu Hỏi Khác</h3>
+                 <details class="reveal">
+                    <summary>Tính năng "Gợi Ý Tour" hoạt động như thế nào?</summary>
+                    <div class="faq-content">
+                        <p>Trang "Gợi Ý Tour" được thiết kế để giúp bạn tìm ra chuyến đi hoàn hảo dựa trên sở thích cá nhân. Bạn có thể chọn các thẻ như "Du lịch thiên nhiên", "Ẩm thực", "Nghỉ dưỡng",... hệ thống sẽ tự động lọc và hiển thị những tour phù hợp nhất.</p>
+                        <p>Đặc biệt, hãy thử tính năng "Khám Phá Bằng Tarot" để vũ trụ gợi ý cho bạn một hành trình đầy bất ngờ và ý nghĩa nhé!</p>
+                    </div>
+                </details>
             </div>
         </div>
     </main>
-    
+
     <footer>
         <div class="footer-container">
             <div class="footer-col footer-about"><a href="index.html" class="logo">Hai Travel</a><p>Chuyên cung cấp các tour du lịch chất lượng cao, mang đến những trải nghiệm độc đáo và khó quên tại Việt Nam.</p></div>
@@ -109,50 +170,34 @@
     <a href="#" class="back-to-top no-transition"><i class="fa-solid fa-arrow-up"></i></a>
     
     <div id="ai-chat-widget">
-    <button class="chat-bubble-trigger" id="chat-bubble-trigger" aria-label="Mở Trợ lý AI">
-        <i class="fa-solid fa-headset"></i>
-    </button>
-    <div class="ai-chat-window" id="ai-chat-window">
-        <div class="chat-header">
-            <div class="agent-info">
-                <div class="agent-avatar">
-                    <img src="images/avatar-hai-ai.png" alt="Hai AI">
+        <button class="chat-bubble-trigger" id="chat-bubble-trigger" aria-label="Mở Trợ lý AI">
+            <i class="fa-solid fa-headset"></i>
+        </button>
+        <div class="ai-chat-window" id="ai-chat-window">
+            <div class="chat-header">
+                <div class="agent-info">
+                    <div class="agent-avatar"><img src="images/avatar-hai-ai.png" alt="Hai AI"></div>
+                    <div><h3>Hai AI</h3><div class="agent-status"><div class="status-dot"></div><span>Đang hoạt động</span></div></div>
                 </div>
-                <div>
-                    <h3>Hai AI</h3>
-                    <div class="agent-status">
-                        <div class="status-dot"></div>
-                        <span>Đang hoạt động</span>
-                    </div>
-                </div>
+                <button class="close-chat-btn" id="close-chat-btn" aria-label="Đóng cửa sổ chat">×</button>
             </div>
-            <button class="close-chat-btn" id="close-chat-btn" aria-label="Đóng cửa sổ chat">×</button>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="direct-contact-link">
+                <span>Cần hỗ trợ trực tiếp?</span>
+                <a href="https://www.facebook.com/profile.php?id=61578540914010" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-messenger"></i> Trò chuyện với chúng tôi</a>
+            </div>
+            <form class="chat-input-form" id="chat-input-form">
+                <input type="text" id="chat-input" placeholder="Nhập câu hỏi của bạn..." autocomplete="off">
+                <button type="submit" aria-label="Gửi tin nhắn"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
         </div>
-        <div class="chat-messages" id="chat-messages">
-        </div>
-        
-        <!-- [CẬP NHẬT] Thêm liên kết trò chuyện trực tiếp -->
-        <div class="direct-contact-link">
-            <span>Cần hỗ trợ trực tiếp?</span>
-            <a href="https://www.facebook.com/profile.php?id=61578540914010" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-facebook-messenger"></i> Trò chuyện với chúng tôi
-            </a>
-        </div>
-        
-        <form class="chat-input-form" id="chat-input-form">
-            <input type="text" id="chat-input" placeholder="Nhập câu hỏi của bạn..." autocomplete="off">
-            <button type="submit" aria-label="Gửi tin nhắn"><i class="fa-solid fa-paper-plane"></i></button>
-        </form>
     </div>
-</div>
            
     <div class="mobile-nav-overlay"></div>
     <nav class="mobile-nav">
         <div class="mobile-nav-header">
             <a href="index.html" class="logo">Hai Travel</a>
-            <button class="mobile-nav-toggle close" aria-label="Đóng menu">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button class="mobile-nav-toggle close" aria-label="Đóng menu"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="mobile-nav-search">
             <form action="search-results.html" method="GET" class="search-bar">
@@ -169,17 +214,9 @@
             <a href="#" id="contact-link-mobile">Liên Hệ</a>
         </div>
         <div class="mobile-nav-secondary">
-            <a href="cart.html" class="mobile-nav-icon-link">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span>Giỏ hàng</span>
-                <span id="mobile-cart-count" class="cart-count"></span>
-            </a>
-            <a href="https://www.tiktok.com/@hai_travel_web" target="_blank" class="mobile-nav-icon-link">
-                <i class="fab fa-tiktok"></i>
-                <span>Kênh TikTok</span>
-            </a>
-            <div id="mobile-auth-display" class="mobile-auth-display">
-            </div>
+            <a href="cart.html" class="mobile-nav-icon-link"><i class="fa-solid fa-cart-shopping"></i><span>Giỏ hàng</span><span id="mobile-cart-count" class="cart-count"></span></a>
+            <a href="https://www.tiktok.com/@hai_travel_web" target="_blank" class="mobile-nav-icon-link"><i class="fab fa-tiktok"></i><span>Kênh TikTok</span></a>
+            <div id="mobile-auth-display" class="mobile-auth-display"></div>
         </div>
     </nav>
     <script type="module" src="js/main.js"></script>
